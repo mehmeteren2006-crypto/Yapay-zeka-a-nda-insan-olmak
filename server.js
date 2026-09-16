@@ -153,20 +153,27 @@ async function initGoogleSheets() {
     }
 }
 
+let activeSheetName = 'Sayfa1';
+
 async function ensureHeaders() {
     if (!sheetsClient) return;
 
     try {
+        const meta = await sheetsClient.spreadsheets.get({ spreadsheetId: SPREADSHEET_ID });
+        if (meta.data.sheets && meta.data.sheets.length > 0) {
+            activeSheetName = meta.data.sheets[0].properties.title || 'Sayfa1';
+        }
+
         const response = await sheetsClient.spreadsheets.values.get({
             spreadsheetId: SPREADSHEET_ID,
-            range: 'Sayfa1!A1:R1',
+            range: `${activeSheetName}!A1:R1`,
         });
 
         if (!response.data.values || response.data.values.length === 0) {
             // Başlık satırını ekle
             await sheetsClient.spreadsheets.values.update({
                 spreadsheetId: SPREADSHEET_ID,
-                range: 'Sayfa1!A1',
+                range: `${activeSheetName}!A1`,
                 valueInputOption: 'RAW',
                 resource: {
                     values: [[
@@ -190,7 +197,7 @@ async function ensureHeaders() {
                     ]]
                 }
             });
-            console.log('📋 Başlık satırı oluşturuldu.');
+            console.log(`📋 [${activeSheetName}] Başlık satırı oluşturuldu.`);
         }
     } catch (error) {
         console.error('Başlık oluşturma hatası:', error.message);
@@ -203,7 +210,7 @@ async function appendToSheet(data) {
     try {
         await sheetsClient.spreadsheets.values.append({
             spreadsheetId: SPREADSHEET_ID,
-            range: 'Sayfa1!A:R',
+            range: `${activeSheetName}!A:R`,
             valueInputOption: 'RAW',
             insertDataOption: 'INSERT_ROWS',
             resource: {
