@@ -522,11 +522,76 @@ app.get('/api/admin/check', (req, res) => {
     });
 });
 
+// Google Sheets'ten Canlı Kayıt Çekme Fonksiyonu
+async function fetchGoogleSheetRows() {
+    const webhookUrl = process.env.GOOGLE_SHEET_WEBHOOK_URL || GOOGLE_SHEET_WEBHOOK_URL;
+    if (!webhookUrl) return null;
+
+    try {
+        const resp = await fetch(webhookUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'read' })
+        });
+        if (!resp.ok) return null;
+        const data = await resp.json();
+        if (data && Array.isArray(data.values) && data.values.length > 1) {
+            return data.values;
+        }
+    } catch (err) {
+        // Hata durumunda sessizce local Excel fallback'e geç
+    }
+    return null;
+}
+
+// Google Sheets'ten Satır Silme Fonksiyonu
+async function deleteGoogleSheetRow(rowNumber) {
+    const webhookUrl = process.env.GOOGLE_SHEET_WEBHOOK_URL || GOOGLE_SHEET_WEBHOOK_URL;
+    if (!webhookUrl) return false;
+
+    try {
+        const resp = await fetch(webhookUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'delete', rowNumber })
+        });
+        return resp.ok;
+    } catch (err) {
+        console.error('Google Sheet silme hatası:', err.message);
+        return false;
+    }
+}
+
 // === Admin Veri Endpoint'leri (Korumalı) ===
 
-// Kayıtları JSON olarak listele
+// Kayıtları JSON olarak listele (Öncelikli olarak canlı Google Sheets'ten çeker)
 app.get('/api/admin/kayitlar', requireAdminAuth, async (req, res) => {
     try {
+        // 1. Canlı Google E-Tablo'dan oku
+        const sheetValues = await fetchGoogleSheetRows();
+        if (sheetValues && sheetValues.length > 1) {
+            const headers = sheetValues[0];
+            const registrations = [];
+            for (let i = 1; i < sheetValues.length; i++) {
+                const row = sheetValues[i];
+                if (!row || row.length === 0 || !row[1]) continue;
+                const entry = {};
+                row.forEach((cell, idx) => {
+                    entry[headers[idx] || `col_${idx}`] = cell !== undefined ? String(cell) : '';
+                });
+                entry._rowNumber = i + 1;
+                registrations.push(entry);
+            }
+
+            return res.json({
+                success: true,
+                count: registrations.length,
+                source: 'google_sheets',
+                registrations
+            });
+        }
+
+        // 2. Yedek: Lokal Excel'den oku
         const excelPath = path.join(__dirname, 'kayitlar.xlsx');
         if (!fs.existsSync(excelPath)) {
             return res.json({ success: true, count: 0, registrations: [] });
@@ -556,6 +621,7 @@ app.get('/api/admin/kayitlar', requireAdminAuth, async (req, res) => {
         res.json({
             success: true,
             count: registrations.length,
+            source: 'local_excel',
             registrations
         });
     } catch (error) {
@@ -564,13 +630,47 @@ app.get('/api/admin/kayitlar', requireAdminAuth, async (req, res) => {
     }
 });
 
-// Excel dosyasını indir
-app.get('/api/admin/indir', requireAdminAuth, (req, res) => {
-    const excelPath = path.join(__dirname, 'kayitlar.xlsx');
-    if (!fs.existsSync(excelPath)) {
-        return res.status(404).json({ success: false, message: 'Henüz kayıt bulunmuyor' });
+// Excel dosyasını indir (Google Sheets canlı verisinden anlık üretir veya lokal dosyayı sunar)
+app.get('/api/admin/indir', requireAdminAuth, async (req, res) => {
+    try {
+        const sheetValues = await fetchGoogleSheetRows();
+        if (sheetValues && sheetValues.length > 1) {
+            const workbook = new ExcelJS.Workbook();
+            const worksheet = workbook.addWorksheet('Kayıtlar');
+            worksheet.columns = EXCEL_HEADERS;
+
+            const headerRow = worksheet.getRow(1);
+            headerRow.font = { bold: true, color: { argb: 'FFFFFFFF' }, size: 11 };
+            headerRow.fill = {
+                type: 'pattern',
+                pattern: 'solid',
+                fgColor: { argb: 'FF0F172A' }
+            };
+            headerRow.alignment = { vertical: 'middle', horizontal: 'center' };
+            headerRow.height = 30;
+            worksheet.views = [{ state: 'frozen', ySplit: 1 }];
+
+            for (let i = 1; i < sheetValues.length; i++) {
+                const row = sheetValues[i];
+                if (!row || row.length === 0 || !row[1]) continue;
+                worksheet.addRow(row);
+            }
+
+            res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            res.setHeader('Content-Disposition', `attachment; filename=etkinlik-kayitlar-${new Date().toISOString().split('T')[0]}.xlsx`);
+            await workbook.xlsx.write(res);
+            return res.end();
+        }
+
+        const excelPath = path.join(__dirname, 'kayitlar.xlsx');
+        if (!fs.existsSync(excelPath)) {
+            return res.status(404).json({ success: false, message: 'Henüz kayıt bulunmuyor' });
+        }
+        res.download(excelPath, `etkinlik-kayitlar-${new Date().toISOString().split('T')[0]}.xlsx`);
+    } catch (err) {
+        console.error('Excel indirme hatası:', err);
+        res.status(500).json({ success: false, message: 'Dosya oluşturulamadı' });
     }
-    res.download(excelPath, `etkinlik-kayitlar-${new Date().toISOString().split('T')[0]}.xlsx`);
 });
 
 // Sağlık kontrolü
@@ -578,7 +678,7 @@ app.get('/api/health', (req, res) => {
     const excelPath = path.join(__dirname, 'kayitlar.xlsx');
     res.json({
         status: 'ok',
-        sheetsConnected: !!sheetsClient,
+        sheetsConnected: !!sheetsClient || !!GOOGLE_SHEET_WEBHOOK_URL,
         turnstileEnabled: !!TURNSTILE_SECRET,
         localExcel: fs.existsSync(excelPath),
         timestamp: new Date().toISOString()
@@ -716,25 +816,25 @@ app.delete('/api/admin/kayit/:rowNumber', requireAdminAuth, async (req, res) => 
             return res.status(400).json({ success: false, message: 'Geçersiz satır numarası' });
         }
 
+        // 1. Google Sheets'ten satırı sil
+        await deleteGoogleSheetRow(rowNum);
+
+        // 2. Lokal Excel'den de sil (varsa)
         const excelPath = path.join(__dirname, 'kayitlar.xlsx');
-        if (!fs.existsSync(excelPath)) {
-            return res.status(404).json({ success: false, message: 'Kayıt dosyası bulunamadı' });
+        if (fs.existsSync(excelPath)) {
+            const workbook = new ExcelJS.Workbook();
+            await workbook.xlsx.readFile(excelPath);
+            const worksheet = workbook.getWorksheet('Kayıtlar');
+            if (worksheet && rowNum <= worksheet.rowCount) {
+                worksheet.spliceRows(rowNum, 1);
+                await workbook.xlsx.writeFile(excelPath);
+            }
         }
-
-        const workbook = new ExcelJS.Workbook();
-        await workbook.xlsx.readFile(excelPath);
-        const worksheet = workbook.getWorksheet('Kayıtlar');
-        if (!worksheet || rowNum > worksheet.rowCount) {
-            return res.status(404).json({ success: false, message: 'Silinmek istenen kayıt bulunamadı' });
-        }
-
-        worksheet.spliceRows(rowNum, 1);
-        await workbook.xlsx.writeFile(excelPath);
 
         res.json({ success: true, message: 'Kayıt başarıyla silindi.' });
     } catch (error) {
-        console.error('Kayıt silme hatası:', error);
-        res.status(500).json({ success: false, message: 'Kayıt silinirken hata oluştu' });
+        console.error('Silme hatası:', error);
+        res.status(500).json({ success: false, message: 'Silme işlemi sırasında hata oluştu' });
     }
 });
 
