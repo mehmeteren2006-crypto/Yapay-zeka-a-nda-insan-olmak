@@ -110,16 +110,20 @@ app.use(generalLimiter);
 
 // === Google Sheets Configuration ===
 // Kurulum talimatları aşağıda (setup bölümünde)
-const SPREADSHEET_ID = process.env.GOOGLE_SPREADSHEET_ID || '';
+const SPREADSHEET_ID = process.env.GOOGLE_SPREADSHEET_ID || '1Q7abT-Zs8SnCKWoXEuayAzkD4XJdHW1XWFLXssATH7o';
 const GOOGLE_CREDENTIALS_PATH = process.env.GOOGLE_CREDENTIALS_PATH || '';
 const GOOGLE_CREDENTIALS_JSON = process.env.GOOGLE_CREDENTIALS_JSON || '';
+const GOOGLE_SHEET_WEBHOOK_URL = process.env.GOOGLE_SHEET_WEBHOOK_URL || '';
 
 let sheetsClient = null;
 
 async function initGoogleSheets() {
     if (!SPREADSHEET_ID || (!GOOGLE_CREDENTIALS_PATH && !GOOGLE_CREDENTIALS_JSON)) {
-        console.log('⚠️  Google Sheets yapılandırılmamış. Veriler lokal Excel ve konsola kaydedilecek.');
-        console.log('   Kurulum için: README.md dosyasına bakınız.\n');
+        if (GOOGLE_SHEET_WEBHOOK_URL) {
+            console.log('✅ Google Sheets Webhook devrede: Kayıtlar Apps Script üzerinden e-tabloya aktarılacak.');
+        } else {
+            console.log('⚠️  Google Sheets Service Account anahtarı veya Webhook tanımlanmamış. Veriler lokal Excel ve konsola kaydedilecek.');
+        }
         return null;
     }
 
@@ -145,7 +149,7 @@ async function initGoogleSheets() {
 
         // İlk çalıştırmada başlık satırını oluştur
         await ensureHeaders();
-        console.log('✅ Google Sheets bağlantısı başarılı!');
+        console.log('✅ Google Sheets API bağlantısı başarılı!');
         return sheetsClient;
     } catch (error) {
         console.error('❌ Google Sheets bağlantı hatası:', error.message);
@@ -205,23 +209,46 @@ async function ensureHeaders() {
 }
 
 async function appendToSheet(data) {
-    if (!sheetsClient) return false;
+    let saved = false;
 
-    try {
-        await sheetsClient.spreadsheets.values.append({
-            spreadsheetId: SPREADSHEET_ID,
-            range: `${activeSheetName}!A:R`,
-            valueInputOption: 'RAW',
-            insertDataOption: 'INSERT_ROWS',
-            resource: {
-                values: [data]
+    // 1. Google Apps Script Webhook (Kolay & Hızlı Kurulum)
+    const webhookUrl = process.env.GOOGLE_SHEET_WEBHOOK_URL || GOOGLE_SHEET_WEBHOOK_URL;
+    if (webhookUrl) {
+        try {
+            const resp = await fetch(webhookUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: 'append', row: data })
+            });
+            if (resp.ok) {
+                console.log('   ✅ Webhook üzerinden Google Sheets\'e aktarıldı');
+                saved = true;
             }
-        });
-        return true;
-    } catch (error) {
-        console.error('Google Sheets yazma hatası:', error.message);
-        return false;
+        } catch (err) {
+            console.error('Google Sheets Webhook hatası:', err.message);
+        }
     }
+
+    // 2. Google Sheets API v4 (Service Account)
+    if (sheetsClient) {
+        try {
+            await sheetsClient.spreadsheets.values.append({
+                spreadsheetId: SPREADSHEET_ID,
+                range: `${activeSheetName}!A:R`,
+                valueInputOption: 'RAW',
+                insertDataOption: 'INSERT_ROWS',
+                resource: {
+                    values: [data]
+                }
+            });
+            console.log('   ✅ Google Sheets API ile tabloya kaydedildi');
+            saved = true;
+        } catch (error) {
+            console.error('Google Sheets yazma hatası:', error.message);
+        }
+    }
+
+    return saved;
 }
 
 // === Local Excel (kayitlar.xlsx) Fallback & Storage ===
