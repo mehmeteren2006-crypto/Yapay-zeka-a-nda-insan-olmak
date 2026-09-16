@@ -113,15 +113,17 @@ app.use(generalLimiter);
 const SPREADSHEET_ID = process.env.GOOGLE_SPREADSHEET_ID || '1Q7abT-Zs8SnCKWoXEuayAzkD4XJdHW1XWFLXssATH7o';
 const GOOGLE_CREDENTIALS_PATH = process.env.GOOGLE_CREDENTIALS_PATH || '';
 const GOOGLE_CREDENTIALS_JSON = process.env.GOOGLE_CREDENTIALS_JSON || '';
-const GOOGLE_SHEET_WEBHOOK_URL = process.env.GOOGLE_SHEET_WEBHOOK_URL || '';
+const GOOGLE_SHEET_WEBHOOK_URL = process.env.GOOGLE_SHEET_WEBHOOK_URL || 'https://script.google.com/macros/s/AKfycbzYjOCblfEqT1Mzah1UIWTK5ITSMgOJdo9wxM_UYX18B70-ayXkKSs1RFk6cSzLzq_i/exec';
 
 let sheetsClient = null;
 
 async function initGoogleSheets() {
+    if (GOOGLE_SHEET_WEBHOOK_URL) {
+        console.log('✅ Google Sheets Webhook devrede: Kayıtlar Google E-Tablonuza anlık olarak aktarılacak.');
+    }
+
     if (!SPREADSHEET_ID || (!GOOGLE_CREDENTIALS_PATH && !GOOGLE_CREDENTIALS_JSON)) {
-        if (GOOGLE_SHEET_WEBHOOK_URL) {
-            console.log('✅ Google Sheets Webhook devrede: Kayıtlar Apps Script üzerinden e-tabloya aktarılacak.');
-        } else {
+        if (!GOOGLE_SHEET_WEBHOOK_URL) {
             console.log('⚠️  Google Sheets Service Account anahtarı veya Webhook tanımlanmamış. Veriler lokal Excel ve konsola kaydedilecek.');
         }
         return null;
@@ -764,7 +766,7 @@ async function start() {
         console.log('   Etkinlik Kayıt Sistemi');
         console.log(`   http://localhost:${PORT}`);
         console.log('═══════════════════════════════════════════════');
-        console.log(`\n📊 Google Sheets: ${sheetsClient ? '✅ Bağlı' : '⚠️  Yapılandırılmamış'}`);
+        console.log(`\n📊 Google Sheets: ${sheetsClient || GOOGLE_SHEET_WEBHOOK_URL ? '✅ Aktif (Google E-Tablo Bağlı)' : '⚠️  Yapılandırılmamış'}`);
         console.log(`📁 Lokal Excel:  ✅ Aktif (kayitlar.xlsx)`);
         console.log(`🛡️  Turnstile:    ${TURNSTILE_SECRET ? '✅ Aktif' : '⚠️  Yapılandırılmamış'}`);
         console.log(`🔒 Rate Limit:   ✅ Aktif (5 kayıt/dakika)`);
