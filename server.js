@@ -856,9 +856,32 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+// === Auto Keep-Alive Bot (Uyanık Tutucu) ===
+const KEEP_ALIVE_URL = process.env.RENDER_EXTERNAL_URL || process.env.SITE_URL || 'https://yapay-zeka-caginda-insan-olmak.onrender.com';
+
+function startKeepAlive() {
+    if (!KEEP_ALIVE_URL) return;
+
+    // Render 15 dakikada uyur; 10 dakikada bir ping atarak sunucuyu daima uyanık tutar
+    const PING_INTERVAL = 10 * 60 * 1000;
+
+    setInterval(async () => {
+        try {
+            const target = `${KEEP_ALIVE_URL.replace(/\/+$/, '')}/api/health`;
+            const res = await fetch(target);
+            console.log(`[Keep-Alive Bot] ${new Date().toLocaleTimeString('tr-TR')} -> Ping başarılı (HTTP ${res.status})`);
+        } catch (err) {
+            console.error('[Keep-Alive Bot] Ping hatası:', err.message);
+        }
+    }, PING_INTERVAL);
+
+    console.log(`🤖 Keep-Alive Bot: Aktif (Her 10 dakikada bir ${KEEP_ALIVE_URL} uyanık tutulacak)`);
+}
+
 // === Start Server ===
 async function start() {
     await initGoogleSheets();
+    startKeepAlive();
 
     app.listen(PORT, () => {
         console.log('\n🚀 ═══════════════════════════════════════════');
