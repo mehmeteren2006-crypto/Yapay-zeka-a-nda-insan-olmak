@@ -4,7 +4,7 @@
    Theme · Form · Animations · API
    ============================================ */
 
-(function() {
+(function () {
     'use strict';
 
     // === Theme System ===
@@ -302,7 +302,7 @@
     };
 
     // === Turnstile Callback ===
-    window.onTurnstileSuccess = function(token) {
+    window.onTurnstileSuccess = function (token) {
         RegistrationForm.turnstileToken = token;
     };
 
