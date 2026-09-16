@@ -1479,6 +1479,11 @@ a:hover {
         height: 80px;
     }
 
+    .speakers-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--space-xl);
+    }
+
     .form-wrapper {
         padding: var(--space-3xl);
     }
