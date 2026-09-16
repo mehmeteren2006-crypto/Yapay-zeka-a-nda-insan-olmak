@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yapay Zekâ Çağında İnsan Olmak | 9 Ekim 2026 - HMKÜ</title>
+    <meta name="description" content="Hatay Mustafa Kemal Üniversitesi ev sahipliğinde, Zamansız ve Milli Yetkinlik Hamlesi iş birliğiyle düzenlenen 'Yapay Zekâ Çağında İnsan Olmak' etkinliğine hemen başvurun.">
+    <meta name="keywords" content="yapay zekâ, etkinlik, Hatay, HMKÜ, Zamansız, Milli Yetkinlik Hamlesi, konferans">
+    <meta property="og:title" content="Yapay Zekâ Çağında İnsan Olmak | 9 Ekim 2026">
+    <meta property="og:description" content="Yapay zekânın insan hayatındaki yerine dair ilham verici bir etkinlik.">
+    <meta property="og:type" content="website">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logos">
+                <img src="images/logo-hmk.png" alt="Hatay Mustafa Kemal Üniversitesi" class="nav-logo" id="logo-hmk">
+                <img src="images/logo-zamansiz.png" alt="Zamansız" class="nav-logo logo-dark-bg" id="logo-zamansiz">
+                <img src="images/logo-myh.png" alt="Milli Yetkinlik Hamlesi" class="nav-logo" id="logo-myh">
+                <img src="images/logo-arge.png" alt="HMKÜ AR-GE" class="nav-logo" id="logo-arge">
+            </div>
+            <div class="nav-links">
+                <a href="#about" class="nav-link">Hakkında</a>
+                <a href="#speakers" class="nav-link">Konuşmacılar</a>
+                <a href="#gallery" class="nav-link">Galeri</a>
+                <a href="#register" class="nav-link nav-cta">Başvur</a>
+                <button class="theme-toggle" id="theme-toggle" aria-label="Tema değiştir">
+                    <span class="theme-icon sun">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                    </span>
+                    <span class="theme-icon moon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                    </span>
+                </button>
+            </div>
+            <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Menü">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobile-menu">
+        <a href="#about" class="mobile-link">Hakkında</a>
+        <a href="#speakers" class="mobile-link">Konuşmacılar</a>
+        <a href="#gallery" class="mobile-link">Galeri</a>
+        <a href="#register" class="mobile-link">Başvur</a>
+        <button class="theme-toggle-mobile" id="theme-toggle-mobile" aria-label="Tema değiştir">
+            <span class="theme-icon sun">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+            </span>
+            <span class="theme-icon moon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+            </span>
+            <span>Tema Değiştir</span>
+        </button>
+    </div>
+
+    <!-- Hero Section -->
+    <header class="hero" id="hero">
+        <div class="hero-bg-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+        </div>
+        <div class="hero-content">
+            <div class="hero-logos">
+                <img src="images/logo-hmk.png" alt="HMKÜ" class="hero-logo">
+                <span class="logo-divider">×</span>
+                <img src="images/logo-zamansiz.png" alt="Zamansız" class="hero-logo logo-dark-bg">
+                <span class="logo-divider">×</span>
+                <img src="images/logo-myh.png" alt="MYH" class="hero-logo">
+                <span class="logo-divider">×</span>
+                <img src="images/logo-arge.png" alt="HMKÜ AR-GE" class="hero-logo">
+            </div>
+            <p class="hero-presents animate-on-scroll">sunar</p>
+            
+            <!-- Etkinlik Logosu (Zamansız Zirve '26 Hatay | Yapay Zekâ Çağında İnsan Olmak) -->
+            <div class="hero-event-logo-wrapper animate-on-scroll">
+                <img src="images/event-logo-dark.png" alt="Zamansız Zirve '26 Hatay · Yapay Zekâ Çağında İnsan Olmak" class="hero-event-logo theme-dark-only">
+                <img src="images/event-logo-light.png" alt="Zamansız Zirve '26 Hatay · Yapay Zekâ Çağında İnsan Olmak" class="hero-event-logo theme-light-only">
+            </div>
+
+            <!-- SEO & Accessibility Heading -->
+            <h1 class="hero-title visually-hidden" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0;">
+                Zamansız Zirve '26 Hatay - Yapay Zekâ Çağında İnsan Olmak
+            </h1>
+
+            <div class="hero-meta animate-on-scroll">
+                <div class="meta-item">
+                    <span class="meta-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                    </span>
+                    <span>9 Ekim 2026</span>
+                </div>
+                <div class="meta-divider"></div>
+                <div class="meta-item">
+                    <span class="meta-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                    </span>
+                    <span>Hatay Mustafa Kemal Üniversitesi</span>
+                </div>
+            </div>
+            <a href="#register" class="hero-cta animate-on-scroll" id="cta-button">
+                <span>Hemen Başvur</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M7 17l9.2-9.2M17 17V7H7"/>
+                </svg>
+            </a>
+            <div class="scroll-indicator animate-on-scroll">
+                <div class="scroll-arrow"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <section class="section about" id="about">
+        <div class="container">
+            <div class="section-header animate-on-scroll">
+                <span class="section-tag">Etkinlik Hakkında</span>
+                <h2 class="section-title">İnsanlık ve Teknoloji<br>Buluşması</h2>
+            </div>
+            <div class="about-grid">
+                <div class="about-card animate-on-scroll">
+                    <div class="about-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
+                    </div>
+                    <h3>Amaç</h3>
+                    <p>Yapay zekânın hayatımızdaki artan rolünü, insan olmanın değerini ve teknoloji ile uyumlu bir gelecek inşa etmenin yollarını birlikte keşfedeceğiz.</p>
+                </div>
+                <div class="about-card animate-on-scroll">
+                    <div class="about-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"></path><path d="M10 22h4"></path><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A6 6 0 1 0 6 9c0 1.94.93 3.32 1.9 4.3.76.76 1.23 1.52 1.41 2.5"></path></svg>
+                    </div>
+                    <h3>İçerik</h3>
+                    <p>Alanında uzman konuşmacılarla yapay zekâ, etik, kariyer dönüşümü ve insani değerler üzerine derinlemesine söyleşiler ve interaktif oturumlar.</p>
+                </div>
+                <div class="about-card animate-on-scroll">
+                    <div class="about-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                    </div>
+                    <h3>Networking</h3>
+                    <p>Farklı disiplinlerden öğrenciler ve profesyonellerle tanışma fırsatı. Geleceği birlikte şekillendirecek bağlantılar kurun.</p>
+                </div>
+            </div>
+            <div class="event-details animate-on-scroll">
+                <div class="detail-item">
+                    <span class="detail-label">Tarih</span>
+                    <span class="detail-value">9 Ekim 2026, Cuma</span>
+                </div>
+                <div class="detail-sep"></div>
+                <div class="detail-item">
+                    <span class="detail-label">Yer</span>
+                    <span class="detail-value">Hatay Mustafa Kemal Üniversitesi</span>
+                </div>
+                <div class="detail-sep"></div>
+                <div class="detail-item">
+                    <span class="detail-label">Katılım</span>
+                    <span class="detail-value">Ücretsiz (Ön kayıt gereklidir)</span>
+                </div>
+                <div class="detail-sep"></div>
+                <div class="detail-item">
+                    <span class="detail-label">Organizasyon</span>
+                    <span class="detail-value">Zamansız × Milli Yetkinlik Hamlesi</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Speakers Section -->
+    <section class="section speakers" id="speakers">
+        <div class="container">
+            <div class="section-header animate-on-scroll">
+                <span class="section-tag">Konuşmacılar</span>
+                <h2 class="section-title">İlham Veren İsimler</h2>
+            </div>
+            <div class="speakers-grid">
+                <!-- Speaker 1 -->
+                <div class="speaker-card animate-on-scroll">
+                    <div class="speaker-image-wrapper">
+                        <img src="images/speaker-melodi.png" alt="Dr. Melodi Çiftçi" class="speaker-image">
+                    </div>
+                    <div class="speaker-info">
+                        <h3 class="speaker-name">Öğr. Gör. Dr. Melodi Çiftçi</h3>
+                        <span class="speaker-title">Hatay Mustafa Kemal Üniversitesi</span>
+                        <p class="speaker-bio">
+                            Hatay Mustafa Kemal Üniversitesi'nde Öğretim Görevlisi olarak akademik çalışmalarını sürdürmektedir. 
+                            Üniversitede Erasmus Programı Kurum Koordinatörü ve Teknopark Yöneticisi olarak idari sorumluluklar üstlenmektedir. 
+                            Proje döngüsü yönetimi, uluslararası projeler ve sürdürülebilir kalkınma alanlarında uzmanlaşmıştır. 
+                            Erasmus projelerinin yaygınlaştırılması konusunda eğitimler ve seminerler düzenlemektedir.
+                        </p>
+                        <div class="speaker-tags">
+                            <span class="tag">Erasmus Koordinatörü</span>
+                            <span class="tag">Teknopark Yöneticisi</span>
+                            <span class="tag">Proje Yönetimi</span>
+                        </div>
+                        <a href="https://www.linkedin.com/in/dr-melodi-%C3%A7ift%C3%A7i-3aa1b743/" target="_blank" rel="noopener" class="speaker-linkedin">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                            </svg>
+                            LinkedIn Profili
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Speaker 2 -->
+                <div class="speaker-card animate-on-scroll">
+                    <div class="speaker-image-wrapper">
+                        <img src="images/speaker-dikel.png" alt="Ali Murathan Dikel" class="speaker-image">
+                    </div>
+                    <div class="speaker-info">
+                        <h3 class="speaker-name">Ali Murathan Dikel</h3>
+                        <span class="speaker-title">Zamansız & OKUTU Gelişim Kurucu Ortağı · Hasbro EMEA Kıdemli Marka Müdürü</span>
+                        <p class="speaker-bio">
+                            St. George Avusturya Lisesi mezunu olan Dikel, Viyana Ekonomi ve İşletme Üniversitesi'nde başladığı eğitimini 
+                            Sabancı Üniversitesi Yönetim Bilimleri bölümünde tamamlamıştır. Üsküdar Üniversitesi'nde Tasavvuf Kültürü ve 
+                            Edebiyatı alanında yüksek lisansını bitirmiş, İslam Medeniyeti Tarihi ve Edebiyatı alanında doktora çalışmalarına 
+                            devam etmektedir. Coca-Cola ve Sütaş'ta başladığı kariyerine 2011'den bu yana Hasbro Türkiye Pazarlama Müdürü 
+                            olarak devam etmektedir. Kuşaklararası iletişimi geliştirmeyi ve kadim bilgeliği yaymayı amaçlayan "Zamansız" 
+                            platformunun kurucusudur. REYSAS GYO Bağımsız Yönetim Kurulu Üyesi ve çeşitli TEDx etkinliklerinde konuşmacı olarak yer almıştır.
+                        </p>
+                        <div class="speaker-tags">
+                            <span class="tag">Zamansız Kurucu</span>
+                            <span class="tag">TEDx Konuşmacı</span>
+                            <span class="tag">Marka Stratejisti</span>
+                        </div>
+                        <a href="https://www.linkedin.com/in/ali-murathan-dikel-1813201b/" target="_blank" rel="noopener" class="speaker-linkedin">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                            </svg>
+                            LinkedIn Profili
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="section gallery" id="gallery">
+        <div class="container">
+            <div class="section-header animate-on-scroll">
+                <span class="section-tag">Geçmiş Etkinlikler</span>
+                <h2 class="section-title">Zamansız Zirve Anıları</h2>
+                <p class="section-desc">Zamansız'ın daha önceki üniversite etkinliklerinden kareler</p>
+            </div>
+            <div class="gallery-grid">
+                <div class="gallery-item animate-on-scroll" id="gallery-1">
+                    <img src="images/gallery/1.png" alt="Zamansız Zirve '25 Hatay - Sahne ve Sertifika Töreni" loading="lazy">
+                </div>
+                <div class="gallery-item animate-on-scroll" id="gallery-4">
+                    <img src="images/gallery/4.png" alt="Zamansız Zirve '25 Hatay - Katılımcılar ve Hatıra Fotoğrafı" loading="lazy">
+                </div>
+                <div class="gallery-item animate-on-scroll" id="gallery-2">
+                    <img src="images/gallery/2.jpg" alt="Zamansız Zirve '25 Hatay - Konferans Salonu" loading="lazy">
+                </div>
+                <div class="gallery-item animate-on-scroll" id="gallery-3">
+                    <img src="images/gallery/3.png" alt="Zamansız Zirve '25 Hatay - Panel Söyleşisi" loading="lazy">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Registration Section -->
+    <section class="section registration" id="register">
+        <div class="container">
+            <div class="section-header animate-on-scroll">
+                <span class="section-tag">Kayıt Formu</span>
+                <h2 class="section-title">Etkinliğe Başvur</h2>
+                <p class="section-desc">Kontenjan sınırlıdır. Yerinizi şimdiden ayırtın.</p>
+            </div>
+
+            <div class="form-wrapper animate-on-scroll">
+                <form id="registration-form" novalidate>
+                    <!-- Step 1: Personal Info -->
+                    <div class="form-section">
+                        <div class="form-section-header">
+                            <span class="form-step-number">01</span>
+                            <h3>Kişisel Bilgiler</h3>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="firstName">Ad <span class="required">*</span></label>
+                                <input type="text" id="firstName" name="firstName" placeholder="Adınız" required>
+                                <span class="error-msg" id="firstName-error"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName">Soyad <span class="required">*</span></label>
+                                <input type="text" id="lastName" name="lastName" placeholder="Soyadınız" required>
+                                <span class="error-msg" id="lastName-error"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">E-posta <span class="required">*</span></label>
+                                <input type="email" id="email" name="email" placeholder="ornek@mail.com" required>
+                                <span class="error-msg" id="email-error"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Telefon <span class="required">*</span></label>
+                                <input type="tel" id="phone" name="phone" placeholder="05XX XXX XX XX" required>
+                                <span class="error-msg" id="phone-error"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Academic Info -->
+                    <div class="form-section">
+                        <div class="form-section-header">
+                            <span class="form-step-number">02</span>
+                            <h3>Akademik Bilgiler</h3>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="department">Bölüm <span class="required">*</span></label>
+                                <input type="text" id="department" name="department" placeholder="Okuduğunuz bölüm" required>
+                                <span class="error-msg" id="department-error"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="grade">Sınıf <span class="required">*</span></label>
+                                <select id="grade" name="grade" required>
+                                    <option value="" disabled selected>Sınıfınızı seçin</option>
+                                    <option value="Hazırlık">Hazırlık</option>
+                                    <option value="1. Sınıf">1. Sınıf</option>
+                                    <option value="2. Sınıf">2. Sınıf</option>
+                                    <option value="3. Sınıf">3. Sınıf</option>
+                                    <option value="4. Sınıf">4. Sınıf</option>
+                                    <option value="Yüksek Lisans">Yüksek Lisans</option>
+                                    <option value="Doktora">Doktora</option>
+                                    <option value="Mezun">Mezun</option>
+                                </select>
+                                <span class="error-msg" id="grade-error"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="university">Üniversite <span class="required">*</span></label>
+                                <input type="text" id="university" name="university" placeholder="Üniversiteniz" value="Hatay Mustafa Kemal Üniversitesi" required>
+                                <span class="error-msg" id="university-error"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Logistics -->
+                    <div class="form-section">
+                        <div class="form-section-header">
+                            <span class="form-step-number">03</span>
+                            <h3>Katılım Detayları</h3>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="city">Nereden Katılacaksınız? <span class="required">*</span></label>
+                                <input type="text" id="city" name="city" placeholder="Şehir / İlçe" required>
+                                <span class="error-msg" id="city-error"></span>
+                            </div>
+                            <div class="form-group">
+                                <label>Ulaşım İçin Otobüs Gerekli mi? <span class="required">*</span></label>
+                                <div class="radio-group">
+                                    <label class="radio-label">
+                                        <input type="radio" name="busNeeded" value="Evet" required>
+                                        <span class="radio-custom"></span>
+                                        Evet, otobüs lazım
+                                    </label>
+                                    <label class="radio-label">
+                                        <input type="radio" name="busNeeded" value="Hayır" required>
+                                        <span class="radio-custom"></span>
+                                        Hayır, kendi imkânlarımla gelirim
+                                    </label>
+                                </div>
+                                <span class="error-msg" id="busNeeded-error"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="dietaryNeeds">Özel Diyet veya Erişilebilirlik İhtiyacınız Var mı?</label>
+                                <input type="text" id="dietaryNeeds" name="dietaryNeeds" placeholder="Varsa belirtiniz (opsiyonel)">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Engagement -->
+                    <div class="form-section">
+                        <div class="form-section-header">
+                            <span class="form-step-number">04</span>
+                            <h3>Etkinlik Hakkında</h3>
+                        </div>
+                        <div class="form-grid form-grid-single">
+                            <div class="form-group">
+                                <label for="aiExperience">Yapay Zekâ ile İlgili Deneyim Seviyeniz <span class="required">*</span></label>
+                                <select id="aiExperience" name="aiExperience" required>
+                                    <option value="" disabled selected>Seçiniz</option>
+                                    <option value="Hiç bilmiyorum">Hiç bilmiyorum, merak ediyorum</option>
+                                    <option value="Temel düzey">Temel düzey (ChatGPT vb. kullandım)</option>
+                                    <option value="Orta düzey">Orta düzey (Projelerimde kullanıyorum)</option>
+                                    <option value="İleri düzey">İleri düzey (Geliştirme/araştırma yapıyorum)</option>
+                                </select>
+                                <span class="error-msg" id="aiExperience-error"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="previousEvents">Daha Önce Zamansız Etkinliklerine Katıldınız mı?</label>
+                                <select id="previousEvents" name="previousEvents">
+                                    <option value="" disabled selected>Seçiniz</option>
+                                    <option value="Evet">Evet, daha önce katıldım</option>
+                                    <option value="Hayır">Hayır, ilk kez katılacağım</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="expectations">Bu Etkinlikten Beklentiniz Nedir? <span class="required">*</span></label>
+                                <textarea id="expectations" name="expectations" rows="3" placeholder="Etkinlikten ne bekliyorsunuz?" required></textarea>
+                                <span class="error-msg" id="expectations-error"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="questions">Konuşmacılara Sormak İstediğiniz Sorular</label>
+                                <textarea id="questions" name="questions" rows="3" placeholder="Etkinlik öncesinde konuşmacılara iletmek istediğiniz sorularınızı yazabilirsiniz"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="hearAbout">Etkinliği Nereden Duydunuz? <span class="required">*</span></label>
+                                <select id="hearAbout" name="hearAbout" required>
+                                    <option value="" disabled selected>Seçiniz</option>
+                                    <option value="Instagram">Instagram</option>
+                                    <option value="WhatsApp">WhatsApp</option>
+                                    <option value="Twitter/X">Twitter/X</option>
+                                    <option value="LinkedIn">LinkedIn</option>
+                                    <option value="Arkadaş tavsiyesi">Arkadaş tavsiyesi</option>
+                                    <option value="Üniversite duyurusu">Üniversite duyurusu</option>
+                                    <option value="Topluluk">Topluluk kanalları</option>
+                                    <option value="Diğer">Diğer</option>
+                                </select>
+                                <span class="error-msg" id="hearAbout-error"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- KVKK & Turnstile -->
+                    <div class="form-section form-section-final">
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="kvkk" name="kvkk" required>
+                                <span class="checkbox-custom"></span>
+                                <span>Kişisel verilerimin etkinlik organizasyonu kapsamında işlenmesini ve saklanmasını kabul ediyorum. 
+                                <a href="/kvkk" class="kvkk-link" id="open-kvkk-modal">KVKK Aydınlatma Metni</a></span>
+                            </label>
+                            <span class="error-msg" id="kvkk-error"></span>
+                        </div>
+
+                        <!-- Cloudflare Turnstile -->
+                        <div class="turnstile-wrapper" id="turnstile-container">
+                            <div class="cf-turnstile" data-sitekey="YOUR_TURNSTILE_SITE_KEY" data-callback="onTurnstileSuccess" data-theme="auto"></div>
+                            <p class="turnstile-note">Bot koruması için lütfen doğrulamayı tamamlayın</p>
+                        </div>
+
+                        <button type="submit" class="submit-btn" id="submit-btn">
+                            <span class="btn-text">Başvuruyu Gönder</span>
+                            <span class="btn-loading">
+                                <span class="spinner"></span>
+                                Gönderiliyor...
+                            </span>
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Success Message -->
+                <div class="success-message" id="success-message">
+                    <div class="success-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    </div>
+                    <h3>Başvurunuz Alındı!</h3>
+                    <p>Etkinlik detayları ve onay bilgileri e-posta adresinize gönderilecektir. Görüşmek üzere!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- KVKK Modal Dialog -->
+    <div class="modal-overlay" id="kvkk-modal">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3>6698 Sayılı KVKK Kapsamında Katılımcı Aydınlatma Metni</h3>
+                <button class="modal-close-btn" id="close-kvkk-modal" aria-label="Kapat">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 16px;">
+                    <strong>Zamansız Zirve '26 Hatay: "Yapay Zekâ Çağında İnsan Olmak" Etkinliği</strong><br>
+                    Yürürlük: 16 Eylül 2026 | Veri Sorumlusu: Milli Yetkinlik Hamlesi | Ana Kurucular: MYH & Zamansız | Destekçi ve Koordinatör: HMKÜ & HMKÜ AR-GE
+                </p>
+
+                <h4 style="font-size: 1rem; font-weight: 700; margin: 16px 0 8px;">1. Veri Sorumlusunun Kimliği</h4>
+                <p>6698 sayılı Kişisel Verilerin Korunması Kanunu ("KVKK") m. 10 uyarınca tüm yasal veri sorumluluğu doğrudan <strong>Milli Yetkinlik Hamlesi</strong>'ne aittir. Etkinliğin Ana Kurucuları Milli Yetkinlik Hamlesi ve Zamansız; Destekçi ve Koordinatörü ise Hatay Mustafa Kemal Üniversitesi (HMKÜ) & HMKÜ AR-GE Koordinatörlüğü'dür. Verilerinizle ilgili herhangi bir değişiklik, güncelleme veya silme talebi için doğrudan <a href="mailto:mehmeteren2006@gmail.com" style="color: var(--accent-primary); font-weight: 700; text-decoration: underline;">mehmeteren2006@gmail.com</a> adresine e-posta iletebilirsiniz.</p>
+
+                <h4 style="font-size: 1rem; font-weight: 700; margin: 16px 0 8px;">2. İşlenen Kişisel Verileriniz</h4>
+                <p>Başvuru formumuzda paylaştığınız; ad, soyad (kimlik); e-posta, telefon (iletişim); üniversite, fakülte, bölüm, sınıf (eğitim); şehir/ilçe, otobüs/servis ihtiyacı (lokasyon/ulaşım); yapay zekâ deneyimi, beklenti, konuşmacılara sorular (etkinlik anket verisi); varsa alerjen/erişilebilirlik (özel nitelikli sağlık) ve IP adresi ile başvuru zaman damgası (işlem güvenliği) verileriniz işlenmektedir.</p>
+
+                <h4 style="font-size: 1rem; font-weight: 700; margin: 16px 0 8px;">3. Kişisel Verilerin İşlenme Amaçları</h4>
+                <p>Kişisel verileriniz; etkinliğe kaydınızın alınması, salon kontenjanının yönetimi, giriş kartı/onay iletilerinin gönderilmesi, servis ve güzergah lojistiğinin sağlanması, konuşmacı soru tasnifi, varsa özel diyet/erişilebilirlik imkanlarının temini ve yasal yükümlülüklerin yerine getirilmesi amacıyla işlenmektedir.</p>
+
+                <h4 style="font-size: 1rem; font-weight: 700; margin: 16px 0 8px;">4. Hukuki Sebepler ve Toplama Yöntemi</h4>
+                <p>Verileriniz web formu aracılığıyla elektronik ortamda toplanmakta olup; KVKK m. 5/2-(c) (sözleşmenin kurulması/ifası), m. 5/2-(f) (meşru menfaat), m. 5/2-(ç) (hukuki yükümlülük) ve beyan edilen özel nitelikli sağlık verileri için m. 6/2 (açık rıza) hukuki sebeplerine dayanılmaktadır.</p>
+
+                <h4 style="font-size: 1rem; font-weight: 700; margin: 16px 0 8px;">5. Kişisel Verilerin Aktarımı</h4>
+                <p>Kişisel verileriniz yalnızca ana kurucular (Milli Yetkinlik Hamlesi, Zamansız) ve destekçi/koordinatör kurum (HMKÜ & AR-GE), servis talep etmeniz halinde yetkili taşımacılık firması ve yasal zorunluluk halinde yetkili kamu kurum ve kuruluşları ile KVKK m. 8 ve m. 9 hükümlerine uygun olarak paylaşılır. Ticari amaçla satılmaz veya devredilmez.</p>
+
+                <h4 style="font-size: 1rem; font-weight: 700; margin: 16px 0 8px;">6. Fotoğraf ve Video Çekimleri</h4>
+                <p>Etkinlik esnasında konferans salonunda tanıtım, haber ve kurumsal arşiv amaçlı genel fotoğraf ve video çekimleri yapılacaktır. Odaklanılmış bireysel görüntünüzün kullanılmasını istememeniz halinde organizatörlere yazılı başvurabilirsiniz.</p>
+
+                <h4 style="font-size: 1rem; font-weight: 700; margin: 16px 0 8px;">7. Saklama Süresi ve Veri Sahibi Hakları (KVKK m. 11)</h4>
+                <p>Verileriniz yasal süreler ve etkinlik amaçlarının tamamlanmasının ardından güvenli şekilde imha edilir veya anonimleştirilir. KVKK m. 11 kapsamındaki her türlü bilgi alma, güncelleme veya silinme talebiniz için doğrudan veri sorumlusu irtibat adresi olan <a href="mailto:mehmeteren2006@gmail.com" style="color: var(--accent-primary); font-weight: 700; text-decoration: underline;">mehmeteren2006@gmail.com</a> adresine başvurabilirsiniz.</p>
+            </div>
+            <div class="modal-footer">
+                <a href="/kvkk" target="_blank" style="color: var(--text-secondary); font-size: 0.85rem; text-decoration: underline;">
+                    📄 Tam Metni Yeni Sayfada Aç
+                </a>
+                <button class="hero-cta" id="accept-kvkk-btn" style="padding: 10px 24px; font-size: 0.9rem; cursor: pointer; border: none;">
+                    Okudum, Anladım ve Kabul Ediyorum
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logos">
+                    <img src="images/logo-hmk.png" alt="HMKÜ" class="footer-logo">
+                    <img src="images/logo-zamansiz.png" alt="Zamansız" class="footer-logo logo-dark-bg">
+                    <img src="images/logo-myh.png" alt="MYH" class="footer-logo">
+                    <img src="images/logo-arge.png" alt="HMKÜ AR-GE" class="footer-logo">
+                </div>
+                <div class="footer-info">
+                    <p>Yapay Zekâ Çağında İnsan Olmak</p>
+                    <p class="footer-date">9 Ekim 2026 · Hatay Mustafa Kemal Üniversitesi</p>
+                </div>
+                <div class="footer-links">
+                    <a href="https://zamansiz.co" target="_blank" rel="noopener">zamansiz.co</a>
+                    <a href="https://www.mku.edu.tr" target="_blank" rel="noopener">mku.edu.tr</a>
+                    <a href="/kvkk">KVKK Metni</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Milli Yetkinlik Hamlesi & Zamansız (Ana Kurucular) | Hatay Mustafa Kemal Üniversitesi & HMKÜ AR-GE (Destekçi ve Koordinatör). Veri Sorumlusu: Milli Yetkinlik Hamlesi (mehmeteren2006@gmail.com). Tüm hakları saklıdır.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cloudflare Turnstile Script (site key gerekli) -->
+    <!-- <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script> -->
+    <script src="app.js"></script>
+</body>
+</html>

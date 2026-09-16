@@ -1,0 +1,1488 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yönetim Paneli | Yapay Zekâ Çağında İnsan Olmak</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        :root {
+            --card-bg: var(--bg-card);
+            --input-bg: var(--bg-input);
+            --hover-bg: var(--bg-card-hover);
+            --accent-color: var(--accent-primary);
+        }
+
+        .admin-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 95px 24px 60px;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 28px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .admin-title-area h1 {
+            font-size: 1.85rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .admin-title-area h1 span {
+            color: var(--text-primary);
+        }
+
+        .admin-title-area p {
+            color: var(--text-secondary);
+            font-size: 0.92rem;
+        }
+
+        .admin-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        /* SVG Icon Helper */
+        .ui-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            vertical-align: middle;
+        }
+
+        .btn-excel {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border: none;
+            padding: 11px 20px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.92rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+            transition: all 0.2s ease;
+        }
+
+        .btn-excel:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.45);
+        }
+
+        .btn-secondary-action {
+            background: var(--card-bg);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            padding: 10px 16px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.88rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-secondary-action:hover {
+            background: var(--hover-bg);
+            border-color: var(--accent-color);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            transition: transform 0.2s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .stat-card-title {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .stat-card-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .stat-card-sub {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        /* Guide Card */
+        .guide-card {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(168, 85, 247, 0.04));
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 14px;
+            padding: 16px 20px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .guide-text h4 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 3px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .guide-text p {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin: 0;
+        }
+
+        .file-path-badge {
+            background: var(--input-bg);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.82rem;
+            color: var(--accent-color);
+            border: 1px solid var(--border-color);
+        }
+
+        /* Filter & View Bar */
+        .filter-bar {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-bottom: 20px;
+            background: var(--card-bg);
+            padding: 14px 18px;
+            border-radius: 14px;
+            border: 1px solid var(--border-color);
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 240px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 9px 14px 9px 38px;
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-size: 0.88rem;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        .search-input:focus {
+            border-color: var(--accent-color);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+        }
+
+        .filter-select {
+            padding: 9px 12px;
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-size: 0.88rem;
+            outline: none;
+            cursor: pointer;
+        }
+
+        /* View Mode Selector */
+        .view-mode-group {
+            display: flex;
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 3px;
+            gap: 2px;
+        }
+
+        .view-btn {
+            background: transparent;
+            border: none;
+            padding: 7px 14px;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .view-btn.active {
+            background: var(--accent-color);
+            color: white;
+            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+        }
+
+        /* TABLE VIEW (Full columns directly visible) */
+        .table-wrapper {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+            max-height: 750px;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.85rem;
+            min-width: 1400px;
+        }
+
+        .data-table th {
+            background: var(--input-bg);
+            color: var(--text-primary);
+            font-weight: 700;
+            padding: 12px 14px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            border-bottom: 2px solid var(--border-color);
+            white-space: nowrap;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .data-table th .th-wrap {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .data-table td {
+            padding: 14px 14px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-primary);
+            vertical-align: top;
+            line-height: 1.45;
+        }
+
+        .data-table tbody tr:hover {
+            background: var(--hover-bg);
+        }
+
+        /* Direct Question & Expectation Cells */
+        .cell-expectation {
+            min-width: 250px;
+            max-width: 340px;
+            background: rgba(99, 102, 241, 0.04);
+            border-radius: 8px;
+            padding: 8px 10px;
+            border-left: 3px solid var(--accent-color);
+            font-size: 0.82rem;
+            color: var(--text-primary);
+        }
+
+        .cell-questions {
+            min-width: 260px;
+            max-width: 360px;
+            background: rgba(16, 185, 129, 0.04);
+            border-radius: 8px;
+            padding: 8px 10px;
+            border-left: 3px solid #10b981;
+            font-size: 0.82rem;
+            color: var(--text-primary);
+        }
+
+        .cell-empty {
+            color: var(--text-secondary);
+            font-style: italic;
+            font-size: 0.78rem;
+        }
+
+        /* Badges */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.73rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .badge-bus-yes {
+            background: rgba(239, 68, 68, 0.12);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.25);
+        }
+
+        .badge-bus-no {
+            background: rgba(16, 185, 129, 0.12);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.25);
+        }
+
+        .badge-ai {
+            background: rgba(99, 102, 241, 0.12);
+            color: #818cf8;
+            border: 1px solid rgba(99, 102, 241, 0.25);
+            font-size: 0.72rem;
+        }
+
+        /* CARD VIEW */
+        .cards-view-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .cards-view-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .attendee-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 22px;
+            backdrop-filter: blur(10px);
+            transition: all 0.2s ease;
+            position: relative;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .attendee-card:hover {
+            border-color: var(--accent-color);
+            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.12);
+        }
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 14px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .card-name {
+            font-size: 1.22rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .card-meta {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 3px;
+        }
+
+        .card-details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 16px;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 520px) {
+            .card-details-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card-info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .card-info-label {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary);
+            font-weight: 700;
+        }
+
+        .card-info-value {
+            color: var(--text-primary);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .card-highlight-block {
+            border-radius: 12px;
+            padding: 12px 14px;
+            margin-top: 10px;
+            font-size: 0.86rem;
+            line-height: 1.5;
+        }
+
+        .card-expectation-block {
+            background: rgba(99, 102, 241, 0.05);
+            border: 1px solid rgba(99, 102, 241, 0.18);
+        }
+
+        .card-question-block {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.18);
+        }
+
+        .block-title {
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .block-title.exp { color: var(--accent-color); }
+        .block-title.qst { color: #10b981; }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* Delete Buttons */
+        .btn-delete-row {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.25);
+            color: #ef4444;
+            padding: 6px 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-delete-row:hover {
+            background: #ef4444;
+            color: white;
+            transform: scale(1.08);
+            box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-delete-card {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.25);
+            color: #ef4444;
+            padding: 5px 12px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-delete-card:hover {
+            background: #ef4444;
+            color: white;
+            box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3);
+        }
+
+        /* === Login View Styles === */
+        .login-wrapper {
+            min-height: calc(100vh - 80px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 440px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 40px 32px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 26px;
+        }
+
+        .login-badge {
+            display: inline-block;
+            background: rgba(153, 27, 27, 0.12);
+            color: var(--accent-color);
+            border: 1px solid rgba(153, 27, 27, 0.25);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        .login-title {
+            font-size: 1.65rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+
+        .login-subtitle {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        .login-alert {
+            background: rgba(239, 68, 68, 0.12);
+            border: 1px solid rgba(239, 68, 68, 0.35);
+            color: #ef4444;
+            padding: 11px 14px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            margin-bottom: 18px;
+            font-weight: 600;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .form-group-login {
+            margin-bottom: 18px;
+        }
+
+        .form-group-login label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+
+        .input-with-icon {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-with-icon svg:first-child {
+            position: absolute;
+            left: 14px;
+            color: var(--text-tertiary);
+            pointer-events: none;
+        }
+
+        .input-with-icon input {
+            width: 100%;
+            padding: 12px 14px 12px 42px;
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .input-with-icon input:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(153, 27, 27, 0.15);
+        }
+
+        .btn-toggle-password {
+            position: absolute;
+            right: 12px;
+            background: none;
+            border: none;
+            color: var(--text-tertiary);
+            cursor: pointer;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+        }
+
+        .btn-login-submit {
+            width: 100%;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 13px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 8px;
+            box-shadow: 0 4px 14px rgba(153, 27, 27, 0.35);
+        }
+
+        .btn-login-submit:hover {
+            opacity: 0.92;
+            transform: translateY(-1px);
+        }
+
+        .login-footer-info {
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-tertiary);
+            margin-top: 20px;
+        }
+
+        .nav-user-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 6px 12px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <header class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logos">
+                <img src="images/logo-hmk.png" alt="Hatay Mustafa Kemal Üniversitesi" class="nav-logo" id="logo-hmk">
+                <img src="images/logo-zamansiz.png" alt="Zamansız" class="nav-logo" id="logo-zamansiz">
+                <img src="images/logo-myh.png" alt="Milli Yetkinlik Hamlesi" class="nav-logo" id="logo-myh">
+                <img src="images/logo-arge.png" alt="HMKÜ AR-GE" class="nav-logo" id="logo-arge">
+            </div>
+                <div class="nav-user-badge" id="nav-user-badge" style="display: none;">
+                    <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #10b981;"></span>
+                    <span id="nav-username">myh</span>
+                    <button id="btn-logout" style="background: none; border: none; color: #ef4444; cursor: pointer; font-size: 0.82rem; font-weight: 700; margin-left: 6px;" title="Güvenli Çıkış Yap">Çıkış</button>
+                </div>
+                <a href="/" class="btn-secondary-action" style="padding: 7px 14px; font-size: 0.85rem;">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                    <span>Ana Sayfa</span>
+                </a>
+                <button class="theme-toggle" id="theme-toggle" aria-label="Tema Değiştir">
+                    <span class="theme-icon sun-icon">
+                        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                    </span>
+                    <span class="theme-icon moon-icon">
+                        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                    </span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Login Screen -->
+    <div class="login-wrapper" id="login-view">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="login-badge">Güvenli Yönetici Paneli</div>
+                <h1 class="login-title">Yönetici Girişi</h1>
+                <p class="login-subtitle">Yapay Zekâ Çağında İnsan Olmak · Başvuru Yönetimi</p>
+            </div>
+
+            <div class="login-alert" id="login-error" style="display: none;"></div>
+
+            <form id="login-form">
+                <div class="form-group-login">
+                    <label for="login-username">Kullanıcı Adı</label>
+                    <div class="input-with-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        <input type="text" id="login-username" name="username" placeholder="myh" required autofocus autocomplete="username">
+                    </div>
+                </div>
+
+                <div class="form-group-login">
+                    <label for="login-password">Yönetici Şifresi</label>
+                    <div class="input-with-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                        <input type="password" id="login-password" name="password" placeholder="••••••••" required autocomplete="current-password">
+                        <button type="button" class="btn-toggle-password" id="toggle-password" aria-label="Şifreyi Göster">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-login-submit" id="btn-login-submit">
+                    <span id="btn-login-text">Panele Giriş Yap</span>
+                </button>
+            </form>
+
+            <div class="login-footer-info">
+                <span>🔐 Bu panel yalnızca yetkili düzenleme kurulu üyelerine açıktır.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Container -->
+    <div class="admin-container" id="dashboard-view" style="display: none;">
+        <!-- Header -->
+        <div class="admin-header">
+            <div class="admin-title-area">
+                <h1>
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--accent-color);"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                    <span>Başvuru & Kayıt Yönetim Paneli</span>
+                </h1>
+                <p>Yapay Zekâ Çağında İnsan Olmak · Katılımcı Başvuruları ve Soru Listesi</p>
+            </div>
+            <div class="admin-actions">
+                <a href="/api/admin/indir" class="btn-excel" id="btn-download-excel">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    <span>Excel Dosyasını İndir (.xlsx)</span>
+                </a>
+                <button class="btn-secondary-action" id="btn-seed-test" title="Otomatik 4 adet örnek kayıt ekler">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v7.31L4.75 18.1A2 2 0 0 0 6.46 21h11.08a2 2 0 0 0 1.71-2.9L14 9.31V2"></path><line x1="8.5" y1="2" x2="15.5" y2="2"></line><line x1="7" y1="14" x2="17" y2="14"></line></svg>
+                    <span>+4 Test Verisi Ekle</span>
+                </button>
+                <button class="btn-secondary-action" id="btn-refresh">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                    <span>Yenile</span>
+                </button>
+                <button class="btn-secondary-action" id="btn-clear" style="color: #ef4444;" title="Test verilerini sıfırla">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                    <span>Temizle</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Location Guide Card -->
+        <div class="guide-card">
+            <div class="guide-text">
+                <h4>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--accent-color);"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="8" y1="13" x2="16" y2="13"></line><line x1="8" y1="17" x2="16" y2="17"></line></svg>
+                    <span>Excel Dosyası Bilgisayarınızda Otomatik Güncellenmektedir</span>
+                </h4>
+                <p>Her başvuru anında aşağıdaki yerel Excel tablosuna yazılır. Yukarıdaki yeşil <strong>"Excel Dosyasını İndir"</strong> butonundan indirebilir veya dosyanızı doğrudan açabilirsiniz:</p>
+            </div>
+            <div>
+                <span class="file-path-badge">c:\projelerim\anket\kayitlar.xlsx</span>
+            </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-card-title">Toplam Başvuru</div>
+                <div class="stat-card-value" id="stat-total">0</div>
+                <div class="stat-card-sub">Etkinliğe kayıt olan katılımcı</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-title">Otobüs / Servis Talebi</div>
+                <div class="stat-card-value" id="stat-bus" style="color: #f59e0b;">0</div>
+                <div class="stat-card-sub" id="stat-bus-ratio">Katılımcıların %0'ı</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-title">Farklı Bölümler</div>
+                <div class="stat-card-value" id="stat-departments" style="color: #6366f1;">0</div>
+                <div class="stat-card-sub">Farklı disiplinden öğrenci</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-title">Farklı Lokasyon / Şehir</div>
+                <div class="stat-card-value" id="stat-cities" style="color: #10b981;">0</div>
+                <div class="stat-card-sub">Geniş katılım ağı</div>
+            </div>
+        </div>
+
+        <!-- Filters & View Mode Selector -->
+        <div class="filter-bar">
+            <div class="search-box">
+                <span class="search-icon">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </span>
+                <input type="text" id="search-input" class="search-input" placeholder="Ad, Bölüm, Şehir, Soru veya Beklenti ara...">
+            </div>
+            <select id="filter-bus" class="filter-select">
+                <option value="">Otobüs: Tümü</option>
+                <option value="Evet">Sadece Otobüs İsteyenler</option>
+                <option value="Hayır">Otobüs İstemeyenler</option>
+            </select>
+            <select id="filter-grade" class="filter-select">
+                <option value="">Sınıf: Tümü</option>
+                <option value="Hazırlık">Hazırlık</option>
+                <option value="1. Sınıf">1. Sınıf</option>
+                <option value="2. Sınıf">2. Sınıf</option>
+                <option value="3. Sınıf">3. Sınıf</option>
+                <option value="4. Sınıf">4. Sınıf</option>
+                <option value="Yüksek Lisans / Doktora">Yüksek Lisans / Doktora</option>
+                <option value="Mezun">Mezun</option>
+            </select>
+
+            <!-- Görünüm Seçici -->
+            <div class="view-mode-group">
+                <button class="view-btn active" id="view-table-btn">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="3" y1="15" x2="21" y2="15"></line><line x1="12" y1="3" x2="12" y2="21"></line></svg>
+                    <span>Geniş Tablo</span>
+                </button>
+                <button class="view-btn" id="view-cards-btn">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                    <span>Ayrıntılı Kartlar</span>
+                </button>
+            </div>
+
+            <div id="filter-count" style="font-size: 0.85rem; color: var(--text-secondary); margin-left: auto;">
+                Gösterilen: <strong id="shown-count" style="color: var(--text-primary);">0</strong>
+            </div>
+        </div>
+
+        <!-- 1. GENİŞ TABLO GÖRÜNÜMÜ -->
+        <div class="table-wrapper" id="table-container">
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 40px;">#</th>
+                            <th>Kayıt Tarihi</th>
+                            <th>Ad Soyad</th>
+                            <th>İletişim</th>
+                            <th>Bölüm & Sınıf</th>
+                            <th>Üniversite</th>
+                            <th>Lokasyon</th>
+                            <th>Otobüs</th>
+                            <th>AI Deneyimi</th>
+                            <th>
+                                <span class="th-wrap">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--accent-color);"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
+                                    Beklenti
+                                </span>
+                            </th>
+                            <th>
+                                <span class="th-wrap">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #10b981;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                                    Konuşmacılara Soru
+                                </span>
+                            </th>
+                            <th>Diyet / Kaynak</th>
+                            <th style="text-align: center; width: 65px;">İşlem</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        <tr>
+                            <td colspan="13" class="empty-state">
+                                <div>Yükleniyor...</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 2. AYRINTILI KARTLAR GÖRÜNÜMÜ -->
+        <div class="cards-view-grid" id="cards-container" style="display: none;"></div>
+    </div>
+
+    <script>
+        let allRegistrations = [];
+        let currentView = 'table'; // 'table' | 'cards'
+
+        // SVG Helpers
+        const ICONS = {
+            bus: `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16v10H4z"></path><path d="M4 11h16"></path><path d="M6 16v2"></path><path d="M18 16v2"></path><circle cx="7.5" cy="13.5" r="1"></circle><circle cx="16.5" cy="13.5" r="1"></circle></svg>`,
+            mail: `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>`,
+            phone: `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>`,
+            pin: `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>`,
+            target: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>`,
+            message: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>`,
+            info: `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>`
+        };
+
+        // Tema yönetimi
+        const themeToggle = document.getElementById('theme-toggle');
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const current = document.documentElement.getAttribute('data-theme');
+            const next = current === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', next);
+            localStorage.setItem('theme', next);
+        });
+
+        // Görünüm Değiştirme
+        const viewTableBtn = document.getElementById('view-table-btn');
+        const viewCardsBtn = document.getElementById('view-cards-btn');
+        const tableContainer = document.getElementById('table-container');
+        const cardsContainer = document.getElementById('cards-container');
+
+        viewTableBtn.addEventListener('click', () => {
+            currentView = 'table';
+            viewTableBtn.classList.add('active');
+            viewCardsBtn.classList.remove('active');
+            tableContainer.style.display = 'block';
+            cardsContainer.style.display = 'none';
+        });
+
+        viewCardsBtn.addEventListener('click', () => {
+            currentView = 'cards';
+            viewCardsBtn.classList.add('active');
+            viewTableBtn.classList.remove('active');
+            tableContainer.style.display = 'none';
+            cardsContainer.style.display = 'grid';
+        });
+
+        // Verileri Yükle
+        async function loadRegistrations() {
+            try {
+                const res = await fetch('/api/admin/kayitlar');
+                const data = await res.json();
+                
+                if (data.success) {
+                    allRegistrations = data.registrations || [];
+                    updateStats();
+                    renderAll();
+                } else {
+                    showEmpty('Kayıtlar yüklenemedi: ' + (data.message || 'Hata'));
+                }
+            } catch (err) {
+                console.error(err);
+                showEmpty('Sunucuya bağlanılamadı. Lütfen sunucunun açık olduğundan emin olun.');
+            }
+        }
+
+        // İstatistikleri Güncelle
+        function updateStats() {
+            const total = allRegistrations.length;
+            document.getElementById('stat-total').textContent = total;
+
+            const busCount = allRegistrations.filter(r => {
+                const b = (r['Otobüs İhtiyacı'] || '').toString().toLowerCase();
+                return b.includes('evet');
+            }).length;
+
+            document.getElementById('stat-bus').textContent = busCount;
+            const ratio = total > 0 ? Math.round((busCount / total) * 100) : 0;
+            document.getElementById('stat-bus-ratio').textContent = `Katılımcıların %${ratio}'sı`;
+
+            const departments = new Set(allRegistrations.map(r => r['Bölüm']).filter(Boolean));
+            document.getElementById('stat-departments').textContent = departments.size;
+
+            const cities = new Set(allRegistrations.map(r => r['Nereden Katılacak']).filter(Boolean));
+            document.getElementById('stat-cities').textContent = cities.size;
+        }
+
+        // Filtreleme
+        function getFiltered() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase().trim();
+            const filterBus = document.getElementById('filter-bus').value;
+            const filterGrade = document.getElementById('filter-grade').value;
+
+            return allRegistrations.filter(r => {
+                const adSoyad = `${r['Ad'] || ''} ${r['Soyad'] || ''}`.toLowerCase();
+                const bolum = (r['Bölüm'] || '').toLowerCase();
+                const email = (r['E-posta'] || '').toLowerCase();
+                const sehir = (r['Nereden Katılacak'] || '').toLowerCase();
+                const beklenti = (r['Beklenti'] || '').toLowerCase();
+                const sorular = (r['Konuşmacılara Sorular'] || '').toLowerCase();
+
+                const matchesSearch = !searchTerm || 
+                    adSoyad.includes(searchTerm) || 
+                    bolum.includes(searchTerm) || 
+                    email.includes(searchTerm) || 
+                    sehir.includes(searchTerm) ||
+                    beklenti.includes(searchTerm) ||
+                    sorular.includes(searchTerm);
+
+                const busVal = (r['Otobüs İhtiyacı'] || '').toString();
+                const matchesBus = !filterBus || (
+                    filterBus === 'Evet' ? busVal.toLowerCase().includes('evet') : !busVal.toLowerCase().includes('evet')
+                );
+
+                const matchesGrade = !filterGrade || (r['Sınıf'] || '').includes(filterGrade);
+
+                return matchesSearch && matchesBus && matchesGrade;
+            });
+        }
+
+        // Tümünü Çiz
+        function renderAll() {
+            const filtered = getFiltered();
+            document.getElementById('shown-count').textContent = filtered.length;
+
+            renderTable(filtered);
+            renderCards(filtered);
+        }
+
+        // 1. Tabloyu Çiz
+        function renderTable(filtered) {
+            const tbody = document.getElementById('table-body');
+            if (filtered.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="12" class="empty-state">
+                            <div style="font-size: 1.05rem; margin-bottom: 6px;">Henüz gösterilecek kayıt bulunamadı</div>
+                            <div style="font-size: 0.85rem; color: var(--text-secondary);">Yukarıdaki "+4 Test Verisi Ekle" butonuna basarak örnek kayıtlar oluşturabilirsiniz.</div>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = filtered.map((r, index) => {
+                const isBusYes = (r['Otobüs İhtiyacı'] || '').toString().toLowerCase().includes('evet');
+                const busBadge = isBusYes 
+                    ? `<span class="badge badge-bus-yes">${ICONS.bus} Evet</span>` 
+                    : `<span class="badge badge-bus-no">Hayır</span>`;
+
+                const expectationHtml = r['Beklenti'] 
+                    ? `<div class="cell-expectation">${escapeHtml(r['Beklenti'])}</div>` 
+                    : `<span class="cell-empty">Belirtilmedi</span>`;
+
+                const questionsHtml = r['Konuşmacılara Sorular'] 
+                    ? `<div class="cell-questions">${escapeHtml(r['Konuşmacılara Sorular'])}</div>` 
+                    : `<span class="cell-empty">Soru yok</span>`;
+
+                const dietary = r['Diyet/Erişilebilirlik'] ? `<div>${escapeHtml(r['Diyet/Erişilebilirlik'])}</div>` : '';
+                const hear = r['Nereden Duydu'] ? `<div style="color: var(--text-secondary); font-size: 0.78rem;">${escapeHtml(r['Nereden Duydu'])}</div>` : '';
+
+                return `
+                    <tr>
+                        <td style="color: var(--text-secondary); font-family: monospace; font-weight: 700;">${index + 1}</td>
+                        <td style="white-space: nowrap; font-size: 0.8rem; color: var(--text-secondary);">${r['Kayıt Tarihi'] || '-'}</td>
+                        <td style="font-weight: 700; white-space: nowrap; font-size: 0.95rem;">${escapeHtml(r['Ad'] || '')} ${escapeHtml(r['Soyad'] || '')}</td>
+                        <td style="white-space: nowrap; font-size: 0.82rem;">
+                            <div style="display: flex; align-items: center; gap: 4px;">${ICONS.mail} ${escapeHtml(r['E-posta'] || '-')}</div>
+                            <div style="display: flex; align-items: center; gap: 4px; margin-top: 2px;">${ICONS.phone} ${escapeHtml(r['Telefon'] || '-')}</div>
+                        </td>
+                        <td style="white-space: nowrap;">
+                            <div style="font-weight: 600;">${escapeHtml(r['Bölüm'] || '-')}</div>
+                            <small style="color: var(--text-secondary);">${escapeHtml(r['Sınıf'] || '')}</small>
+                        </td>
+                        <td style="font-size: 0.82rem; max-width: 160px;">${escapeHtml(r['Üniversite'] || '-')}</td>
+                        <td style="white-space: nowrap; font-weight: 500;">${escapeHtml(r['Nereden Katılacak'] || '-')}</td>
+                        <td>${busBadge}</td>
+                        <td><span class="badge badge-ai">${escapeHtml(r['Yapay Zeka Deneyimi'] || '-')}</span></td>
+                        <td>${expectationHtml}</td>
+                        <td>${questionsHtml}</td>
+                        <td style="font-size: 0.8rem; white-space: nowrap;">${dietary}${hear || '-'}</td>
+                        <td style="text-align: center; white-space: nowrap;">
+                            <button class="btn-delete-row" onclick="deleteRecord(${r._rowNumber}, '${escapeHtml(r['Ad'] || '')} ${escapeHtml(r['Soyad'] || '')}')" title="Bu kaydı sil">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // 2. Kartları Çiz
+        function renderCards(filtered) {
+            const container = document.getElementById('cards-container');
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state" style="grid-column: 1 / -1;">
+                        Henüz gösterilecek kayıt bulunamadı.
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = filtered.map((r, index) => {
+                const isBusYes = (r['Otobüs İhtiyacı'] || '').toString().toLowerCase().includes('evet');
+                const busBadge = isBusYes 
+                    ? `<span class="badge badge-bus-yes">${ICONS.bus} Otobüs İstiyor</span>` 
+                    : `<span class="badge badge-bus-no">Ulaşım Kendine Ait</span>`;
+
+                return `
+                    <div class="attendee-card">
+                        <div class="card-top">
+                            <div>
+                                <div class="card-name">
+                                    <span>${escapeHtml(r['Ad'] || '')} ${escapeHtml(r['Soyad'] || '')}</span>
+                                    <span style="font-size: 0.78rem; font-weight: 600; color: var(--accent-color); background: rgba(99, 102, 241, 0.1); padding: 2px 8px; border-radius: 6px;">${escapeHtml(r['Sınıf'] || '')}</span>
+                                </div>
+                                <div class="card-meta">#${index + 1} · Kayıt Tarihi: ${r['Kayıt Tarihi'] || '-'}</div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                ${busBadge}
+                                <button class="btn-delete-card" onclick="deleteRecord(${r._rowNumber}, '${escapeHtml(r['Ad'] || '')} ${escapeHtml(r['Soyad'] || '')}')" title="Bu kaydı sil">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                                    <span>Sil</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="card-details-grid">
+                            <div class="card-info-item">
+                                <span class="card-info-label">Bölüm & Üniversite</span>
+                                <span class="card-info-value">${escapeHtml(r['Bölüm'] || '-')} · ${escapeHtml(r['Üniversite'] || '-')}</span>
+                            </div>
+                            <div class="card-info-item">
+                                <span class="card-info-label">İletişim</span>
+                                <span class="card-info-value">
+                                    <span>${ICONS.mail} ${escapeHtml(r['E-posta'] || '-')}</span>
+                                    <span>${ICONS.phone} ${escapeHtml(r['Telefon'] || '-')}</span>
+                                </span>
+                            </div>
+                            <div class="card-info-item">
+                                <span class="card-info-label">Katılım Lokasyonu</span>
+                                <span class="card-info-value">${ICONS.pin} ${escapeHtml(r['Nereden Katılacak'] || '-')}</span>
+                            </div>
+                            <div class="card-info-item">
+                                <span class="card-info-label">Yapay Zekâ Deneyimi</span>
+                                <span class="card-info-value"><span class="badge badge-ai">${escapeHtml(r['Yapay Zeka Deneyimi'] || '-')}</span></span>
+                            </div>
+                        </div>
+
+                        <!-- Beklenti -->
+                        <div class="card-highlight-block card-expectation-block">
+                            <div class="block-title exp">
+                                ${ICONS.target}
+                                <span>Etkinlikten Beklentisi</span>
+                            </div>
+                            <div>${escapeHtml(r['Beklenti'] || 'Belirtilmedi')}</div>
+                        </div>
+
+                        <!-- Konuşmacılara Sorular -->
+                        <div class="card-highlight-block card-question-block">
+                            <div class="block-title qst">
+                                ${ICONS.message}
+                                <span>Konuşmacılara Sormak İstediği Sorular</span>
+                            </div>
+                            <div>${escapeHtml(r['Konuşmacılara Sorular'] || 'Konuşmacılara iletilen özel bir soru yok.')}</div>
+                        </div>
+
+                        ${r['Diyet/Erişilebilirlik'] ? `
+                            <div style="margin-top: 8px; font-size: 0.8rem; color: #f59e0b; display: flex; align-items: center; gap: 6px;">
+                                ${ICONS.info} <strong>Özel Not:</strong> ${escapeHtml(r['Diyet/Erişilebilirlik'])}
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            return text.toString()
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        function showEmpty(msg) {
+            document.getElementById('table-body').innerHTML = `
+                <tr>
+                    <td colspan="12" class="empty-state">
+                        <div>${msg}</div>
+                    </td>
+                </tr>
+            `;
+            document.getElementById('cards-container').innerHTML = `
+                <div class="empty-state" style="grid-column: 1 / -1;">${msg}</div>
+            `;
+        }
+
+        // === Authentication State & API Helpers ===
+        let authToken = localStorage.getItem('admin_token') || sessionStorage.getItem('admin_token') || '';
+
+        function authFetch(url, options = {}) {
+            options.headers = options.headers || {};
+            if (authToken) {
+                options.headers['Authorization'] = 'Bearer ' + authToken;
+            }
+            options.credentials = 'include';
+            return fetch(url, options);
+        }
+
+        function showLoginScreen(errorMsg = '') {
+            document.getElementById('dashboard-view').style.display = 'none';
+            document.getElementById('login-view').style.display = 'flex';
+            document.getElementById('nav-user-badge').style.display = 'none';
+            const errorDiv = document.getElementById('login-error');
+            if (errorMsg) {
+                errorDiv.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg> <span>${escapeHtml(errorMsg)}</span>`;
+                errorDiv.style.display = 'flex';
+            } else {
+                errorDiv.style.display = 'none';
+            }
+        }
+
+        function showDashboard(username = 'myh') {
+            document.getElementById('login-view').style.display = 'none';
+            document.getElementById('dashboard-view').style.display = 'block';
+            document.getElementById('nav-user-badge').style.display = 'flex';
+            document.getElementById('nav-username').textContent = username;
+        }
+
+        // Login Form Submit
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('btn-login-submit');
+            const btnText = document.getElementById('btn-login-text');
+            const username = document.getElementById('login-username').value.trim();
+            const password = document.getElementById('login-password').value.trim();
+
+            btn.disabled = true;
+            btnText.textContent = 'Doğrulanıyor...';
+
+            try {
+                const res = await fetch('/api/admin/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await res.json();
+                if (data.success) {
+                    authToken = data.token;
+                    localStorage.setItem('admin_token', data.token);
+                    showDashboard(data.username || username);
+                    await loadRegistrations();
+                } else {
+                    showLoginScreen(data.message || 'Kullanıcı adı veya şifre hatalı!');
+                }
+            } catch (err) {
+                showLoginScreen('Sunucu bağlantı hatası: ' + err.message);
+            } finally {
+                btn.disabled = false;
+                btnText.textContent = 'Panele Giriş Yap';
+            }
+        });
+
+        // Logout
+        document.getElementById('btn-logout').addEventListener('click', async () => {
+            try {
+                await fetch('/api/admin/logout', { method: 'POST', credentials: 'include' });
+            } catch (e) {}
+            authToken = '';
+            localStorage.removeItem('admin_token');
+            sessionStorage.removeItem('admin_token');
+            showLoginScreen();
+        });
+
+        // Password Visibility Toggle
+        document.getElementById('toggle-password').addEventListener('click', () => {
+            const pwdInput = document.getElementById('login-password');
+            const isPassword = pwdInput.type === 'password';
+            pwdInput.type = isPassword ? 'text' : 'password';
+        });
+
+        // Download Excel with Auth Token
+        document.getElementById('btn-download-excel').addEventListener('click', async (e) => {
+            e.preventDefault();
+            try {
+                const res = await authFetch('/api/admin/indir');
+                if (res.status === 401) {
+                    showLoginScreen('Oturum süreniz doldu, lütfen tekrar giriş yapınız.');
+                    return;
+                }
+                const blob = await res.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `etkinlik-kayitlar-${new Date().toISOString().split('T')[0]}.xlsx`;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+            } catch (err) {
+                alert('İndirme hatası: ' + err.message);
+            }
+        });
+
+        // Load Registrations
+        async function loadRegistrations() {
+            try {
+                const res = await authFetch('/api/admin/kayitlar');
+                if (res.status === 401) {
+                    showLoginScreen();
+                    return;
+                }
+                const data = await res.json();
+                if (data.success) {
+                    allRegistrations = data.registrations;
+                    showDashboard();
+                    renderAll();
+                } else {
+                    showEmpty('Veriler yüklenemedi: ' + data.message);
+                }
+            } catch (err) {
+                showEmpty('Bağlantı hatası: ' + err.message);
+            }
+        }
+
+        // Arama & Filtreleme Dinleyicileri
+        document.getElementById('search-input').addEventListener('input', renderAll);
+        document.getElementById('filter-bus').addEventListener('change', renderAll);
+        document.getElementById('filter-grade').addEventListener('change', renderAll);
+        document.getElementById('btn-refresh').addEventListener('click', loadRegistrations);
+
+        // Test Verisi Ekle
+        document.getElementById('btn-seed-test').addEventListener('click', async () => {
+            const btn = document.getElementById('btn-seed-test');
+            btn.disabled = true;
+            btn.textContent = 'Ekleniyor...';
+
+            try {
+                const res = await authFetch('/api/admin/seed-test', { method: 'POST' });
+                if (res.status === 401) {
+                    showLoginScreen('Oturum süresi doldu.');
+                    return;
+                }
+                const data = await res.json();
+                if (data.success) {
+                    await loadRegistrations();
+                } else {
+                    alert('Hata: ' + data.message);
+                }
+            } catch (err) {
+                alert('Test verisi eklenemedi: ' + err.message);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v7.31L4.75 18.1A2 2 0 0 0 6.46 21h11.08a2 2 0 0 0 1.71-2.9L14 9.31V2"></path><line x1="8.5" y1="2" x2="15.5" y2="2"></line><line x1="7" y1="14" x2="17" y2="14"></line></svg> <span>+4 Test Verisi Ekle</span>`;
+            }
+        });
+
+        // Tek Bir Kaydı Sil
+        async function deleteRecord(rowNumber, attendeeName) {
+            if (!confirm(`"${attendeeName}" adlı katılımcının kaydını listeden silmek istediğinize emin misiniz?`)) {
+                return;
+            }
+
+            try {
+                const res = await authFetch(`/api/admin/kayit/${rowNumber}`, { method: 'DELETE' });
+                if (res.status === 401) {
+                    showLoginScreen('Oturum süresi doldu.');
+                    return;
+                }
+                const data = await res.json();
+                if (data.success) {
+                    await loadRegistrations();
+                } else {
+                    alert('Hata: ' + (data.message || 'Silinemedi'));
+                }
+            } catch (err) {
+                alert('Silme işleminde hata: ' + err.message);
+            }
+        }
+
+        // Temizle (Tümünü)
+        document.getElementById('btn-clear').addEventListener('click', async () => {
+            if (!confirm('Tüm kayıt listesini sıfırlamak istediğinizden emin misiniz?')) return;
+
+            try {
+                const res = await authFetch('/api/admin/temizle', { method: 'DELETE' });
+                if (res.status === 401) {
+                    showLoginScreen('Oturum süresi doldu.');
+                    return;
+                }
+                const data = await res.json();
+                if (data.success) {
+                    await loadRegistrations();
+                }
+            } catch (err) {
+                alert('Hata: ' + err.message);
+            }
+        });
+
+        // Sayfa açılışında oturum kontrolü
+        async function checkInitialAuth() {
+            try {
+                const res = await authFetch('/api/admin/check');
+                const data = await res.json();
+                if (data.authenticated) {
+                    showDashboard(data.username || 'myh');
+                    loadRegistrations();
+                } else {
+                    showLoginScreen();
+                }
+            } catch (e) {
+                showLoginScreen();
+            }
+        }
+
+        checkInitialAuth();
+    </script>
+</body>
+</html>
