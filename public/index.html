@@ -28,6 +28,7 @@
                 <a href="#about" class="nav-link">Hakkında</a>
                 <a href="#speakers" class="nav-link">Konuşmacılar</a>
                 <a href="#gallery" class="nav-link">Galeri</a>
+                <a href="#hall" class="nav-link">Salon & Kontenjan</a>
                 <a href="#register" class="nav-link nav-cta">Başvur</a>
                 <button class="theme-toggle" id="theme-toggle" aria-label="Tema değiştir">
                     <span class="theme-icon sun">
@@ -49,6 +50,7 @@
         <a href="#about" class="mobile-link">Hakkında</a>
         <a href="#speakers" class="mobile-link">Konuşmacılar</a>
         <a href="#gallery" class="mobile-link">Galeri</a>
+        <a href="#hall" class="mobile-link">Salon & Kontenjan</a>
         <a href="#register" class="mobile-link">Başvur</a>
         <button class="theme-toggle-mobile" id="theme-toggle-mobile" aria-label="Tema değiştir">
             <span class="theme-icon sun">
@@ -316,6 +318,139 @@
         </div>
     </section>
 
+    <!-- Atatürk Konferans Salonu & 400-Kişilik Kapasite Sayacı -->
+    <section class="section hall-section" id="hall">
+        <div class="container">
+            <div class="section-header animate-on-scroll">
+                <span class="section-tag">HMKÜ TAYFUR SÖKMEN KAMPÜSÜ</span>
+                <h2 class="section-title">Atatürk Konferans Salonu & Kontenjan</h2>
+                <p class="section-desc">
+                    Zirvemiz, Hatay Mustafa Kemal Üniversitesi'nin 400 kişilik prestijli Atatürk Konferans Salonu'nda gerçekleştirilecektir. Canlı salon doluluk durumunu aşağıdan anlık takip edebilirsiniz.
+                </p>
+            </div>
+
+            <!-- Canlı İstatistik Kartları (4 Sayaç) -->
+            <div class="hall-stats-grid animate-on-scroll">
+                <div class="hall-stat-card">
+                    <div class="stat-icon-wrapper purple">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                    </div>
+                    <div class="stat-meta">
+                        <span class="stat-label">Toplam Kapasite</span>
+                        <div class="stat-value">400 <span class="stat-unit">Koltuk</span></div>
+                    </div>
+                </div>
+
+                <div class="hall-stat-card">
+                    <div class="stat-icon-wrapper emerald">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                    </div>
+                    <div class="stat-meta">
+                        <span class="stat-label">Kayıtlı Katılımcı</span>
+                        <div class="stat-value"><span id="hall-count-registered">--</span> <span class="stat-unit">Kişi</span></div>
+                    </div>
+                </div>
+
+                <div class="hall-stat-card">
+                    <div class="stat-icon-wrapper amber">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    </div>
+                    <div class="stat-meta">
+                        <span class="stat-label">Kalan Kontenjan</span>
+                        <div class="stat-value"><span id="hall-count-remaining">--</span> <span class="stat-unit">Koltuk</span></div>
+                    </div>
+                </div>
+
+                <div class="hall-stat-card">
+                    <div class="stat-icon-wrapper blue">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                    </div>
+                    <div class="stat-meta">
+                        <span class="stat-label">Doluluk Oranı</span>
+                        <div class="stat-value"><span id="hall-count-percent">--</span><span class="stat-unit">%</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Canlı İlerleme Çubuğu -->
+            <div class="hall-progress-wrapper animate-on-scroll">
+                <div class="hall-progress-header">
+                    <span>Salon Doluluk Seviyesi</span>
+                    <span id="hall-progress-badge" class="hall-progress-badge">Kayıtlar Açık</span>
+                </div>
+                <div class="hall-progress-track">
+                    <div class="hall-progress-bar" id="hall-progress-bar" style="width: 0%;"></div>
+                </div>
+                <div class="hall-progress-footer">
+                    <small>⚡ Kontenjanlar sınırlıdır. Erken başvuru yapmanız önerilir.</small>
+                    <small id="hall-last-updated">Canlı Veri</small>
+                </div>
+            </div>
+
+            <!-- Atatürk Konferans Salonu Sanal Oturma Planı (Virtual Seating Arena) -->
+            <div class="hall-layout-container animate-on-scroll">
+                <div class="hall-layout-header">
+                    <div class="hall-stage">
+                        <div class="stage-glow"></div>
+                        <span class="stage-icon">✦</span>
+                        <span>SAHNE / KÜRSÜ · ATATÜRK KONFERANS SALONU</span>
+                        <span class="stage-icon">✦</span>
+                    </div>
+                </div>
+
+                <!-- VIP & Protokol Ön Sıra (20 Koltuk) -->
+                <div class="hall-vip-row">
+                    <div class="hall-vip-title">★ PROTOKOL & ONUR KONUKLARI (20 KOLTUK) ★</div>
+                    <div class="vip-seats-grid" id="vip-seats-grid"></div>
+                </div>
+
+                <!-- 3 Ana Blok Tribünü (380 Koltuk) -->
+                <div class="hall-blocks-grid">
+                    <!-- Blok A (Sol Tribün - 130 Koltuk) -->
+                    <div class="hall-block">
+                        <div class="block-title">BLOK A (SOL TRİBÜN) · 130 KOLTUK</div>
+                        <div class="block-seats" id="block-a-seats"></div>
+                    </div>
+
+                    <!-- Blok B (Orta Tribün - 120 Koltuk) -->
+                    <div class="hall-block block-center">
+                        <div class="block-title">BLOK B (ORTA TRİBÜN) · 120 KOLTUK</div>
+                        <div class="block-seats" id="block-b-seats"></div>
+                    </div>
+
+                    <!-- Blok C (Sağ Tribün - 130 Koltuk) -->
+                    <div class="hall-block">
+                        <div class="block-title">BLOK C (SAĞ TRİBÜN) · 130 KOLTUK</div>
+                        <div class="block-seats" id="block-c-seats"></div>
+                    </div>
+                </div>
+
+                <!-- Lejant (Koltuk Durumları) -->
+                <div class="hall-legend">
+                    <div class="legend-item">
+                        <span class="seat-dot seat-dot-filled"></span>
+                        <span>Kayıtlı Katılımcı</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="seat-dot seat-dot-vip"></span>
+                        <span>Protokol & Konuşmacı</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="seat-dot seat-dot-empty"></span>
+                        <span>Müsait Koltuk</span>
+                    </div>
+                </div>
+
+                <div class="hall-cta-wrap">
+                    <a href="#register" class="btn-primary hall-cta-btn">
+                        <span>Hemen Başvur ve Koltuğunu Ayırt</span>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Registration Section -->
     <section class="section registration" id="register">
         <div class="container">
@@ -357,16 +492,45 @@
                         </div>
                     </div>
 
-                    <!-- Step 2: Academic Info -->
+                    <!-- Step 2: Participant Profile & Academic/Professional Info -->
                     <div class="form-section">
                         <div class="form-section-header">
                             <span class="form-step-number">02</span>
-                            <h3>Akademik Bilgiler</h3>
+                            <h3>Katılımcı Profili & Bilgileri</h3>
                         </div>
-                        <div class="form-grid">
+
+                        <!-- Katılımcı Türü Seçici -->
+                        <div class="form-group" style="margin-bottom: var(--space-lg);">
+                            <label style="margin-bottom: 8px; display: block; font-weight: 600;">Katılımcı Türünüz <span class="required">*</span></label>
+                            <div class="participant-type-selector" id="participant-type-selector">
+                                <label class="participant-type-pill active">
+                                    <input type="radio" name="participantType" value="Öğrenci" checked>
+                                    <span class="pill-icon">🎓</span>
+                                    <span class="pill-text">Üniversite Öğrencisi</span>
+                                </label>
+                                <label class="participant-type-pill">
+                                    <input type="radio" name="participantType" value="Sektör Profesyoneli">
+                                    <span class="pill-icon">💼</span>
+                                    <span class="pill-text">Sektör Profesyoneli</span>
+                                </label>
+                                <label class="participant-type-pill">
+                                    <input type="radio" name="participantType" value="Akademisyen">
+                                    <span class="pill-icon">🏛️</span>
+                                    <span class="pill-text">Akademisyen / Eğitmen</span>
+                                </label>
+                                <label class="participant-type-pill">
+                                    <input type="radio" name="participantType" value="Girişimci">
+                                    <span class="pill-icon">🚀</span>
+                                    <span class="pill-text">Girişimci / Serbest</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Öğrenci Alanları -->
+                        <div id="student-fields" class="form-grid">
                             <div class="form-group">
                                 <label for="department">Bölüm <span class="required">*</span></label>
-                                <input type="text" id="department" name="department" placeholder="Okuduğunuz bölüm" required>
+                                <input type="text" id="department" name="department" placeholder="Örn: Bilgisayar Mühendisliği" required>
                                 <span class="error-msg" id="department-error"></span>
                             </div>
                             <div class="form-group">
@@ -388,6 +552,25 @@
                                 <label for="university">Üniversite <span class="required">*</span></label>
                                 <input type="text" id="university" name="university" placeholder="Üniversiteniz" value="Hatay Mustafa Kemal Üniversitesi" required>
                                 <span class="error-msg" id="university-error"></span>
+                            </div>
+                        </div>
+
+                        <!-- Profesyonel / Akademisyen Alanları (Dinamik) -->
+                        <div id="professional-fields" class="form-grid" style="display: none;">
+                            <div class="form-group">
+                                <label for="profession">Meslek / Unvan <span class="required">*</span></label>
+                                <input type="text" id="profession" name="profession" placeholder="Örn: Yazılım Mühendisi, Veri Analisti, Doç. Dr.">
+                                <span class="error-msg" id="profession-error"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="company">Çalıştığınız Kurum / Şirket <span class="required">*</span></label>
+                                <input type="text" id="company" name="company" placeholder="Örn: ASELSAN, Google, HMKÜ, Serbest">
+                                <span class="error-msg" id="company-error"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="fieldOfWork">Uzmanlık / Çalışma Alanı <span class="required">*</span></label>
+                                <input type="text" id="fieldOfWork" name="fieldOfWork" placeholder="Örn: Yapay Zekâ, Bilişim, Sağlık, Hukuk">
+                                <span class="error-msg" id="fieldOfWork-error"></span>
                             </div>
                         </div>
                     </div>

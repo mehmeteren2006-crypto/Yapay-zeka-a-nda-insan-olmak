@@ -262,9 +262,9 @@ const EXCEL_HEADERS = [
     { header: 'Soyad', key: 'lastName', width: 16 },
     { header: 'E-posta', key: 'email', width: 28 },
     { header: 'Telefon', key: 'phone', width: 18 },
-    { header: 'Bölüm', key: 'department', width: 28 },
-    { header: 'Sınıf', key: 'grade', width: 12 },
-    { header: 'Üniversite', key: 'university', width: 30 },
+    { header: 'Bölüm / Alan', key: 'department', width: 28 },
+    { header: 'Sınıf / Unvan', key: 'grade', width: 16 },
+    { header: 'Üniversite / Kurum', key: 'university', width: 30 },
     { header: 'Nereden Katılacak', key: 'city', width: 20 },
     { header: 'Otobüs İhtiyacı', key: 'busNeeded', width: 16 },
     { header: 'Diyet/Erişilebilirlik', key: 'dietaryNeeds', width: 22 },
@@ -273,7 +273,10 @@ const EXCEL_HEADERS = [
     { header: 'Beklenti', key: 'expectations', width: 35 },
     { header: 'Konuşmacılara Sorular', key: 'questions', width: 35 },
     { header: 'Nereden Duydu', key: 'hearAbout', width: 20 },
-    { header: 'IP Adresi', key: 'ip', width: 18 }
+    { header: 'IP Adresi', key: 'ip', width: 18 },
+    { header: 'Katılımcı Türü', key: 'participantType', width: 18 },
+    { header: 'Meslek / Unvan', key: 'profession', width: 22 },
+    { header: 'Kurum / Şirket', key: 'company', width: 24 }
 ];
 
 async function appendToLocalExcel(rowData) {
@@ -368,8 +371,20 @@ function validateRegistration(body) {
     if (!body.lastName?.trim()) errors.push('Soyad gereklidir');
     if (!body.email?.trim()) errors.push('E-posta gereklidir');
     if (!body.phone?.trim()) errors.push('Telefon gereklidir');
-    if (!body.department?.trim()) errors.push('Bölüm gereklidir');
-    if (!body.grade) errors.push('Sınıf gereklidir');
+
+    const pType = body.participantType || 'Öğrenci';
+    const isStudent = pType === 'Öğrenci' || pType === 'ogrenci';
+
+    if (isStudent) {
+        if (!body.department?.trim()) errors.push('Bölüm gereklidir');
+        if (!body.grade) errors.push('Sınıf gereklidir');
+        if (!body.university?.trim()) errors.push('Üniversite gereklidir');
+    } else {
+        if (!body.profession?.trim()) errors.push('Meslek / Unvan gereklidir');
+        if (!body.company?.trim()) errors.push('Kurum / Şirket gereklidir');
+        if (!body.department?.trim() && !body.fieldOfWork?.trim()) errors.push('Uzmanlık / Çalışma Alanı gereklidir');
+    }
+
     if (!body.city?.trim()) errors.push('Şehir gereklidir');
     if (!body.busNeeded) errors.push('Otobüs bilgisi gereklidir');
     if (!body.aiExperience) errors.push('Yapay zekâ deneyimi gereklidir');
@@ -397,6 +412,47 @@ function validateRegistration(body) {
 
 // === API Routes ===
 
+// Canlı 400 Kişilik Salon İstatistikleri (Atatürk Konferans Salonu)
+app.get('/api/stats', async (req, res) => {
+    try {
+        let count = 0;
+        // 1. Google Sheets'ten canlı başvuru sayısını oku
+        const sheetValues = await fetchGoogleSheetRows();
+        if (sheetValues && sheetValues.length > 1) {
+            // Başlık satırı hariç
+            count = sheetValues.length - 1;
+        } else {
+            // 2. Lokal Excel'den oku
+            const excelPath = path.join(__dirname, 'kayitlar.xlsx');
+            if (fs.existsSync(excelPath)) {
+                const workbook = new ExcelJS.Workbook();
+                await workbook.xlsx.readFile(excelPath);
+                const worksheet = workbook.getWorksheet('Kayıtlar');
+                if (worksheet) {
+                    count = Math.max(0, worksheet.rowCount - 1);
+                }
+            }
+        }
+
+        const capacity = 400; // Atatürk Konferans Salonu Kapasitesi
+        const registered = count;
+        const remaining = Math.max(0, capacity - registered);
+        const fillPercentage = Math.min(100, Math.round((registered / capacity) * 100));
+
+        res.json({
+            success: true,
+            capacity,
+            registered,
+            remaining,
+            fillPercentage,
+            hallName: 'Atatürk Konferans Salonu (HMKÜ)'
+        });
+    } catch (error) {
+        console.error('Stats endpoint hatası:', error.message);
+        res.status(500).json({ success: false, message: 'İstatistikler alınamadı' });
+    }
+});
+
 // Kayıt endpoint'i
 app.post('/api/kayit', registrationLimiter, async (req, res) => {
     try {
@@ -423,15 +479,26 @@ app.post('/api/kayit', registrationLimiter, async (req, res) => {
 
         const now = new Date().toLocaleString('tr-TR', { timeZone: 'Europe/Istanbul' });
 
+        const pType = req.body.participantType || 'Öğrenci';
+        const isStudent = pType === 'Öğrenci' || pType === 'ogrenci';
+        const profession = (req.body.profession || '').trim();
+        const company = (req.body.company || '').trim();
+        const dept = (req.body.department || req.body.fieldOfWork || '').trim();
+
+        // Geriye dönük uyumlu biçimlendirme
+        const deptVal = isStudent ? dept : (profession ? `${dept} · ${profession}` : dept);
+        const gradeVal = isStudent ? (req.body.grade || '') : (profession ? `${profession} (${pType})` : pType);
+        const uniVal = isStudent ? (req.body.university?.trim() || 'HMKÜ') : (company || 'Kurumsal');
+
         const rowData = [
             now,
             req.body.firstName.trim(),
             req.body.lastName.trim(),
             req.body.email.trim(),
             req.body.phone.trim(),
-            req.body.department.trim(),
-            req.body.grade,
-            req.body.university?.trim() || '',
+            deptVal,
+            gradeVal,
+            uniVal,
             req.body.city.trim(),
             req.body.busNeeded,
             req.body.dietaryNeeds?.trim() || '',
@@ -440,7 +507,10 @@ app.post('/api/kayit', registrationLimiter, async (req, res) => {
             req.body.expectations.trim(),
             req.body.questions?.trim() || '',
             req.body.hearAbout,
-            clientIP
+            clientIP,
+            pType,
+            profession,
+            company
         ];
 
         // Google Sheets'e yaz
@@ -451,10 +521,12 @@ app.post('/api/kayit', registrationLimiter, async (req, res) => {
 
         // Konsola da yaz
         console.log('\n📝 Yeni Kayıt:');
+        console.log(`   Katılımcı Türü: ${pType}`);
         console.log(`   Ad Soyad: ${req.body.firstName} ${req.body.lastName}`);
         console.log(`   E-posta: ${req.body.email}`);
         console.log(`   Telefon: ${req.body.phone}`);
-        console.log(`   Bölüm: ${req.body.department} - ${req.body.grade}`);
+        console.log(`   Alan / Meslek: ${deptVal} - ${gradeVal}`);
+        console.log(`   Kurum / Üni: ${uniVal}`);
         console.log(`   Şehir: ${req.body.city} | Otobüs: ${req.body.busNeeded}`);
         console.log(`   Tarih: ${now}`);
         if (sheetSuccess) console.log('   ✅ Google Sheets\'e kaydedildi');
