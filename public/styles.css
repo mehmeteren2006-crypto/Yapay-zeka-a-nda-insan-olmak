@@ -1618,7 +1618,8 @@ a:hover {
     transition: opacity var(--transition-base);
 }
 
-.modal-overlay.active {
+.modal-overlay.active,
+.modal-overlay.visible {
     display: flex;
     opacity: 1;
 }
@@ -1639,7 +1640,8 @@ a:hover {
     overflow: hidden;
 }
 
-.modal-overlay.active .modal-dialog {
+.modal-overlay.active .modal-dialog,
+.modal-overlay.visible .modal-dialog {
     transform: translateY(0) scale(1);
 }
 
@@ -2268,11 +2270,12 @@ a:hover {
 
 /* Dolu / Kayıtlı Koltuk (Kırmızı) */
 .hall-seat-pill.seat-occupied {
-    background: #ef4444;
-    border: 1px solid #dc2626;
-    color: #ffffff;
-    cursor: not-allowed;
-    opacity: 0.96;
+    background: #ef4444 !important;
+    border: 1px solid #dc2626 !important;
+    color: #ffffff !important;
+    cursor: not-allowed !important;
+    opacity: 0.95;
+    box-shadow: 0 1px 3px rgba(239, 68, 68, 0.4);
 }
 
 /* Seçilen Koltuk (Yeşil) */

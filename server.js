@@ -555,6 +555,62 @@ app.post('/api/kayit', registrationLimiter, async (req, res) => {
     }
 });
 
+// Alınan / Dolu Koltuklar Listesi Endpoint'i
+app.get('/api/occupied-seats', async (req, res) => {
+    try {
+        const occupied = new Set();
+
+        // 1. Google Sheets'ten kontrol et
+        const sheetValues = await fetchGoogleSheetRows();
+        if (sheetValues && sheetValues.length > 1) {
+            const headers = sheetValues[0];
+            const seatColIdx = headers.findIndex(h => /koltuk/i.test(String(h)));
+            if (seatColIdx !== -1) {
+                for (let i = 1; i < sheetValues.length; i++) {
+                    const val = String(sheetValues[i][seatColIdx] || '').trim();
+                    if (val && val !== '-' && !/otomatik/i.test(val)) {
+                        occupied.add(val);
+                    }
+                }
+            }
+        }
+
+        // 2. Lokal Excel'den de kontrol et (yedek / birincil fallback)
+        const excelPath = path.join(__dirname, 'kayitlar.xlsx');
+        if (fs.existsSync(excelPath)) {
+            const workbook = new ExcelJS.Workbook();
+            await workbook.xlsx.readFile(excelPath);
+            const worksheet = workbook.getWorksheet('Kayıtlar');
+            if (worksheet) {
+                let seatColNum = 21;
+                const headerRow = worksheet.getRow(1);
+                headerRow.eachCell((cell, colNumber) => {
+                    if (/koltuk/i.test(String(cell.value || ''))) {
+                        seatColNum = colNumber;
+                    }
+                });
+
+                worksheet.eachRow((row, rowNumber) => {
+                    if (rowNumber > 1) {
+                        const cellVal = String(row.getCell(seatColNum).value || '').trim();
+                        if (cellVal && cellVal !== '-' && !/otomatik/i.test(cellVal) && cellVal !== 'undefined') {
+                            occupied.add(cellVal);
+                        }
+                    }
+                });
+            }
+        }
+
+        res.json({
+            success: true,
+            seats: Array.from(occupied)
+        });
+    } catch (err) {
+        console.error('Occupied seats endpoint hatası:', err.message);
+        res.json({ success: true, seats: [] });
+    }
+});
+
 // Bilet Sorgulama Endpoint'i
 app.get('/api/bilet-sorgula', async (req, res) => {
     try {
@@ -694,7 +750,8 @@ async function fetchGoogleSheetRows() {
         const resp = await fetch(webhookUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ action: 'read' })
+            body: JSON.stringify({ action: 'read' }),
+            signal: AbortSignal.timeout(3000)
         });
         if (!resp.ok) return null;
         const data = await resp.json();

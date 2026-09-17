@@ -213,15 +213,69 @@
             }
         },
 
-        // Kullanıcı isteği: Şu anlık hiçbir koltuk dolu değil (Tüm koltuklar müsait)
-        isInitiallyOccupied(wingKey, row, num) {
-            return false;
-        },
-
         async init() {
             this.buildSeatingArena();
             this.bindEvents();
             await this.fetchStats();
+            await this.fetchOccupiedSeats();
+        },
+
+        async fetchOccupiedSeats() {
+            try {
+                const res = await fetch('/api/occupied-seats');
+                if (!res.ok) return;
+                const data = await res.json();
+                if (data && data.success && Array.isArray(data.seats)) {
+                    data.seats.forEach(seatStr => this.markSeatOccupied(seatStr));
+                }
+            } catch (err) {
+                console.warn('Occupied seats yüklenemedi:', err);
+            }
+        },
+
+        markSeatOccupied(seatString) {
+            if (!seatString) return;
+            const str = String(seatString).trim();
+            if (!str || str === '-' || /otomatik/i.test(str)) return;
+
+            let targetEl = null;
+
+            // Wing tespiti
+            let wingKey = 'orta';
+            const lower = str.toLowerCase();
+            if (lower.includes('sol')) wingKey = 'sol';
+            else if (lower.includes('sağ') || lower.includes('sag')) wingKey = 'sag';
+
+            // Row harfi tespiti (A-O) - Sıra G, SIRA G, Sira G vb.
+            const rowMatch = str.match(/[Ss][ıIiİi][rR][aA]?[:\s]+([A-Oa-o])/i) || str.match(/\b([A-Oa-o])\b/);
+            // Koltuk numarası tespiti - Koltuk 18, 18 vb.
+            const numMatch = str.match(/[Kk]oltuk[:\s]*(\d+)/i) || str.match(/(\d+)/);
+
+            if (rowMatch && numMatch) {
+                const r = rowMatch[1].toUpperCase();
+                const n = parseInt(numMatch[1], 10);
+                targetEl = document.getElementById(`seat-${wingKey}-${r}-${n}`) ||
+                           document.querySelector(`.hall-seat-pill[data-wing="${wingKey}"][data-row="${r}"][data-num="${n}"]`);
+            }
+
+            if (!targetEl) {
+                targetEl = Array.from(document.querySelectorAll('.hall-seat-pill')).find(p => {
+                    return p.dataset.seatKey && p.dataset.seatKey.toLowerCase() === lower;
+                });
+            }
+
+            if (targetEl) {
+                targetEl.classList.remove('seat-available');
+                targetEl.classList.remove('seat-selected');
+                targetEl.classList.add('seat-occupied');
+                targetEl.title = `${targetEl.dataset.wingName} · Sıra ${targetEl.dataset.row}, Koltuk ${targetEl.dataset.num} (Dolu / Alındı)`;
+
+                // Eğer kullanıcı bunu seçmişse ve sunucu bunu dolu olarak işaretlediyse seçimi temizle
+                if (this.selectedSeat && this.selectedSeat === targetEl.dataset.seatKey) {
+                    this.selectedSeat = null;
+                    this.updateSelectionUI(null);
+                }
+            }
         },
 
         buildSeatingArena() {
@@ -296,22 +350,19 @@
 
         createSeatPill(wingKey, wingName, rowLetter, num) {
             const seatPill = document.createElement('span');
-            // Kullanıcı isteği: Şuanlık hiçbir koltuk dolu değil (Tüm 400+ koltuk müsait/seçilebilir)
-            const isOccupied = this.isInitiallyOccupied(wingKey, rowLetter, num);
+            const seatKey = `${wingName} · Sıra ${rowLetter} · Koltuk ${num}`;
 
-            seatPill.className = `hall-seat-pill ${isOccupied ? 'seat-occupied' : 'seat-available'}`;
+            seatPill.className = 'hall-seat-pill seat-available';
             seatPill.textContent = num;
+            seatPill.id = `seat-${wingKey}-${rowLetter}-${num}`;
             seatPill.dataset.wing = wingKey;
             seatPill.dataset.wingName = wingName;
             seatPill.dataset.row = rowLetter;
             seatPill.dataset.num = num;
+            seatPill.dataset.seatKey = seatKey;
 
-            if (isOccupied) {
-                seatPill.title = `${wingName} · Sıra ${rowLetter}, Koltuk ${num} (Dolu)`;
-            } else {
-                seatPill.title = `${wingName} · Sıra ${rowLetter}, Koltuk ${num} (Müsait - Seçmek İçin Tıklayın)`;
-                seatPill.addEventListener('click', () => this.handleSeatClick(seatPill));
-            }
+            seatPill.title = `${wingName} · Sıra ${rowLetter}, Koltuk ${num} (Müsait - Seçmek İçin Tıklayın)`;
+            seatPill.addEventListener('click', () => this.handleSeatClick(seatPill));
             return seatPill;
         },
 
@@ -429,7 +480,9 @@
 
             if (!modal) return;
 
-            const openModal = () => {
+            const openModal = (e) => {
+                if (e) e.preventDefault();
+                modal.classList.add('active');
                 modal.classList.add('visible');
                 document.body.style.overflow = 'hidden';
                 if (statusArea) { statusArea.style.display = 'none'; statusArea.textContent = ''; }
@@ -437,7 +490,9 @@
                 if (input) { input.value = ''; setTimeout(() => input.focus(), 150); }
             };
 
-            const closeModal = () => {
+            const closeModal = (e) => {
+                if (e) e.preventDefault();
+                modal.classList.remove('active');
                 modal.classList.remove('visible');
                 document.body.style.overflow = '';
             };
@@ -446,7 +501,13 @@
             if (closeBtn) closeBtn.addEventListener('click', closeModal);
 
             modal.addEventListener('click', (e) => {
-                if (e.target === modal) closeModal();
+                if (e.target === modal) closeModal(e);
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && (modal.classList.contains('active') || modal.classList.contains('visible'))) {
+                    closeModal(e);
+                }
             });
 
             if (form) {
@@ -490,6 +551,11 @@
                             if (seatEl) seatEl.textContent = t.seat || 'Orta Blok · Sıra G · Koltuk 18';
 
                             if (resultCard) resultCard.style.display = 'block';
+
+                            // Eğer sorgulanan bilette koltuk varsa haritada da dolu gösterilmesini sağla
+                            if (t.seat) {
+                                HallManager.markSeatOccupied(t.seat);
+                            }
                         } else {
                             if (statusArea) {
                                 statusArea.style.display = 'block';
@@ -821,8 +887,12 @@
                     this.successMsg.classList.add('visible');
                     this.successMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
-                    // Canlı salon istatistiklerini güncelle
+                    // Canlı salon istatistiklerini ve koltuk doluluklarını güncelle
                     HallManager.fetchStats();
+                    if (result.selectedSeat) {
+                        HallManager.markSeatOccupied(result.selectedSeat);
+                    }
+                    HallManager.fetchOccupiedSeats();
                 } else {
                     throw new Error(result.message || 'Bir hata oluştu');
                 }
