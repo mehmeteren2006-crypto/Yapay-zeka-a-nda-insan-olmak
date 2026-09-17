@@ -800,7 +800,7 @@ a:hover {
 }
 
 .speakers .container {
-    max-width: 1340px;
+    max-width: 1440px;
 }
 
 .speaker-card {
@@ -847,6 +847,10 @@ a:hover {
 
 .speaker-card:nth-child(3) .speaker-image {
     object-position: center 15%;
+}
+
+.speaker-card:nth-child(4) .speaker-image {
+    object-position: center 20%;
 }
 
 .speaker-card:hover .speaker-image {
@@ -1512,16 +1516,27 @@ a:hover {
     }
 
     .speakers-grid {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(2, 1fr);
         gap: var(--space-xl);
     }
 
     .speaker-image-wrapper {
-        height: 420px;
+        height: 400px;
     }
 
     .form-wrapper {
         padding: var(--space-3xl);
+    }
+}
+
+@media (min-width: 1200px) {
+    .speakers-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: var(--space-md);
+    }
+
+    .speaker-image-wrapper {
+        height: 380px;
     }
 }
 
