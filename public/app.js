@@ -140,14 +140,372 @@
         }
     };
 
-    // === Atatürk Konferans Salonu 400-Kapasite & Sanal Oturma Planı ===
+    // === Atatürk Konferans Salonu 400-Kişilik Koltuk Seçimi & Salon Yönetimi ===
     const HallManager = {
         totalCapacity: 400,
         registeredCount: 0,
+        currentZoom: 1.0,
+        selectedSeat: null,
+
+        // Koltuk Haritası Konfigürasyonu (O sırasından A sırasına kadar)
+        rowsOrder: ['O', 'N', 'M', 'L', 'K', 'J', 'H', 'G', 'F', 'E', 'D', 'C', 'B', 'A'],
+
+        wingsConfig: {
+            sol: {
+                name: 'Sol Blok',
+                containerId: 'hall-wing-left',
+                rows: {
+                    'O': [26, 25, 24, 23],
+                    'N': [31, 30, 29, 28, 27, 26, 25],
+                    'M': [34, 33, 32, 31, 30, 29, 28, 27, 26],
+                    'L': [35, 34, 33, 32, 31, 30, 29, 28, 27, 26],
+                    'K': [37, 36, 35, 34, 33, 32, 31, 30, 29, 28, 27],
+                    'J': [38, 37, 36, 35, 34, 33, 32, 31, 30, 29, 28, 27],
+                    'H': [38, 37, 36, 35, 34, 33, 32, 31, 30, 29, 28, 27, 26],
+                    'G': [37, 36, 35, 34, 33, 32, 31, 30, 29, 28, 27, 26, 25],
+                    'F': [36, 35, 34, 33, 32, 31, 30, 29, 28, 27, 26, 25, 24],
+                    'E': [35, 34, 33, 32, 31, 30, 29, 28, 27, 26, 25, 24, 23],
+                    'D': [34, 33, 32, 31, 30, 29, 28, 27, 26, 25, 24, 23, 22],
+                    'C': [31, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20],
+                    'B': [28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18],
+                    'A': [25, 24, 23, 22, 21, 20, 19, 18, 17, 16]
+                }
+            },
+            orta: {
+                name: 'Orta Blok',
+                containerId: 'hall-wing-center',
+                rows: {
+                    'O': [22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5],
+                    'N': [24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8],
+                    'M': [25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10],
+                    'L': [25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11],
+                    'K': [26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13],
+                    'J': [26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14],
+                    'H': [25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14],
+                    'G': [23, 22, 21, 20, 19, 18, 17, 16, 15, 14],
+                    'F': [22, 21, 20, 19, 18, 17, 16, 15, 14],
+                    'E': null, // Orta blokta geçiş koridoru (E sırası yok)
+                    'D': [21, 20, 19, 18, 17, 16, 15, 14],
+                    'C': [19, 18, 17, 16, 15, 14, 13],
+                    'B': [17, 16, 15, 14, 13, 12],
+                    'A': [15, 14, 13, 12, 11]
+                }
+            },
+            sag: {
+                name: 'Sağ Blok',
+                containerId: 'hall-wing-right',
+                rows: {
+                    'O': [4, 3, 2, 1],
+                    'N': [7, 6, 5, 4, 3, 2, 1],
+                    'M': [9, 8, 7, 6, 5, 4, 3, 2, 1],
+                    'L': [10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
+                    'K': [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
+                    'J': [13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
+                    'H': [13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
+                    'G': [13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
+                    'F': [13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
+                    'E': [13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
+                    'D': [13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
+                    'C': [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
+                    'B': [11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
+                    'A': [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                }
+            }
+        },
+
+        // Kullanıcı isteği: Şu anlık hiçbir koltuk dolu değil (Tüm koltuklar müsait)
+        isInitiallyOccupied(wingKey, row, num) {
+            return false;
+        },
 
         async init() {
-            this.renderSeats();
+            this.buildSeatingArena();
+            this.bindEvents();
             await this.fetchStats();
+        },
+
+        buildSeatingArena() {
+            const container = document.getElementById('hall-arena-rows');
+            if (!container) return;
+            container.innerHTML = '';
+
+            this.rowsOrder.forEach(rowLetter => {
+                const solSeats = this.wingsConfig.sol.rows[rowLetter] || [];
+                const ortaSeats = this.wingsConfig.orta.rows[rowLetter]; // null for E
+                const sagSeats = this.wingsConfig.sag.rows[rowLetter] || [];
+
+                const rowEl = document.createElement('div');
+                rowEl.className = 'hall-unified-row';
+                rowEl.dataset.row = rowLetter;
+
+                // 1. Sol Dış Harf (Silik)
+                const outerSolLabel = document.createElement('span');
+                outerSolLabel.className = 'row-label row-label-outer';
+                outerSolLabel.textContent = rowLetter;
+                rowEl.appendChild(outerSolLabel);
+
+                // 2. Sol Blok Koltukları (Sağa doğru koridora yaslı)
+                const solWingEl = document.createElement('div');
+                solWingEl.className = 'row-wing row-wing-sol';
+                solSeats.forEach(num => {
+                    solWingEl.appendChild(this.createSeatPill('sol', 'Sol Blok', rowLetter, num));
+                });
+                rowEl.appendChild(solWingEl);
+
+                // 3. Sol Koridor Harfi (Sol ile Orta arası tek koridor harfi)
+                const leftAisleLabel = document.createElement('span');
+                leftAisleLabel.className = 'row-label row-label-aisle';
+                leftAisleLabel.textContent = rowLetter;
+                rowEl.appendChild(leftAisleLabel);
+
+                // 4. Orta Blok Koltukları (Veya E sırası geçiş boşluğu)
+                const ortaWingEl = document.createElement('div');
+                ortaWingEl.className = 'row-wing row-wing-orta';
+                if (ortaSeats === null) {
+                    ortaWingEl.classList.add('row-passage-orta');
+                } else if (ortaSeats && ortaSeats.length > 0) {
+                    ortaSeats.forEach(num => {
+                        ortaWingEl.appendChild(this.createSeatPill('orta', 'Orta Blok', rowLetter, num));
+                    });
+                }
+                rowEl.appendChild(ortaWingEl);
+
+                // 5. Sağ Koridor Harfi (Orta ile Sağ arası tek koridor harfi)
+                const rightAisleLabel = document.createElement('span');
+                rightAisleLabel.className = 'row-label row-label-aisle';
+                rightAisleLabel.textContent = rowLetter;
+                rowEl.appendChild(rightAisleLabel);
+
+                // 6. Sağ Blok Koltukları (Sola doğru koridora yaslı)
+                const sagWingEl = document.createElement('div');
+                sagWingEl.className = 'row-wing row-wing-sag';
+                sagSeats.forEach(num => {
+                    sagWingEl.appendChild(this.createSeatPill('sag', 'Sağ Blok', rowLetter, num));
+                });
+                rowEl.appendChild(sagWingEl);
+
+                // 7. Sağ Dış Harf (Silik)
+                const outerSagLabel = document.createElement('span');
+                outerSagLabel.className = 'row-label row-label-outer';
+                outerSagLabel.textContent = rowLetter;
+                rowEl.appendChild(outerSagLabel);
+
+                container.appendChild(rowEl);
+            });
+        },
+
+        createSeatPill(wingKey, wingName, rowLetter, num) {
+            const seatPill = document.createElement('span');
+            // Kullanıcı isteği: Şuanlık hiçbir koltuk dolu değil (Tüm 400+ koltuk müsait/seçilebilir)
+            const isOccupied = this.isInitiallyOccupied(wingKey, rowLetter, num);
+
+            seatPill.className = `hall-seat-pill ${isOccupied ? 'seat-occupied' : 'seat-available'}`;
+            seatPill.textContent = num;
+            seatPill.dataset.wing = wingKey;
+            seatPill.dataset.wingName = wingName;
+            seatPill.dataset.row = rowLetter;
+            seatPill.dataset.num = num;
+
+            if (isOccupied) {
+                seatPill.title = `${wingName} · Sıra ${rowLetter}, Koltuk ${num} (Dolu)`;
+            } else {
+                seatPill.title = `${wingName} · Sıra ${rowLetter}, Koltuk ${num} (Müsait - Seçmek İçin Tıklayın)`;
+                seatPill.addEventListener('click', () => this.handleSeatClick(seatPill));
+            }
+            return seatPill;
+        },
+
+        handleSeatClick(seatEl) {
+            if (seatEl.classList.contains('seat-occupied')) return;
+
+            const wing = seatEl.dataset.wingName;
+            const row = seatEl.dataset.row;
+            const num = seatEl.dataset.num;
+            const seatKey = `${wing} · Sıra ${row} · Koltuk ${num}`;
+
+            // Eğer zaten seçiliyse kaldır
+            if (seatEl.classList.contains('seat-selected')) {
+                seatEl.classList.remove('seat-selected');
+                this.selectedSeat = null;
+                this.updateSelectionUI(null);
+                return;
+            }
+
+            // Önceki seçimi temizle
+            document.querySelectorAll('.hall-seat-pill.seat-selected').forEach(s => s.classList.remove('seat-selected'));
+
+            // Yeni seçimi aktifleştir
+            seatEl.classList.add('seat-selected');
+            this.selectedSeat = seatKey;
+            this.updateSelectionUI(seatKey);
+        },
+
+        updateSelectionUI(seatKey) {
+            const bar = document.getElementById('hall-selection-bar');
+            const label = document.getElementById('selected-seat-label');
+            const formInput = document.getElementById('selectedSeat');
+            const formText = document.getElementById('form-selected-seat-text');
+            const formWidget = document.getElementById('selected-seat-widget');
+
+            if (seatKey) {
+                if (bar) bar.style.display = 'flex';
+                if (label) label.textContent = seatKey;
+                if (formInput) formInput.value = seatKey;
+                if (formText) formText.textContent = seatKey;
+                if (formWidget) formWidget.classList.add('has-seat');
+            } else {
+                if (bar) bar.style.display = 'none';
+                if (label) label.textContent = '--';
+                if (formInput) formInput.value = '';
+                if (formText) formText.textContent = 'Henüz koltuk seçilmedi (İsteğe bağlı)';
+                if (formWidget) formWidget.classList.remove('has-seat');
+            }
+        },
+
+        bindEvents() {
+            // Zoom Kontrolleri
+            const zoomInBtn = document.getElementById('hall-zoom-in');
+            const zoomOutBtn = document.getElementById('hall-zoom-out');
+            const zoomResetBtn = document.getElementById('hall-zoom-reset');
+            const scaleContainer = document.getElementById('hall-arena-scale');
+
+            const applyZoom = () => {
+                if (scaleContainer) {
+                    scaleContainer.style.transform = `scale(${this.currentZoom})`;
+                }
+            };
+
+            if (zoomInBtn) {
+                zoomInBtn.addEventListener('click', () => {
+                    this.currentZoom = Math.min(1.45, +(this.currentZoom + 0.12).toFixed(2));
+                    applyZoom();
+                });
+            }
+
+            if (zoomOutBtn) {
+                zoomOutBtn.addEventListener('click', () => {
+                    this.currentZoom = Math.max(0.68, +(this.currentZoom - 0.12).toFixed(2));
+                    applyZoom();
+                });
+            }
+
+            if (zoomResetBtn) {
+                zoomResetBtn.addEventListener('click', () => {
+                    this.currentZoom = 1.0;
+                    applyZoom();
+                });
+            }
+
+            // Seçimi Kaldır Butonu
+            const clearBtn = document.getElementById('btn-clear-seat');
+            if (clearBtn) {
+                clearBtn.addEventListener('click', () => {
+                    document.querySelectorAll('.hall-seat-pill.seat-selected').forEach(s => s.classList.remove('seat-selected'));
+                    this.selectedSeat = null;
+                    this.updateSelectionUI(null);
+                });
+            }
+
+            // Ana Sayfa Butonu
+            const homeBtn = document.getElementById('hall-btn-home');
+            if (homeBtn) {
+                homeBtn.addEventListener('click', () => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            }
+
+            // Bilet Sorgula Butonu & Modalı
+            this.initTicketQueryModal();
+        },
+
+        initTicketQueryModal() {
+            const queryBtn = document.getElementById('hall-btn-query');
+            const modal = document.getElementById('ticket-query-modal');
+            const closeBtn = document.getElementById('close-ticket-query-modal');
+            const form = document.getElementById('ticket-query-form');
+            const input = document.getElementById('ticket-search-input');
+            const statusArea = document.getElementById('ticket-query-status');
+            const resultCard = document.getElementById('ticket-result-card');
+
+            if (!modal) return;
+
+            const openModal = () => {
+                modal.classList.add('visible');
+                document.body.style.overflow = 'hidden';
+                if (statusArea) { statusArea.style.display = 'none'; statusArea.textContent = ''; }
+                if (resultCard) resultCard.style.display = 'none';
+                if (input) { input.value = ''; setTimeout(() => input.focus(), 150); }
+            };
+
+            const closeModal = () => {
+                modal.classList.remove('visible');
+                document.body.style.overflow = '';
+            };
+
+            if (queryBtn) queryBtn.addEventListener('click', openModal);
+            if (closeBtn) closeBtn.addEventListener('click', closeModal);
+
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) closeModal();
+            });
+
+            if (form) {
+                form.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const q = (input?.value || '').trim();
+                    if (!q || q.length < 3) {
+                        if (statusArea) {
+                            statusArea.style.display = 'block';
+                            statusArea.className = 'ticket-status-area ticket-status-error';
+                            statusArea.textContent = 'Lütfen aramak için en az 3 karakter giriniz.';
+                        }
+                        return;
+                    }
+
+                    if (statusArea) {
+                        statusArea.style.display = 'block';
+                        statusArea.className = 'ticket-status-area ticket-status-loading';
+                        statusArea.textContent = 'Bilet ve koltuk kaydınız sorgulanıyor...';
+                    }
+                    if (resultCard) resultCard.style.display = 'none';
+
+                    try {
+                        const res = await fetch(`/api/bilet-sorgula?q=${encodeURIComponent(q)}`);
+                        const data = await res.json();
+
+                        if (res.ok && data.success && data.ticket) {
+                            if (statusArea) statusArea.style.display = 'none';
+
+                            const t = data.ticket;
+                            const nameEl = document.getElementById('res-ticket-name');
+                            const typeEl = document.getElementById('res-ticket-type');
+                            const deptEl = document.getElementById('res-ticket-dept');
+                            const busEl = document.getElementById('res-ticket-bus');
+                            const seatEl = document.getElementById('res-ticket-seat');
+
+                            if (nameEl) nameEl.textContent = t.name || '-';
+                            if (typeEl) typeEl.textContent = t.participantType || 'Katılımcı';
+                            if (deptEl) deptEl.textContent = t.department || 'Genel';
+                            if (busEl) busEl.textContent = t.busNeeded || 'Hayır';
+                            if (seatEl) seatEl.textContent = t.seat || 'Orta Blok · Sıra G · Koltuk 18';
+
+                            if (resultCard) resultCard.style.display = 'block';
+                        } else {
+                            if (statusArea) {
+                                statusArea.style.display = 'block';
+                                statusArea.className = 'ticket-status-area ticket-status-error';
+                                statusArea.textContent = data.message || 'Belirtilen bilgilerle eşleşen bir kayıt bulunamadı.';
+                            }
+                        }
+                    } catch (err) {
+                        if (statusArea) {
+                            statusArea.style.display = 'block';
+                            statusArea.className = 'ticket-status-area ticket-status-error';
+                            statusArea.textContent = 'Sorgulama sırasında bağlantı hatası oluştu. Lütfen tekrar deneyiniz.';
+                        }
+                    }
+                });
+            }
         },
 
         async fetchStats() {
@@ -157,14 +515,14 @@
                 const data = await res.json();
                 if (data && data.success) {
                     this.registeredCount = data.registered || 0;
-                    this.updateUI(data);
+                    this.updateStatsUI(data);
                 }
             } catch (err) {
                 console.warn('Stats yüklenemedi:', err);
             }
         },
 
-        updateUI(data) {
+        updateStatsUI(data) {
             const regEl = document.getElementById('hall-count-registered');
             const remEl = document.getElementById('hall-count-remaining');
             const pctEl = document.getElementById('hall-count-percent');
@@ -185,7 +543,7 @@
 
             if (badgeEl) {
                 if (percent >= 90) {
-                    badgeEl.textContent = '🔥 Son Kontenjanlar!';
+                    badgeEl.textContent = 'Son Kontenjanlar!';
                     badgeEl.style.color = '#ef4444';
                     badgeEl.style.borderColor = 'rgba(239, 68, 68, 0.4)';
                     badgeEl.style.background = 'rgba(239, 68, 68, 0.12)';
@@ -198,13 +556,10 @@
                     badgeEl.textContent = 'Kayıtlar Açık';
                 }
             }
-
-            // Koltuk doluluklarını güncelle
-            this.updateSeatsOccupancy(registered);
         },
 
         animateNumber(element, target) {
-            const duration = 900;
+            const duration = 800;
             const start = parseInt(element.textContent, 10) || 0;
             const range = target - start;
             const startTime = performance.now();
@@ -222,77 +577,6 @@
             };
 
             requestAnimationFrame(update);
-        },
-
-        renderSeats() {
-            // 1. VIP Sırası (20 Koltuk)
-            const vipContainer = document.getElementById('vip-seats-grid');
-            if (vipContainer && vipContainer.children.length === 0) {
-                for (let i = 1; i <= 20; i++) {
-                    const dot = document.createElement('span');
-                    dot.className = 'seat-dot seat-dot-vip';
-                    dot.title = `Protokol & Onur Konuğu · Koltuk VIP-${i}`;
-                    vipContainer.appendChild(dot);
-                }
-            }
-
-            // 2. Blok A (Sol Tribün - 130 Koltuk: 10 sıra x 13 koltuk)
-            const blockA = document.getElementById('block-a-seats');
-            if (blockA && blockA.children.length === 0) {
-                this.buildBlockSeats(blockA, 'Blok A', 10, 13);
-            }
-
-            // 3. Blok B (Orta Tribün - 120 Koltuk: 10 sıra x 12 koltuk)
-            const blockB = document.getElementById('block-b-seats');
-            if (blockB && blockB.children.length === 0) {
-                this.buildBlockSeats(blockB, 'Blok B', 10, 12);
-            }
-
-            // 4. Blok C (Sağ Tribün - 130 Koltuk: 10 sıra x 13 koltuk)
-            const blockC = document.getElementById('block-c-seats');
-            if (blockC && blockC.children.length === 0) {
-                this.buildBlockSeats(blockC, 'Blok C', 10, 13);
-            }
-        },
-
-        buildBlockSeats(container, blockName, rows, cols) {
-            let seatNum = 1;
-            for (let r = 1; r <= rows; r++) {
-                for (let c = 1; c <= cols; c++) {
-                    const dot = document.createElement('span');
-                    dot.className = 'seat-dot seat-dot-empty';
-                    dot.dataset.block = blockName;
-                    dot.dataset.seat = seatNum;
-                    dot.dataset.row = r;
-                    dot.dataset.col = c;
-                    dot.title = `${blockName} · Sıra ${r}, Koltuk ${c} — Durum: Müsait`;
-                    container.appendChild(dot);
-                    seatNum++;
-                }
-            }
-        },
-
-        updateSeatsOccupancy(registeredCount) {
-            // 380 normal koltuk arasında registeredCount kadarını doldur
-            const allAudienceSeats = document.querySelectorAll('.hall-blocks-grid .seat-dot');
-            let filledIndex = 0;
-
-            allAudienceSeats.forEach((seat) => {
-                const block = seat.dataset.block;
-                const row = seat.dataset.row;
-                const col = seat.dataset.col;
-
-                if (filledIndex < registeredCount) {
-                    seat.classList.remove('seat-dot-empty');
-                    seat.classList.add('seat-dot-filled');
-                    seat.title = `${block} · Sıra ${row}, Koltuk ${col} — Durum: Dolu (Kayıtlı Katılımcı)`;
-                    filledIndex++;
-                } else {
-                    seat.classList.remove('seat-dot-filled');
-                    seat.classList.add('seat-dot-empty');
-                    seat.title = `${block} · Sıra ${row}, Koltuk ${col} — Durum: Müsait (Başvuruya Açık)`;
-                }
-            });
         }
     };
 
@@ -518,6 +802,7 @@
                 expectations: this.form.expectations.value.trim(),
                 questions: this.form.questions.value.trim(),
                 hearAbout: this.form.hearAbout.value,
+                selectedSeat: this.form.selectedSeat?.value || '',
                 turnstileToken: this.turnstileToken || ''
             };
 

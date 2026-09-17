@@ -85,7 +85,10 @@ function requireAdminAuth(req, res, next) {
 // === Middleware ===
 app.use(cors());
 app.use(express.json({ limit: '1mb' }));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public'), {
+    maxAge: 0,
+    etag: false
+}));
 
 // === Rate Limiting ===
 // Genel istekler için: dakikada 100 istek
@@ -276,7 +279,8 @@ const EXCEL_HEADERS = [
     { header: 'IP Adresi', key: 'ip', width: 18 },
     { header: 'Katılımcı Türü', key: 'participantType', width: 18 },
     { header: 'Meslek / Unvan', key: 'profession', width: 22 },
-    { header: 'Kurum / Şirket', key: 'company', width: 24 }
+    { header: 'Kurum / Şirket', key: 'company', width: 24 },
+    { header: 'Seçilen Koltuk', key: 'selectedSeat', width: 25 }
 ];
 
 async function appendToLocalExcel(rowData) {
@@ -490,6 +494,8 @@ app.post('/api/kayit', registrationLimiter, async (req, res) => {
         const gradeVal = isStudent ? (req.body.grade || '') : (profession ? `${profession} (${pType})` : pType);
         const uniVal = isStudent ? (req.body.university?.trim() || 'HMKÜ') : (company || 'Kurumsal');
 
+        const selectedSeat = (req.body.selectedSeat || '').trim();
+
         const rowData = [
             now,
             req.body.firstName.trim(),
@@ -510,7 +516,8 @@ app.post('/api/kayit', registrationLimiter, async (req, res) => {
             clientIP,
             pType,
             profession,
-            company
+            company,
+            selectedSeat
         ];
 
         // Google Sheets'e yaz
@@ -520,21 +527,23 @@ app.post('/api/kayit', registrationLimiter, async (req, res) => {
         const excelSuccess = await appendToLocalExcel(rowData);
 
         // Konsola da yaz
-        console.log('\n📝 Yeni Kayıt:');
-        console.log(`   Katılımcı Türü: ${pType}`);
+        console.log('\n[Yeni Kayit]');
+        console.log(`   Katilimci Turu: ${pType}`);
         console.log(`   Ad Soyad: ${req.body.firstName} ${req.body.lastName}`);
         console.log(`   E-posta: ${req.body.email}`);
         console.log(`   Telefon: ${req.body.phone}`);
         console.log(`   Alan / Meslek: ${deptVal} - ${gradeVal}`);
-        console.log(`   Kurum / Üni: ${uniVal}`);
-        console.log(`   Şehir: ${req.body.city} | Otobüs: ${req.body.busNeeded}`);
+        console.log(`   Kurum / Uni: ${uniVal}`);
+        console.log(`   Koltuk: ${selectedSeat || 'Otomatik / Belirtilmedi'}`);
+        console.log(`   Sehir: ${req.body.city} | Otobus: ${req.body.busNeeded}`);
         console.log(`   Tarih: ${now}`);
-        if (sheetSuccess) console.log('   ✅ Google Sheets\'e kaydedildi');
-        if (excelSuccess) console.log('   ✅ Lokal Excel\'e kaydedildi');
+        if (sheetSuccess) console.log('   [OK] Google Sheets kaydi basarili');
+        if (excelSuccess) console.log('   [OK] Lokal Excel kaydi basarili');
 
         res.json({
             success: true,
-            message: 'Başvurunuz başarıyla alındı!'
+            message: 'Başvurunuz başarıyla alındı!',
+            selectedSeat
         });
 
     } catch (error) {
@@ -543,6 +552,88 @@ app.post('/api/kayit', registrationLimiter, async (req, res) => {
             success: false,
             message: 'Sunucu hatası. Lütfen daha sonra tekrar deneyin.'
         });
+    }
+});
+
+// Bilet Sorgulama Endpoint'i
+app.get('/api/bilet-sorgula', async (req, res) => {
+    try {
+        const query = (req.query.q || '').trim().toLowerCase();
+        if (!query || query.length < 3) {
+            return res.status(400).json({ success: false, message: 'Lütfen aramak için en az 3 karakter giriniz.' });
+        }
+
+        let registrations = [];
+        const sheetValues = await fetchGoogleSheetRows();
+        if (sheetValues && sheetValues.length > 1) {
+            const headers = sheetValues[0];
+            for (let i = 1; i < sheetValues.length; i++) {
+                const row = sheetValues[i];
+                if (!row || row.length === 0 || !row[1]) continue;
+                const entry = {};
+                row.forEach((cell, idx) => {
+                    entry[headers[idx] || `col_${idx}`] = cell !== undefined ? String(cell) : '';
+                });
+                registrations.push(entry);
+            }
+        } else {
+            const excelPath = path.join(__dirname, 'kayitlar.xlsx');
+            if (fs.existsSync(excelPath)) {
+                const workbook = new ExcelJS.Workbook();
+                await workbook.xlsx.readFile(excelPath);
+                const worksheet = workbook.getWorksheet('Kayıtlar');
+                if (worksheet) {
+                    const headers = [];
+                    worksheet.eachRow((row, rowNumber) => {
+                        const values = row.values.slice(1);
+                        if (rowNumber === 1) {
+                            values.forEach(v => headers.push(v));
+                        } else {
+                            const entry = {};
+                            values.forEach((v, idx) => {
+                                entry[headers[idx] || `col_${idx}`] = v !== undefined ? String(v) : '';
+                            });
+                            registrations.push(entry);
+                        }
+                    });
+                }
+            }
+        }
+
+        // Arama yap: e-posta, telefon veya ad soyad
+        const match = registrations.find(r => {
+            const email = (r['E-posta'] || '').toLowerCase();
+            const phone = (r['Telefon'] || '').replace(/\D/g, '');
+            const cleanQuery = query.replace(/\D/g, '');
+            const name = `${r['Ad'] || ''} ${r['Soyad'] || ''}`.toLowerCase();
+
+            return email === query ||
+                email.includes(query) ||
+                (cleanQuery.length >= 4 && phone.includes(cleanQuery)) ||
+                name.includes(query);
+        });
+
+        if (!match) {
+            return res.status(404).json({ success: false, message: 'Belirtilen bilgilerle eşleşen bir kayıt bulunamadı.' });
+        }
+
+        res.json({
+            success: true,
+            ticket: {
+                name: `${match['Ad'] || ''} ${match['Soyad'] || ''}`.trim(),
+                email: match['E-posta'] || '',
+                phone: match['Telefon'] || '',
+                department: match['Bölüm / Alan'] || match['Bölüm'] || '',
+                participantType: match['Katılımcı Türü'] || 'Öğrenci',
+                seat: match['Seçilen Koltuk'] || match['Koltuk'] || 'Orta Blok · Sıra G, Koltuk 18',
+                busNeeded: match['Otobüs İhtiyacı'] || 'Hayır',
+                date: '9 Ekim 2026',
+                hall: 'Atatürk Konferans Salonu (HMKÜ)'
+            }
+        });
+    } catch (err) {
+        console.error('Bilet sorgulama hatası:', err.message);
+        res.status(500).json({ success: false, message: 'Sorgulama sırasında sunucu hatası oluştu.' });
     }
 });
 

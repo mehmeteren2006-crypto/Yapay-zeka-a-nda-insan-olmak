@@ -220,8 +220,13 @@ a:hover {
 }
 
 .nav-logo {
-    width: 44px;
-    height: 44px;
+    width: 42px !important;
+    height: 42px !important;
+    min-width: 42px !important;
+    min-height: 42px !important;
+    max-width: 42px !important;
+    max-height: 42px !important;
+    aspect-ratio: 1 / 1 !important;
     border-radius: 50% !important;
     object-fit: contain;
     background: #ffffff;
@@ -230,6 +235,7 @@ a:hover {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     transition: transform var(--transition-fast), box-shadow var(--transition-fast);
     flex-shrink: 0;
+    overflow: hidden;
 }
 
 .nav-logo:hover {
@@ -524,16 +530,22 @@ a:hover {
 }
 
 .hero-logo {
-    width: 68px;
-    height: 68px;
+    width: 68px !important;
+    height: 68px !important;
+    min-width: 68px !important;
+    min-height: 68px !important;
+    max-width: 68px !important;
+    max-height: 68px !important;
+    aspect-ratio: 1 / 1 !important;
     border-radius: 50% !important;
     object-fit: contain;
     background: #ffffff;
-    padding: 7px;
+    padding: 8px;
     border: 2px solid var(--border-color);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
     transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
     flex-shrink: 0;
+    overflow: hidden;
 }
 
 .hero-logo:hover {
@@ -1377,8 +1389,13 @@ a:hover {
 }
 
 .footer-logo {
-    width: 48px;
-    height: 48px;
+    width: 48px !important;
+    height: 48px !important;
+    min-width: 48px !important;
+    min-height: 48px !important;
+    max-width: 48px !important;
+    max-height: 48px !important;
+    aspect-ratio: 1 / 1 !important;
     border-radius: 50% !important;
     object-fit: contain;
     background: #ffffff;
@@ -1388,6 +1405,7 @@ a:hover {
     opacity: 0.9;
     transition: transform var(--transition-fast), opacity var(--transition-fast), box-shadow var(--transition-fast);
     flex-shrink: 0;
+    overflow: hidden;
 }
 
 .footer-logo:hover {
@@ -1524,7 +1542,11 @@ a:hover {
     }
 
     .hero-logo {
-        height: 72px;
+        width: 74px !important;
+        height: 74px !important;
+        min-width: 74px !important;
+        min-height: 74px !important;
+        aspect-ratio: 1 / 1 !important;
     }
 
     .form-wrapper {
@@ -1542,7 +1564,11 @@ a:hover {
 
 @media (min-width: 1024px) {
     .hero-logo {
-        height: 80px;
+        width: 80px !important;
+        height: 80px !important;
+        min-width: 80px !important;
+        min-height: 80px !important;
+        aspect-ratio: 1 / 1 !important;
     }
 
     .speakers-grid {
@@ -1889,199 +1915,805 @@ a:hover {
     font-size: 0.82rem;
 }
 
-/* Sanal Salon Oturma Planı (Virtual Arena) */
-.hall-layout-container {
-    background: var(--bg-card);
-    border: 1.5px solid var(--border-color);
-    border-radius: var(--radius-xl);
-    padding: var(--space-2xl) var(--space-xl);
-    box-shadow: var(--shadow-md);
-    position: relative;
+/* ======================================================
+   ATATÜRK KONFERANS SALONU BİLET & KOLTUK SEÇİM KARTI
+   Referans Tasarıma Birebir Uyumlu İnteraktif Tribün
+   ====================================================== */
+.hall-ticket-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
     overflow: hidden;
+    position: relative;
+    margin-top: var(--space-xl);
 }
 
-.hall-layout-header {
-    display: flex;
-    justify-content: center;
-    margin-bottom: var(--space-xl);
-    position: relative;
+[data-theme="dark"] .hall-ticket-card {
+    background: #13131c;
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35);
 }
 
-.hall-stage {
-    position: relative;
-    background: linear-gradient(180deg, rgba(99, 102, 241, 0.25) 0%, rgba(99, 102, 241, 0.05) 100%);
-    border: 2px solid var(--accent-primary);
-    border-radius: 60px 60px 16px 16px;
-    padding: 14px 40px;
-    font-family: var(--font-secondary);
-    font-weight: 800;
-    font-size: 0.95rem;
-    letter-spacing: 2px;
-    color: var(--text-primary);
+/* Üst Çubuk (Top Bar) */
+.hall-card-header {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
+    border-bottom: 1px solid #e2e8f0;
+    background: #ffffff;
     gap: 12px;
-    box-shadow: 0 4px 20px rgba(99, 102, 241, 0.25);
-    text-align: center;
-}
-
-.stage-glow {
-    position: absolute;
-    top: -20px;
-    left: 10%;
-    right: 10%;
-    height: 30px;
-    background: var(--accent-primary);
-    filter: blur(25px);
-    opacity: 0.4;
-    pointer-events: none;
-}
-
-.stage-icon {
-    color: var(--accent-primary);
-}
-
-/* VIP Sırası */
-.hall-vip-row {
-    margin-bottom: var(--space-xl);
-    padding: var(--space-md) var(--space-lg);
-    background: rgba(245, 158, 11, 0.06);
-    border: 1px dashed rgba(245, 158, 11, 0.35);
-    border-radius: var(--radius-md);
-    text-align: center;
-}
-
-.hall-vip-title {
-    font-size: 0.78rem;
-    font-weight: 800;
-    color: #f59e0b;
-    letter-spacing: 1.5px;
-    margin-bottom: var(--space-sm);
-}
-
-.vip-seats-grid {
-    display: flex;
-    justify-content: center;
     flex-wrap: wrap;
+}
+
+[data-theme="dark"] .hall-card-header {
+    background: #181824;
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+.hall-header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.hall-btn-nav {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 14px;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #475569;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.hall-btn-nav:hover {
+    background: #f1f5f9;
+    color: #0f172a;
+    border-color: #94a3b8;
+}
+
+[data-theme="dark"] .hall-btn-nav {
+    background: #1e1e2d;
+    border-color: rgba(255, 255, 255, 0.15);
+    color: #cbd5e1;
+}
+
+[data-theme="dark"] .hall-btn-nav:hover {
+    background: #27273a;
+    color: #ffffff;
+}
+
+.hall-btn-query {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 15px;
+    background: rgba(37, 99, 235, 0.06);
+    border: 1px solid rgba(37, 99, 235, 0.3);
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #2563eb;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.hall-btn-query:hover {
+    background: rgba(37, 99, 235, 0.12);
+    border-color: #2563eb;
+    transform: translateY(-1px);
+}
+
+[data-theme="dark"] .hall-btn-query {
+    background: rgba(59, 130, 246, 0.15);
+    border-color: rgba(59, 130, 246, 0.4);
+    color: #60a5fa;
+}
+
+.hall-card-title {
+    font-family: var(--font-primary);
+    font-size: 1.18rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0;
+    text-align: center;
+}
+
+[data-theme="dark"] .hall-card-title {
+    color: #f8fafc;
+}
+
+.hall-header-right {
+    display: flex;
+    align-items: center;
+}
+
+.hall-badge-shared {
+    display: inline-flex;
+    align-items: center;
     gap: 6px;
-    max-width: 700px;
+    padding: 6px 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 9999px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #64748b;
+    background: #ffffff;
+}
+
+[data-theme="dark"] .hall-badge-shared {
+    background: #1a1a28;
+    border-color: rgba(255, 255, 255, 0.12);
+    color: #94a3b8;
+}
+
+/* Noktalı İnteraktif Oturma Alanı (Canvas) */
+.hall-canvas-area {
+    position: relative;
+    background-color: #ffffff;
+    background-image: radial-gradient(#cbd5e1 1.2px, transparent 1.2px);
+    background-size: 20px 20px;
+    padding: 30px 15px 40px;
+    overflow-x: auto;
+    min-height: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+[data-theme="dark"] .hall-canvas-area {
+    background-color: #0d0d14;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.12) 1.2px, transparent 1.2px);
+}
+
+/* Sol Alt Yakınlaştırma Araçları (Zoom Controls) */
+.hall-zoom-controls {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    z-index: 15;
+}
+
+[data-theme="dark"] .hall-zoom-controls {
+    background: rgba(26, 26, 38, 0.95);
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+.zoom-btn {
+    width: 32px;
+    height: 32px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    background: #ffffff;
+    color: #475569;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.zoom-btn:hover {
+    background: #f1f5f9;
+    color: #0f172a;
+    border-color: #94a3b8;
+}
+
+[data-theme="dark"] .zoom-btn {
+    background: #14141e;
+    border-color: rgba(255, 255, 255, 0.1);
+    color: #94a3b8;
+}
+
+[data-theme="dark"] .zoom-btn:hover {
+    background: #232334;
+    color: #ffffff;
+}
+
+/* Arena Scale Wrapper */
+.hall-arena-scale {
+    transform-origin: center top;
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 960px;
     margin: 0 auto;
 }
 
-/* 3 Ana Blok Tribünü (380 Koltuk) */
-.hall-blocks-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: var(--space-lg);
-    margin-bottom: var(--space-xl);
+/* Birleşik Tribün Yerleşimi (Amfitiyatro Sıra Düzeni) */
+.hall-arena-rows {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: auto;
+    margin: 0 auto;
 }
 
-@media (max-width: 900px) {
-    .hall-blocks-grid {
-        grid-template-columns: 1fr;
-    }
+.hall-unified-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 3.5px;
+    width: auto;
 }
 
-.hall-block {
+.row-wing {
+    display: flex;
+    align-items: center;
+    gap: 2.5px;
+}
+
+/* Sol Blok: Sağa (Koridora) yaslı ve hafif yukarı açılı */
+.row-wing-sol {
+    justify-content: flex-end;
+    transform: rotate(4.2deg);
+    transform-origin: right center;
+}
+
+/* Orta Blok: Düz Merkez */
+.row-wing-orta {
+    justify-content: center;
+}
+
+/* Orta Blok E sırası yürüyüş koridoru boşluğu */
+.row-passage-orta {
+    width: 200px;
+    height: 18px;
+}
+
+/* Sağ Blok: Sola (Koridora) yaslı ve hafif yukarı açılı */
+.row-wing-sag {
+    justify-content: flex-start;
+    transform: rotate(-4.2deg);
+    transform-origin: left center;
+}
+
+/* Sıra Harf Etiketleri */
+.row-label {
+    font-size: 8px;
+    font-weight: 700;
+    user-select: none;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.row-label-outer {
+    width: 14px;
+    color: #94a3b8;
+    opacity: 0.4;
+    margin: 0 4px;
+}
+
+.row-label-aisle {
+    width: 16px;
+    color: #64748b;
+    font-weight: 800;
+    margin: 0 3px;
+}
+
+[data-theme="dark"] .row-label-aisle {
+    color: #cbd5e1;
+}
+
+[data-theme="dark"] .row-label-outer {
+    color: #64748b;
+}
+
+/* Koltuk Hapı (Seat Pill) */
+.hall-seat-pill {
+    width: 21px;
+    height: 18px;
+    border-radius: 4px;
+    font-size: 8.5px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+    transition: all 0.15s ease;
+    box-sizing: border-box;
+    line-height: 1;
+}
+
+/* Müsait Koltuk (Beyaz) */
+.hall-seat-pill.seat-available {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    color: #334155;
+    cursor: pointer;
+}
+
+.hall-seat-pill.seat-available:hover {
+    border-color: #10b981;
+    color: #047857;
+    transform: scale(1.22);
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.35);
+}
+
+[data-theme="dark"] .hall-seat-pill.seat-available {
+    background: #1e1e2d;
+    border-color: rgba(255, 255, 255, 0.22);
+    color: #f1f5f9;
+}
+
+[data-theme="dark"] .hall-seat-pill.seat-available:hover {
+    border-color: #10b981;
+    color: #ffffff;
+    transform: scale(1.22);
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.45);
+}
+
+/* Dolu / Kayıtlı Koltuk (Kırmızı) */
+.hall-seat-pill.seat-occupied {
+    background: #ef4444;
+    border: 1px solid #dc2626;
+    color: #ffffff;
+    cursor: not-allowed;
+    opacity: 0.96;
+}
+
+/* Seçilen Koltuk (Yeşil) */
+.hall-seat-pill.seat-selected {
+    background: #10b981 !important;
+    border: 1px solid #059669 !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 0 2.5px rgba(16, 185, 129, 0.5) !important;
+    transform: scale(1.18);
+    z-index: 12;
+}
+
+/* Orta Bloktaki Koridor Boşluğu (F ile D arası geçiş) */
+.hall-corridor-gap {
+    height: 16px;
+    width: 100%;
+}
+
+/* SAHNE Barı (En Altta) */
+.hall-stage-bottom {
+    width: 380px;
+    max-width: 88%;
+    height: 42px;
+    margin: 32px auto 10px;
+    background: linear-gradient(180deg, #e2e8f0 0%, #cbd5e1 100%);
+    border-top: 3.5px solid #10b981;
+    border-radius: 35px 35px 8px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+    user-select: none;
+}
+
+[data-theme="dark"] .hall-stage-bottom {
+    background: linear-gradient(180deg, #1e1e2c 0%, #151520 100%);
+    border-top: 3.5px solid #10b981;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.hall-stage-text {
+    font-family: var(--font-primary);
+    font-weight: 800;
+    font-size: 13px;
+    letter-spacing: 0.35em;
+    color: #64748b;
+}
+
+[data-theme="dark"] .hall-stage-text {
+    color: #94a3b8;
+}
+
+/* Seçim Alt Çubuğu (Koltuk Seçilince Açılan Bar) */
+.hall-selection-bar {
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #0f172a;
+    color: #ffffff;
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    z-index: 20;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.2);
+    animation: fadeInUp 0.25s ease;
+    flex-wrap: wrap;
+}
+
+.selection-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.selection-label {
+    font-size: 0.85rem;
+    color: #94a3b8;
+}
+
+.selection-value {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #34d399;
+}
+
+.selection-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-clear-seat {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: #cbd5e1;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.btn-clear-seat:hover {
+    border-color: #ef4444;
+    color: #ef4444;
+}
+
+.btn-confirm-seat {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #10b981;
+    color: #ffffff;
+    padding: 8px 18px;
+    border-radius: 6px;
+    font-size: 0.88rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all var(--transition-fast);
+}
+
+.btn-confirm-seat:hover {
+    background: #059669;
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+/* Alt Lejant */
+.hall-card-footer {
+    padding: 14px 20px;
+    border-top: 1px solid #e2e8f0;
+    background: #f8fafc;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+[data-theme="dark"] .hall-card-footer {
+    background: #161622;
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+.hall-legend-pills {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.legend-pill {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.legend-box {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    display: inline-block;
+}
+
+.box-occupied {
+    background: #ef4444;
+}
+
+.box-available {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+}
+
+[data-theme="dark"] .box-available {
+    background: #1e1e2d;
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.box-selected {
+    background: #10b981;
+}
+
+.hall-note-text {
+    font-size: 0.8rem;
+    color: var(--text-tertiary);
+    max-width: 480px;
+}
+
+/* Form İçindeki Seçilen Koltuk Alanı */
+.selected-seat-widget {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
     background: var(--bg-tertiary);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-lg);
-    padding: var(--space-md);
+    border: 1.5px dashed var(--border-color);
+    border-radius: var(--radius-md);
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.selected-seat-widget.has-seat {
+    border-style: solid;
+    border-color: rgba(16, 185, 129, 0.4);
+    background: rgba(16, 185, 129, 0.06);
+}
+
+.widget-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: rgba(16, 185, 129, 0.12);
+    color: #10b981;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.widget-details {
+    flex: 1;
     display: flex;
     flex-direction: column;
 }
 
-.hall-block.block-center {
-    border-color: rgba(99, 102, 241, 0.3);
-}
-
-.block-title {
-    font-size: 0.78rem;
-    font-weight: 700;
-    color: var(--text-secondary);
-    text-align: center;
-    margin-bottom: var(--space-sm);
+.widget-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
     letter-spacing: 0.5px;
+    color: var(--text-tertiary);
+    font-weight: 600;
 }
 
-.block-seats {
-    display: grid;
-    grid-template-columns: repeat(13, 1fr);
-    gap: 4px;
-    justify-content: center;
-    align-content: center;
-    padding: 6px 2px;
+.widget-value {
+    font-size: 0.95rem;
+    color: var(--text-primary);
 }
 
-.hall-block.block-center .block-seats {
-    grid-template-columns: repeat(12, 1fr);
+.selected-seat-widget.has-seat .widget-value {
+    color: #059669;
 }
 
-/* Koltuk Noktaları (Interactive Seat Dots) */
-.seat-dot {
-    width: 13px;
-    height: 13px;
-    border-radius: 3px;
-    background: var(--border-color);
-    cursor: pointer;
-    transition: transform 0.15s ease, background 0.2s ease, box-shadow 0.15s ease;
-    display: inline-block;
-    position: relative;
+[data-theme="dark"] .selected-seat-widget.has-seat .widget-value {
+    color: #34d399;
 }
 
-.seat-dot:hover {
-    transform: scale(1.6);
-    z-index: 10;
-    box-shadow: 0 0 8px currentColor;
-}
-
-.seat-dot.seat-dot-filled {
-    background: #10b981;
-    box-shadow: 0 0 3px rgba(16, 185, 129, 0.5);
-}
-
-.seat-dot.seat-dot-vip {
-    background: #f59e0b;
-    box-shadow: 0 0 3px rgba(245, 158, 11, 0.6);
-    border-radius: 50%;
-}
-
-.seat-dot.seat-dot-empty {
-    background: var(--border-color);
-    opacity: 0.55;
-}
-
-/* Lejant */
-.hall-legend {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: var(--space-xl);
-    flex-wrap: wrap;
-    margin-top: var(--space-lg);
-    padding-top: var(--space-md);
-    border-top: 1px solid var(--border-color);
-}
-
-.legend-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.86rem;
-    font-weight: 500;
-    color: var(--text-secondary);
-}
-
-.hall-cta-wrap {
-    text-align: center;
-    margin-top: var(--space-xl);
-}
-
-.hall-cta-btn {
+.btn-select-seat-link {
     display: inline-flex;
     align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+}
+
+.btn-select-seat-link:hover {
+    border-color: #10b981;
+    color: #10b981;
+}
+
+/* Bilet Sorgulama Modalı Stilleri */
+.ticket-query-dialog {
+    max-width: 480px;
+    width: 94%;
+}
+
+.ticket-header-title {
+    display: flex;
+    align-items: center;
     gap: 10px;
-    padding: 14px 28px;
-    border-radius: 9999px;
+}
+
+.ticket-header-title h3 {
+    margin: 0;
+    font-size: 1.15rem;
     font-weight: 700;
+}
+
+.ticket-query-intro {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    margin-bottom: var(--space-md);
+    line-height: 1.5;
+}
+
+.ticket-search-box {
+    display: flex;
+    gap: 8px;
+    margin-bottom: var(--space-md);
+}
+
+.ticket-search-box input {
+    flex: 1;
+    padding: 10px 14px;
+    border: 1.5px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    background: var(--bg-input);
+    color: var(--text-primary);
+    font-size: 0.9rem;
+}
+
+.ticket-search-box input:focus {
+    border-color: #2563eb;
+    outline: none;
+}
+
+.ticket-search-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 18px;
+    background: #2563eb;
+    color: #ffffff;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    font-size: 0.88rem;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.ticket-search-btn:hover {
+    background: #1d4ed8;
+}
+
+.ticket-status-area {
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    margin-bottom: var(--space-md);
+}
+
+.ticket-status-error {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: #ef4444;
+}
+
+.ticket-status-loading {
+    background: rgba(37, 99, 235, 0.1);
+    border: 1px solid rgba(37, 99, 235, 0.3);
+    color: #2563eb;
+}
+
+/* Bilet Kartı Sonucu */
+.ticket-result-card {
+    background: var(--bg-tertiary);
+    border: 1.5px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 18px;
+    margin-top: var(--space-sm);
+    animation: fadeInUp 0.3s ease;
+}
+
+.ticket-card-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(16, 185, 129, 0.15);
+    color: #059669;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    padding: 3px 8px;
+    border-radius: 9999px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.ticket-card-title {
+    font-family: var(--font-primary);
+    font-weight: 800;
+    font-size: 1.05rem;
+    color: var(--text-primary);
+    margin-bottom: 2px;
+}
+
+.ticket-card-meta {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    margin-bottom: 14px;
+}
+
+.ticket-seat-highlight {
+    background: #ffffff;
+    border: 1.5px solid rgba(16, 185, 129, 0.4);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-bottom: 14px;
+    text-align: center;
+}
+
+[data-theme="dark"] .ticket-seat-highlight {
+    background: #1b1b28;
+}
+
+.ticket-seat-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #10b981;
+    display: block;
+    margin-bottom: 2px;
+}
+
+.ticket-seat-val {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--text-primary);
+}
+
+.ticket-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    font-size: 0.82rem;
+}
+
+.ticket-info-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.ticket-info-item .t-lbl {
+    font-size: 0.72rem;
+    color: var(--text-tertiary);
+}
+
+.ticket-info-item .t-val {
+    color: var(--text-primary);
+    font-weight: 600;
 }
