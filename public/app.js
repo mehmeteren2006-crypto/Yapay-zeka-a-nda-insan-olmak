@@ -963,6 +963,47 @@
         }
     };
 
+    // === Poster Lightbox Manager ===
+    const PosterLightbox = {
+        init() {
+            const modal = document.getElementById('poster-lightbox');
+            const openBtns = [
+                document.getElementById('btn-open-lightbox'),
+                document.getElementById('btn-zoom-poster'),
+                document.getElementById('poster-img')
+            ];
+            const closeBtn = document.getElementById('lightbox-close-btn');
+            const overlay = document.getElementById('lightbox-overlay');
+
+            if (!modal) return;
+
+            const open = (e) => {
+                if (e) e.preventDefault();
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            };
+
+            const close = (e) => {
+                if (e) e.preventDefault();
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+            };
+
+            openBtns.forEach(btn => {
+                if (btn) btn.addEventListener('click', open);
+            });
+
+            if (closeBtn) closeBtn.addEventListener('click', close);
+            if (overlay) overlay.addEventListener('click', close);
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && modal.classList.contains('active')) {
+                    close(e);
+                }
+            });
+        }
+    };
+
     // === Initialize Everything ===
     document.addEventListener('DOMContentLoaded', () => {
         ThemeManager.init();
@@ -974,6 +1015,7 @@
         HallManager.init();
         RegistrationForm.init();
         KvkkModal.init();
+        PosterLightbox.init();
     });
 
 })();

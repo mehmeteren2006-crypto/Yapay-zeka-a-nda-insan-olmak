@@ -12,7 +12,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=20260917_06">
+    <link rel="stylesheet" href="styles.css?v=20260918_02">
 </head>
 <body>
     <!-- Navigation -->
@@ -26,6 +26,7 @@
             </div>
             <div class="nav-links">
                 <a href="#about" class="nav-link">Hakkında</a>
+                <a href="#poster" class="nav-link">Afiş</a>
                 <a href="#speakers" class="nav-link">Konuşmacılar</a>
                 <a href="#gallery" class="nav-link">Galeri</a>
                 <a href="#hall" class="nav-link">Salon & Kontenjan</a>
@@ -48,6 +49,7 @@
     <!-- Mobile Menu -->
     <div class="mobile-menu" id="mobile-menu">
         <a href="#about" class="mobile-link">Hakkında</a>
+        <a href="#poster" class="mobile-link">Afiş</a>
         <a href="#speakers" class="mobile-link">Konuşmacılar</a>
         <a href="#gallery" class="mobile-link">Galeri</a>
         <a href="#hall" class="mobile-link">Salon & Kontenjan</a>
@@ -175,6 +177,95 @@
         </div>
     </section>
 
+    <!-- Resmi Etkinlik Afişi Section -->
+    <section class="section poster-section" id="poster">
+        <div class="container">
+            <div class="section-header animate-on-scroll">
+                <span class="section-tag">ZİRVE AFİŞİ</span>
+                <h2 class="section-title">Resmi Etkinlik Afişi</h2>
+                <p class="section-desc">Yapay Zekâ Çağında İnsan Olmak · 9 Ekim 2026 Hatay Mustafa Kemal Üniversitesi</p>
+            </div>
+
+            <div class="poster-showcase-container animate-on-scroll">
+                <!-- Afiş Görsel Çerçevesi (Işıltılı Vurgu ve Eylemlerle) -->
+                <div class="poster-card" id="poster-card">
+                    <div class="poster-glow-backdrop"></div>
+                    <div class="poster-image-frame">
+                        <img src="images/afis.jpg" alt="Yapay Zekâ Çağında İnsan Olmak - Resmi Etkinlik Afişi" class="poster-image" id="poster-img" loading="lazy">
+                        <div class="poster-overlay-actions">
+                            <button type="button" class="btn-poster-action btn-zoom" id="btn-zoom-poster" aria-label="Afişi Büyüt">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+                                <span>Büyüt</span>
+                            </button>
+                            <a href="images/afis.jpg" download="Yapay-Zeka-Caginda-Insan-Olmak-Afis.jpg" class="btn-poster-action btn-download" aria-label="Afişi İndir">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                                <span>İndir</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Afiş İçerik & Bilgi Kutusu -->
+                <div class="poster-info-content">
+                    <div class="poster-badge">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                        <span>Resmi Tanıtım Afişi</span>
+                    </div>
+
+                    <h3 class="poster-title">Yapay Zekâ Çağında İnsan Olmak</h3>
+                    <p class="poster-tagline">Zamansız Zirve '26 · Hatay Mustafa Kemal Üniversitesi</p>
+
+                    <p class="poster-description">
+                        İnsan ve yapay zekânın birlikte şekillendireceği yeni dönemin kapılarını Hatay'da aralıyoruz. Alanında öncü konuşmacılar, ilham verici oturumlar ve teknoloji ile insanlığın kesişim noktasında derinlemesine söyleşiler sizleri bekliyor.
+                    </p>
+
+                    <div class="poster-features-list">
+                        <div class="poster-feature-item">
+                            <div class="p-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                            </div>
+                            <div class="p-text">
+                                <strong>9 Ekim 2026, Cuma</strong>
+                                <span>Atatürk Konferans Salonu, HMKÜ Kampüsü</span>
+                            </div>
+                        </div>
+
+                        <div class="poster-feature-item">
+                            <div class="p-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                            </div>
+                            <div class="p-text">
+                                <strong>400 Kişilik Kontenjan</strong>
+                                <span>Katılım tamamen ücretsiz, online başvuru zorunludur</span>
+                            </div>
+                        </div>
+
+                        <div class="poster-feature-item">
+                            <div class="p-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 14 14"></polyline></svg>
+                            </div>
+                            <div class="p-text">
+                                <strong>Organizatörler & Destekçiler</strong>
+                                <span>Zamansız × Milli Yetkinlik Hamlesi × HMKÜ × HMKÜ AR-GE</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="poster-action-buttons">
+                        <a href="#register" class="btn-poster-cta">
+                            <span>Hemen Başvur</span>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"></path><path d="M12 5l7 7-7 7"></path></svg>
+                        </a>
+                        <button type="button" class="btn-poster-secondary" id="btn-open-lightbox">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+                            <span>Tam Boy Görüntüle</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Speakers Section -->
     <section class="section speakers" id="speakers">
         <div class="container">
@@ -183,10 +274,10 @@
                 <h2 class="section-title">İlham Veren İsimler</h2>
             </div>
             <div class="speakers-grid">
-                <!-- Speaker 1 -->
+                <!-- Speaker 1: Dr. Melodi Çiftçi -->
                 <div class="speaker-card animate-on-scroll">
                     <div class="speaker-image-wrapper">
-                        <img src="images/speaker-melodi.png" alt="Dr. Melodi Çiftçi" class="speaker-image">
+                        <img src="images/speaker-melodi.png" alt="Öğr. Gör. Dr. Melodi Çiftçi" class="speaker-image">
                     </div>
                     <div class="speaker-info">
                         <h3 class="speaker-name">Öğr. Gör. Dr. Melodi Çiftçi</h3>
@@ -201,15 +292,13 @@
                             <span class="tag">Proje Yönetimi</span>
                         </div>
                         <a href="https://www.linkedin.com/in/dr-melodi-%C3%A7ift%C3%A7i-3aa1b743/" target="_blank" rel="noopener" class="speaker-linkedin">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                            </svg>
-                            LinkedIn Profili
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                            <span>LinkedIn Profili</span>
                         </a>
                     </div>
                 </div>
 
-                <!-- Speaker 2 -->
+                <!-- Speaker 2: Ali Murathan Dikel -->
                 <div class="speaker-card animate-on-scroll">
                     <div class="speaker-image-wrapper">
                         <img src="images/speaker-dikel.png" alt="Ali Murathan Dikel" class="speaker-image">
@@ -218,12 +307,7 @@
                         <h3 class="speaker-name">Ali Murathan Dikel</h3>
                         <span class="speaker-title">Zamansız & OKUTU Gelişim Kurucu Ortağı · Hasbro EMEA Kıdemli Marka Müdürü</span>
                         <p class="speaker-bio">
-                            St. George Avusturya Lisesi mezunu olan Dikel, Viyana Ekonomi ve İşletme Üniversitesi'nde başladığı eğitimini 
-                            Sabancı Üniversitesi Yönetim Bilimleri bölümünde tamamlamıştır. Üsküdar Üniversitesi'nde Tasavvuf Kültürü ve 
-                            Edebiyatı alanında yüksek lisansını bitirmiş, İslam Medeniyeti Tarihi ve Edebiyatı alanında doktora çalışmalarına 
-                            devam etmektedir. Coca-Cola ve Sütaş'ta başladığı kariyerine 2011'den bu yana Hasbro Türkiye Pazarlama Müdürü 
-                            olarak devam etmektedir. Kuşaklararası iletişimi geliştirmeyi ve kadim bilgeliği yaymayı amaçlayan "Zamansız" 
-                            platformunun kurucusudur. REYSAS GYO Bağımsız Yönetim Kurulu Üyesi ve çeşitli TEDx etkinliklerinde konuşmacı olarak yer almıştır.
+                            St. George Avusturya Lisesi mezunu olan Dikel, Viyana Ekonomi ve İşletme Üniversitesi'nde başladığı eğitimini Sabancı Üniversitesi Yönetim Bilimleri bölümünde tamamlamıştır. Üsküdar Üniversitesi'nde Tasavvuf Kültürü ve Edebiyatı alanında yüksek lisansını bitirmiş, İslam Medeniyeti Tarihi ve Edebiyatı alanında doktora çalışmalarına devam etmektedir. Coca-Cola ve Sütaş'ta başladığı kariyerine 2011'den bu yana Hasbro Türkiye Pazarlama Müdürü olarak devam etmektedir. Kuşaklararası iletişimi geliştirmeyi ve kadim bilgeliği yaymayı amaçlayan "Zamansız" platformunun kurucusudur.
                         </p>
                         <div class="speaker-tags">
                             <span class="tag">Zamansız Kurucu</span>
@@ -231,15 +315,13 @@
                             <span class="tag">Marka Stratejisti</span>
                         </div>
                         <a href="https://www.linkedin.com/in/ali-murathan-dikel-1813201b/" target="_blank" rel="noopener" class="speaker-linkedin">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                            </svg>
-                            LinkedIn Profili
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                            <span>LinkedIn Profili</span>
                         </a>
                     </div>
                 </div>
 
-                <!-- Speaker 3 -->
+                <!-- Speaker 3: Hakan Bilgin -->
                 <div class="speaker-card animate-on-scroll">
                     <div class="speaker-image-wrapper">
                         <img src="images/speaker-hakan.jpg" alt="Hakan Bilgin" class="speaker-image">
@@ -256,15 +338,85 @@
                             <span class="tag">Moderatör</span>
                         </div>
                         <a href="https://www.linkedin.com/in/hakan-bilgin-70686548/" target="_blank" rel="noopener" class="speaker-linkedin">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                            </svg>
-                            LinkedIn Profili
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                            <span>LinkedIn Profili</span>
                         </a>
                     </div>
                 </div>
 
-                <!-- Speaker 4 -->
+                <!-- Speaker 4: Prof. Dr. Itır Erhart -->
+                <div class="speaker-card animate-on-scroll">
+                    <div class="speaker-image-wrapper">
+                        <img src="images/speaker-itir-erhart.jpg" alt="Prof. Dr. Itır Erhart" class="speaker-image">
+                    </div>
+                    <div class="speaker-info">
+                        <h3 class="speaker-name">Prof. Dr. Itır Erhart</h3>
+                        <span class="speaker-title">İstanbul Bilgi Üniversitesi Öğretim Üyesi · Adım Adım & Açık Açık Kurucusu · Ashoka Fellow</span>
+                        <p class="speaker-bio">
+                            Boğaziçi Üniversitesi İngiliz Dili ve Edebiyatı ile Felsefe mezuniyetinin ardından Cambridge Üniversitesi'nde felsefe yüksek lisansını ve Boğaziçi Üniversitesi'nde doktorasını tamamlamıştır. 2001 yılından bu yana İstanbul Bilgi Üniversitesi İletişim Fakültesi'nde ders vermektedir. Türkiye'nin ilk yardımseverlik koşusu platformu "Adım Adım" ile şeffaflık ve hesap verebilirlik platformu "Açık Açık"ın kurucu ortaklarındandır. 2014'te dünyaca ünlü Ashoka Fellow'u seçilen Erhart; toplumsal cinsiyet, insan hakları, spor sosyolojisi ve sosyal inovasyon alanlarında öncü çalışmalar yürütmektedir.
+                        </p>
+                        <div class="speaker-tags">
+                            <span class="tag">Adım Adım Kurucusu</span>
+                            <span class="tag">Ashoka Fellow</span>
+                            <span class="tag">Sosyal Girişimcilik</span>
+                            <span class="tag">Akademisyen</span>
+                        </div>
+                        <a href="https://www.linkedin.com/in/prof-dr-itir-erhart-090ab41/" target="_blank" rel="noopener" class="speaker-linkedin">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                            <span>LinkedIn Profili</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Speaker 5: Eda Horozlu -->
+                <div class="speaker-card animate-on-scroll">
+                    <div class="speaker-image-wrapper">
+                        <img src="images/speaker-eda-horozlu.jpg" alt="Eda Horozlu" class="speaker-image">
+                    </div>
+                    <div class="speaker-info">
+                        <h3 class="speaker-name">Eda Horozlu</h3>
+                        <span class="speaker-title">Fizikçi & Nörobilim Uzmanı · Kurumsal Danışman & Eğitmen · TEDx Konuşmacısı</span>
+                        <p class="speaker-bio">
+                            Sakarya Üniversitesi Fizik bölümü mezuniyeti sonrasında İşletme (MBA) ve Üsküdar Üniversitesi'nde Nörobilim yüksek lisanslarını tamamlamıştır. 10 yılı aşkın bankacılık yöneticiliği deneyiminin ardından fizik yasalarını insan davranışları, kurumsal liderlik ve karar bilimi ile harmanlayan yenilikçi programlar geliştirmiştir. AçıkBeyin bünyesinde nörobilim temelli odak, stres yönetimi ve iletişim eğitimleri vermektedir. Harvard ve Michigan Üniversitesi sertifikalı bir hikaye anlatıcısı (storyteller) ve TEDx konuşmacısıdır.
+                        </p>
+                        <div class="speaker-tags">
+                            <span class="tag">Nörobilim</span>
+                            <span class="tag">Fizikçi</span>
+                            <span class="tag">TEDx Konuşmacısı</span>
+                            <span class="tag">Liderlik & Karar Bilimi</span>
+                        </div>
+                        <a href="https://www.linkedin.com/in/edahorozlu/" target="_blank" rel="noopener" class="speaker-linkedin">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                            <span>LinkedIn Profili</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Speaker 6: Melih Elidüzgün -->
+                <div class="speaker-card animate-on-scroll">
+                    <div class="speaker-image-wrapper">
+                        <img src="images/speaker-melih-eliduzgun.jpg" alt="Melih Elidüzgün" class="speaker-image">
+                    </div>
+                    <div class="speaker-info">
+                        <h3 class="speaker-name">Melih Elidüzgün</h3>
+                        <span class="speaker-title">GLOCALBASE Network Kurucusu · Girişimcilik & Topluluk Stratejisti · YÖKAK Denetçisi</span>
+                        <p class="speaker-bio">
+                            Bahçeşehir Üniversitesi İşletme Bölümü ve Küresel Siyaset yüksek lisansının ardından doktora çalışmalarına devam eden Melih Elidüzgün; BAU bünyesinde girişimcilik dersleri vermiş ve Mezun İlişkileri Koordinatörlüğü yapmıştır. Sürdürülebilir kalkınma amaçlarını önceliklendiren start-up ve yetenek platformu GLOCALBASE Network'ün kurucu yönetim kurulu başkanıdır. YÖKAK denetçiliği, kent konseyi üyelikleri ve uluslararası gençlik temsilcilikleriyle girişimcilik ekosistemine yön vermektedir.
+                        </p>
+                        <div class="speaker-tags">
+                            <span class="tag">GLOCALBASE Kurucusu</span>
+                            <span class="tag">Girişimcilik Stratejisti</span>
+                            <span class="tag">YÖKAK Denetçisi</span>
+                            <span class="tag">Topluluk Yönetimi</span>
+                        </div>
+                        <a href="https://www.linkedin.com/in/meliheliduzgun/" target="_blank" rel="noopener" class="speaker-linkedin">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                            <span>LinkedIn Profili</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Speaker 7: Ali Başoğlu -->
                 <div class="speaker-card animate-on-scroll">
                     <div class="speaker-image-wrapper">
                         <img src="images/speaker-ali-basoglu.jpg" alt="Ali Başoğlu" class="speaker-image">
@@ -282,10 +434,80 @@
                             <span class="tag">Sosyal Medya</span>
                         </div>
                         <a href="https://www.linkedin.com/in/ali-ba%C5%9Fo%C4%9Flu-65673620b/" target="_blank" rel="noopener" class="speaker-linkedin">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                            </svg>
-                            LinkedIn Profili
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                            <span>LinkedIn Profili</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Speaker 8: Zeynep Küçük -->
+                <div class="speaker-card animate-on-scroll">
+                    <div class="speaker-image-wrapper">
+                        <img src="images/speaker-zeynep-kucuk.jpg" alt="Zeynep Küçük" class="speaker-image">
+                    </div>
+                    <div class="speaker-info">
+                        <h3 class="speaker-name">Zeynep Küçük</h3>
+                        <span class="speaker-title">Yazılım & Veri Bilimi Uzmanı · Teknoloji İçerik Üreticisi ("Woman Engineer")</span>
+                        <p class="speaker-bio">
+                            Veri bilimi, yapay zekâ teknolojileri ve yazılım geliştirme odaklı çalışmalarıyla tanınan Zeynep Küçük, dijital dünyada "Woman Engineer" kimliğiyle teknoloji meraklılarına ve genç mühendislere rehberlik etmektedir. Web Summit ve uluslararası teknoloji platformlarında konuşmacı olarak yer alan Küçük; üniversiteler, teknoloji toplulukları ve atölyelerde yapay zekâ araçları, prompt mühendisliği ve yazılım geliştirme eğitimleri vermekte, kadınların bilişim ve mühendislikteki görünürlüğünü güçlendirmektedir.
+                        </p>
+                        <div class="speaker-tags">
+                            <span class="tag">Woman Engineer</span>
+                            <span class="tag">Veri Bilimi</span>
+                            <span class="tag">Yapay Zekâ</span>
+                            <span class="tag">Teknoloji Eğitmeni</span>
+                        </div>
+                        <a href="https://www.linkedin.com/in/zeynep-kucuk/" target="_blank" rel="noopener" class="speaker-linkedin">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                            <span>LinkedIn Profili</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Speaker 9: Emre Uzunboy -->
+                <div class="speaker-card animate-on-scroll">
+                    <div class="speaker-image-wrapper">
+                        <img src="images/speaker-emre-uzunboy.jpg" alt="Emre Uzunboy" class="speaker-image">
+                    </div>
+                    <div class="speaker-info">
+                        <h3 class="speaker-name">Emre Uzunboy</h3>
+                        <span class="speaker-title">Dijital İçerik Üreticisi · Sosyal Medya Fenomeni & Oyuncu</span>
+                        <p class="speaker-bio">
+                            İstanbul Aydın Üniversitesi Reklamcılık bölümünde eğitimine devam eden Emre Uzunboy; YouTube, TikTok ve Instagram platformlarında mizah, popüler kültür, gençlik ve eğlence temalı yenilikçi içerikleriyle geniş kitlelere ulaşmaktadır. Sosyal medyadaki üretkenliğinin yanı sıra televizyon yapımlarında ve yarışma programlarında yer alan Uzunboy, dijital çağda yaratıcılık ve yeni nesil iletişim trendleri üzerine enerjik bakış açısını paylaşmaktadır.
+                        </p>
+                        <div class="speaker-tags">
+                            <span class="tag">İçerik Üreticisi</span>
+                            <span class="tag">Kreatör</span>
+                            <span class="tag">Sosyal Medya</span>
+                            <span class="tag">Medya & İletişim</span>
+                        </div>
+                        <a href="https://www.linkedin.com/in/emre-uzunboy-29466029a/" target="_blank" rel="noopener" class="speaker-linkedin">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                            <span>LinkedIn Profili</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Speaker 10: Mehmet Kaya -->
+                <div class="speaker-card animate-on-scroll">
+                    <div class="speaker-image-wrapper">
+                        <img src="images/speaker-mehmet-kaya.jpg" alt="Mehmet Kaya" class="speaker-image">
+                    </div>
+                    <div class="speaker-info">
+                        <h3 class="speaker-name">Mehmet Kaya</h3>
+                        <span class="speaker-title">Nöropazarlama Danışmanı & Eğitmen · Neuro Reflect & Nöro Akademi Kurucusu</span>
+                        <p class="speaker-bio">
+                            Nöropazarlama, tüketici davranışları ve algı yönetimi alanlarında uzmanlaşmış olan Mehmet Kaya; Neuro Reflect bünyesinde dikkat, algı ve insan karar mekanizmaları üzerine ileri seviye nöro-araştırmalar yürütmektedir. Koç Üniversitesi ve Nöro Akademi gibi platformlarda nöropazarlama eğitimleri vermekte, araştırmalardan elde edilen verileri marka büyüme ve yapay zekâ destekli tüketici içgörülerine dönüştüren stratejiler geliştirmektedir.
+                        </p>
+                        <div class="speaker-tags">
+                            <span class="tag">Nöropazarlama</span>
+                            <span class="tag">Tüketici Davranışları</span>
+                            <span class="tag">Neuro Reflect</span>
+                            <span class="tag">Karar Bilimi</span>
+                        </div>
+                        <a href="https://www.linkedin.com/in/kaya-meh/" target="_blank" rel="noopener" class="speaker-linkedin">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                            <span>LinkedIn Profili</span>
                         </a>
                     </div>
                 </div>
@@ -856,6 +1078,27 @@
         </div>
     </div>
 
+    <!-- Poster Lightbox Modal (Tam Boyut Pop-up) -->
+    <div class="poster-lightbox-modal" id="poster-lightbox" aria-hidden="true">
+        <div class="lightbox-overlay" id="lightbox-overlay"></div>
+        <div class="lightbox-content">
+            <button class="lightbox-close-btn" id="lightbox-close-btn" aria-label="Kapat">&times;</button>
+            <div class="lightbox-image-wrap">
+                <img src="images/afis.jpg" alt="Resmi Etkinlik Afişi Tam Boyut" class="lightbox-img">
+            </div>
+            <div class="lightbox-footer">
+                <div class="lightbox-caption">
+                    <strong>Yapay Zekâ Çağında İnsan Olmak</strong>
+                    <span>9 Ekim 2026 · Hatay Mustafa Kemal Üniversitesi</span>
+                </div>
+                <a href="images/afis.jpg" download="Yapay-Zeka-Caginda-Insan-Olmak-Afis.jpg" class="lightbox-download-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    <span>Afişi İndir (Orijinal Çözünürlük)</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
@@ -884,6 +1127,6 @@
 
     <!-- Cloudflare Turnstile Script (site key gerekli) -->
     <!-- <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script> -->
-    <script src="app.js?v=20260917_06"></script>
+    <script src="app.js?v=20260918_02"></script>
 </body>
 </html>

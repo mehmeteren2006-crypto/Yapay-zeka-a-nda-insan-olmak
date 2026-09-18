@@ -876,12 +876,9 @@ a:hover {
     object-position: center 25%;
 }
 
-.speaker-card:nth-child(3) .speaker-image {
-    object-position: center 15%;
-}
-
-.speaker-card:nth-child(4) .speaker-image {
-    object-position: center 20%;
+/* Resmi afiş illüstrasyonlu konuşmacılar (3-10) */
+.speaker-card:nth-child(n+3) .speaker-image {
+    object-position: top center;
 }
 
 .speaker-card:hover .speaker-image {
@@ -1572,12 +1569,12 @@ a:hover {
     }
 
     .speakers-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(3, 1fr);
         gap: var(--space-xl);
     }
 
     .speaker-image-wrapper {
-        height: 400px;
+        height: 380px;
     }
 
     .form-wrapper {
@@ -1585,10 +1582,10 @@ a:hover {
     }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1360px) {
     .speakers-grid {
         grid-template-columns: repeat(4, 1fr);
-        gap: var(--space-md);
+        gap: var(--space-xl);
     }
 
     .speaker-image-wrapper {
@@ -2719,4 +2716,480 @@ a:hover {
 .ticket-info-item .t-val {
     color: var(--text-primary);
     font-weight: 600;
+}
+
+/* ============================================
+   Resmi Etkinlik Afişi (Official Poster) Showcase
+   ============================================ */
+.poster-section {
+    position: relative;
+    overflow: hidden;
+    background: var(--bg-secondary);
+    padding: var(--space-3xl) 0;
+}
+
+.poster-showcase-container {
+    display: grid;
+    grid-template-columns: minmax(320px, 440px) 1fr;
+    gap: var(--space-2xl);
+    align-items: center;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-2xl);
+    padding: var(--space-2xl);
+    box-shadow: var(--shadow-xl);
+    position: relative;
+}
+
+/* Afiş Kartı & Çerçeve */
+.poster-card {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.poster-glow-backdrop {
+    position: absolute;
+    inset: -15px;
+    background: radial-gradient(circle, rgba(234, 179, 8, 0.28) 0%, rgba(245, 158, 11, 0.08) 50%, transparent 75%);
+    filter: blur(24px);
+    z-index: 1;
+    pointer-events: none;
+    transition: opacity var(--transition-base);
+}
+
+.poster-card:hover .poster-glow-backdrop {
+    opacity: 1;
+    background: radial-gradient(circle, rgba(234, 179, 8, 0.4) 0%, rgba(245, 158, 11, 0.15) 50%, transparent 75%);
+}
+
+.poster-image-frame {
+    position: relative;
+    z-index: 2;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.1);
+    background: #0f172a;
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+    aspect-ratio: 4 / 5;
+    max-height: 560px;
+    width: 100%;
+}
+
+.poster-card:hover .poster-image-frame {
+    transform: translateY(-6px) scale(1.01);
+    box-shadow: 0 25px 50px -12px rgba(234, 179, 8, 0.25), 0 0 0 1px rgba(234, 179, 8, 0.3);
+}
+
+.poster-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    cursor: pointer;
+    transition: transform 0.4s ease;
+}
+
+.poster-card:hover .poster-image {
+    transform: scale(1.03);
+}
+
+.poster-overlay-actions {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: var(--space-md);
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.4) 60%, transparent 100%);
+    display: flex;
+    justify-content: center;
+    gap: var(--space-sm);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all var(--transition-base);
+    z-index: 3;
+}
+
+.poster-image-frame:hover .poster-overlay-actions {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.btn-poster-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: var(--radius-full);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    transition: all var(--transition-fast);
+    backdrop-filter: blur(8px);
+}
+
+.btn-poster-action.btn-zoom {
+    background: rgba(255, 255, 255, 0.92);
+    color: #0f172a;
+}
+
+.btn-poster-action.btn-zoom:hover {
+    background: #ffffff;
+    transform: scale(1.05);
+}
+
+.btn-poster-action.btn-download {
+    background: rgba(234, 179, 8, 0.92);
+    color: #0f172a;
+}
+
+.btn-poster-action.btn-download:hover {
+    background: #facc15;
+    transform: scale(1.05);
+}
+
+/* Afiş Bilgi & İçerik Alanı */
+.poster-info-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.poster-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    border-radius: var(--radius-full);
+    background: rgba(234, 179, 8, 0.12);
+    color: #d97706;
+    border: 1px solid rgba(234, 179, 8, 0.28);
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    width: fit-content;
+}
+
+[data-theme="dark"] .poster-badge {
+    color: #facc15;
+    background: rgba(234, 179, 8, 0.15);
+    border-color: rgba(234, 179, 8, 0.35);
+}
+
+.poster-title {
+    font-family: var(--font-heading);
+    font-size: 2.1rem;
+    font-weight: 800;
+    line-height: 1.2;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.poster-tagline {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    margin-top: -6px;
+    margin-bottom: var(--space-xs);
+}
+
+.poster-description {
+    font-size: 0.98rem;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.poster-features-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    margin: var(--space-sm) 0;
+    padding: var(--space-md) 0;
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.poster-feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-md);
+}
+
+.poster-feature-item .p-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: var(--radius-md);
+    background: rgba(37, 99, 235, 0.1);
+    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.poster-feature-item:nth-child(2) .p-icon {
+    background: rgba(16, 185, 129, 0.1);
+    color: #059669;
+}
+
+.poster-feature-item:nth-child(3) .p-icon {
+    background: rgba(234, 179, 8, 0.12);
+    color: #d97706;
+}
+
+.poster-feature-item .p-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.poster-feature-item .p-text strong {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.poster-feature-item .p-text span {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.poster-action-buttons {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+    margin-top: var(--space-xs);
+}
+
+.btn-poster-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--gradient-primary);
+    color: #ffffff;
+    padding: 12px 28px;
+    border-radius: var(--radius-full);
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+    transition: all var(--transition-fast);
+}
+
+.btn-poster-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+    color: #ffffff;
+}
+
+.btn-poster-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    padding: 12px 22px;
+    border-radius: var(--radius-full);
+    font-size: 0.92rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.btn-poster-secondary:hover {
+    background: var(--card-hover-bg);
+    border-color: var(--border-hover);
+    transform: translateY(-2px);
+}
+
+/* Lightbox Modal */
+.poster-lightbox-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    padding: var(--space-md);
+}
+
+.poster-lightbox-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.lightbox-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.88);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+.lightbox-content {
+    position: relative;
+    z-index: 2;
+    max-width: 90vw;
+    max-height: 92vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #0f172a;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--radius-2xl);
+    overflow: hidden;
+    box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7);
+    transform: scale(0.95);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.poster-lightbox-modal.active .lightbox-content {
+    transform: scale(1);
+}
+
+.lightbox-close-btn {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: all var(--transition-fast);
+    line-height: 1;
+}
+
+.lightbox-close-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: rotate(90deg);
+}
+
+.lightbox-image-wrap {
+    max-height: 76vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #020617;
+}
+
+.lightbox-img {
+    max-width: 100%;
+    max-height: 76vh;
+    object-fit: contain;
+    display: block;
+}
+
+.lightbox-footer {
+    width: 100%;
+    padding: 14px 20px;
+    background: #0f172a;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.lightbox-caption {
+    display: flex;
+    flex-direction: column;
+}
+
+.lightbox-caption strong {
+    color: #ffffff;
+    font-size: 0.95rem;
+}
+
+.lightbox-caption span {
+    color: #94a3b8;
+    font-size: 0.82rem;
+}
+
+.lightbox-download-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #facc15;
+    color: #0f172a;
+    padding: 8px 18px;
+    border-radius: var(--radius-full);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all var(--transition-fast);
+}
+
+.lightbox-download-btn:hover {
+    background: #f59e0b;
+    transform: translateY(-1px);
+    color: #0f172a;
+}
+
+/* Responsiveness */
+@media (max-width: 992px) {
+    .poster-showcase-container {
+        grid-template-columns: 1fr;
+        gap: var(--space-xl);
+        padding: var(--space-xl);
+    }
+
+    .poster-image-frame {
+        max-width: 420px;
+        margin: 0 auto;
+    }
+
+    .poster-title {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .poster-showcase-container {
+        padding: var(--space-md);
+    }
+
+    .poster-overlay-actions {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .poster-action-buttons {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .btn-poster-cta,
+    .btn-poster-secondary {
+        justify-content: center;
+    }
+
+    .lightbox-footer {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+    }
+
+    .lightbox-download-btn {
+        justify-content: center;
+    }
 }
