@@ -670,15 +670,15 @@
         },
 
         initParticipantTypeSwitch() {
-            const studentRadio = document.getElementById('type-student');
-            const professionalRadio = document.getElementById('type-professional');
+            const typeSelect = document.getElementById('participantType');
             const studentFields = document.getElementById('student-fields');
             const professionalFields = document.getElementById('professional-fields');
 
-            if (!studentRadio || !professionalRadio) return;
+            if (!typeSelect) return;
 
             const updateFields = () => {
-                const isStudent = studentRadio.checked;
+                const val = typeSelect.value || 'Öğrenci';
+                const isStudent = (val === 'Öğrenci');
 
                 if (isStudent) {
                     if (studentFields) studentFields.style.display = 'grid';
@@ -695,8 +695,19 @@
                     // Disable professional required
                     const profInput = document.getElementById('profession');
                     const compInput = document.getElementById('company');
+                    const fieldInput = document.getElementById('fieldOfWork');
                     if (profInput) profInput.required = false;
                     if (compInput) compInput.required = false;
+                    if (fieldInput) fieldInput.required = false;
+
+                    // Clear error states on hidden professional fields
+                    [profInput, compInput, fieldInput].forEach(f => {
+                        if (f) {
+                            f.classList.remove('error');
+                            const err = document.getElementById(`${f.name}-error`);
+                            if (err) { err.textContent = ''; err.classList.remove('visible'); }
+                        }
+                    });
                 } else {
                     if (studentFields) studentFields.style.display = 'none';
                     if (professionalFields) professionalFields.style.display = 'grid';
@@ -709,23 +720,27 @@
                     if (gradeSelect) gradeSelect.required = false;
                     if (uniInput) uniInput.required = false;
 
+                    // Clear error states on hidden student fields
+                    [deptInput, gradeSelect, uniInput].forEach(f => {
+                        if (f) {
+                            f.classList.remove('error');
+                            const err = document.getElementById(`${f.name}-error`);
+                            if (err) { err.textContent = ''; err.classList.remove('visible'); }
+                        }
+                    });
+
                     // Enable professional required
                     const profInput = document.getElementById('profession');
                     const compInput = document.getElementById('company');
+                    const fieldInput = document.getElementById('fieldOfWork');
                     if (profInput) profInput.required = true;
                     if (compInput) compInput.required = true;
+                    if (fieldInput) fieldInput.required = false;
                 }
             };
 
-            studentRadio.addEventListener('change', updateFields);
-            professionalRadio.addEventListener('change', updateFields);
-
-            // Pill label click support
-            document.querySelectorAll('.participant-type-pills .pill-label').forEach(label => {
-                label.addEventListener('click', () => {
-                    setTimeout(updateFields, 50);
-                });
-            });
+            typeSelect.addEventListener('change', updateFields);
+            updateFields();
         },
 
         bindEvents() {
@@ -838,8 +853,7 @@
             this.submitBtn.classList.add('loading');
             this.submitBtn.disabled = true;
 
-            const selectedTypeRadio = this.form.querySelector('input[name="participantType"]:checked');
-            const pType = selectedTypeRadio ? selectedTypeRadio.value : 'Öğrenci';
+            const pType = this.form.participantType ? this.form.participantType.value : 'Öğrenci';
             const isStudent = (pType === 'Öğrenci');
 
             const formData = {
