@@ -12,7 +12,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=20260918_02">
+    <link rel="stylesheet" href="styles.css?v=20260921_04">
 </head>
 <body>
     <!-- Navigation -->
@@ -623,13 +623,20 @@
                             <span>Biletimi Sorgula</span>
                         </button>
                     </div>
-                    <h3 class="hall-card-title">Koltuk Seçimi</h3>
+                    <h3 class="hall-card-title">Canlı Salon Yerleşim & Doluluk Planı</h3>
                     <div class="hall-header-right">
                         <div class="hall-badge-shared">
                             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-                            <span>Paylaşımlı Koltuk</span>
+                            <span>Otomatik Koltuk Atamalı</span>
                         </div>
                     </div>
+                </div>
+
+                <!-- Mobil Kaydırma İpucu -->
+                <div class="hall-mobile-hint">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                    <span>Koltuk planını detaylı incelemek için parmağınızla sağa / sola kaydırabilirsiniz</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </div>
 
                 <!-- Noktalı İnteraktif Oturma Alanı (Canvas Area) -->
@@ -657,32 +664,16 @@
                             <span class="hall-stage-text">S A H N E</span>
                         </div>
                     </div>
-
-                    <!-- Seçim Alt Çubuğu (Koltuk Seçilince Beliren Bar) -->
-                    <div class="hall-selection-bar" id="hall-selection-bar" style="display: none;">
-                        <div class="selection-meta">
-                            <span class="selection-label">Seçilen Koltuk:</span>
-                            <span class="selection-value" id="selected-seat-label">--</span>
-                        </div>
-                        <div class="selection-actions">
-                            <button type="button" class="btn-clear-seat" id="btn-clear-seat">Seçimi Kaldır</button>
-                            <a href="#register" class="btn-confirm-seat" id="btn-confirm-seat">
-                                <span>Bu Koltukla Başvur</span>
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                            </a>
-                        </div>
-                    </div>
                 </div>
 
                 <!-- Alt Lejant Bilgisi -->
                 <div class="hall-card-footer">
                     <div class="hall-legend-pills">
-                        <div class="legend-pill"><span class="legend-box box-occupied"></span><span>Dolu / Kayıtlı</span></div>
-                        <div class="legend-pill"><span class="legend-box box-available"></span><span>Müsait (Seçilebilir)</span></div>
-                        <div class="legend-pill"><span class="legend-box box-selected"></span><span>Seçiminiz</span></div>
+                        <div class="legend-pill"><span class="legend-box box-occupied"></span><span>Dolu Koltuk (Kırmızı)</span></div>
+                        <div class="legend-pill"><span class="legend-box box-available"></span><span>Müsait Koltuk</span></div>
                     </div>
                     <div class="hall-note-text">
-                        Koltuk seçimi isteğe bağlıdır; dilediğiniz müsait koltuğu tıklayarak seçebilir veya doğrudan form üzerinden başvurabilirsiniz.
+                        Kayıt olan her katılımcı için sistemimiz salondan otomatik olarak rastgele boş bir koltuk tahsis etmektedir. Alınan koltuklar kırmızı ile işaretlenmiştir.
                     </div>
                 </div>
             </div>
@@ -772,24 +763,24 @@
                             </div>
                         </div>
 
-                        <!-- Seçilen Koltuk Durumu & Gizli Alan -->
+                        <!-- Otomatik Koltuk Tahsisi Bilgilendirme Kutusu -->
                         <div class="form-group selected-seat-box" style="margin-bottom: var(--space-lg);">
-                            <div class="selected-seat-widget" id="selected-seat-widget">
+                            <div class="selected-seat-widget auto-seat-mode" id="selected-seat-widget">
                                 <div class="widget-icon">
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="10" x2="21" y2="10"></line></svg>
                                 </div>
                                 <div class="widget-details">
-                                    <span class="widget-label">Seçilen Koltuk:</span>
-                                    <strong class="widget-value" id="form-selected-seat-text">Henüz koltuk seçilmedi (İsteğe bağlı)</strong>
+                                    <span class="widget-label">Koltuk Tahsisi:</span>
+                                    <strong class="widget-value" id="form-selected-seat-text">Başvurunuz sonrası salondan adınıza otomatik rastgele koltuk atanacaktır</strong>
                                 </div>
                                 <div class="widget-action">
                                     <a href="#hall" class="btn-select-seat-link" id="btn-select-seat-link">
-                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6"></path><path d="M10 14L21 3"></path><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path></svg>
-                                        <span>Plan Üzerinden Seç</span>
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                        <span>Doluluk Durumu</span>
                                     </a>
                                 </div>
                             </div>
-                            <input type="hidden" name="selectedSeat" id="selectedSeat" value="">
+                            <input type="hidden" name="selectedSeat" id="selectedSeat" value="Otomatik">
                         </div>
 
                         <!-- Öğrenci Alanları -->
@@ -854,22 +845,6 @@
                                 <span class="error-msg" id="city-error"></span>
                             </div>
                             <div class="form-group">
-                                <label>Ulaşım İçin Otobüs Gerekli mi? <span class="required">*</span></label>
-                                <div class="radio-group">
-                                    <label class="radio-label">
-                                        <input type="radio" name="busNeeded" value="Evet" required>
-                                        <span class="radio-custom"></span>
-                                        Evet, otobüs lazım
-                                    </label>
-                                    <label class="radio-label">
-                                        <input type="radio" name="busNeeded" value="Hayır" required>
-                                        <span class="radio-custom"></span>
-                                        Hayır, kendi imkânlarımla gelirim
-                                    </label>
-                                </div>
-                                <span class="error-msg" id="busNeeded-error"></span>
-                            </div>
-                            <div class="form-group">
                                 <label for="dietaryNeeds">Özel Diyet veya Erişilebilirlik İhtiyacınız Var mı?</label>
                                 <input type="text" id="dietaryNeeds" name="dietaryNeeds" placeholder="Varsa belirtiniz (opsiyonel)">
                             </div>
@@ -908,8 +883,25 @@
                                 <span class="error-msg" id="expectations-error"></span>
                             </div>
                             <div class="form-group">
-                                <label for="questions">Konuşmacılara Sormak İstediğiniz Sorular</label>
-                                <textarea id="questions" name="questions" rows="3" placeholder="Etkinlik öncesinde konuşmacılara iletmek istediğiniz sorularınızı yazabilirsiniz"></textarea>
+                                <label for="targetSpeaker">Sorunuzu İletmek İstediğiniz Konuşmacı</label>
+                                <select id="targetSpeaker" name="targetSpeaker" class="form-select">
+                                    <option value="" selected>Bir konuşmacı seçin (veya Genel)</option>
+                                    <option value="Öğr. Gör. Dr. Melodi Çiftçi">Öğr. Gör. Dr. Melodi Çiftçi (HMKÜ & Teknopark)</option>
+                                    <option value="Ali Murathan Dikel">Ali Murathan Dikel (Veri Mühendisi & Eğitmen)</option>
+                                    <option value="M. Emre Canpolat">M. Emre Canpolat (Girişimci & Ürün Yöneticisi)</option>
+                                    <option value="Prof. Dr. Itır Erhart">Prof. Dr. Itır Erhart (İstanbul Bilgi Üni. & Adım Adım Kurucusu)</option>
+                                    <option value="Eda Horozlu">Eda Horozlu (Topluluk Lideri & Teknoloji İletişimcisi)</option>
+                                    <option value="Melih Elidüzgün">Melih Elidüzgün (GLOCALBASE Network Kurucusu)</option>
+                                    <option value="Ali Başoğlu">Ali Başoğlu (Dijital Kreatör & İçerik Üreticisi)</option>
+                                    <option value="Zeynep Küçük">Zeynep Küçük (Woman Engineer & Veri Bilimi Uzmanı)</option>
+                                    <option value="Emre Uzunboy">Emre Uzunboy (Kreatör & Sosyal Medya İletişimcisi)</option>
+                                    <option value="Mehmet Kaya">Mehmet Kaya (Nöropazarlama Danışmanı & Neuro Reflect)</option>
+                                    <option value="Genel / Tüm Konuşmacılar">Genel / Tüm Konuşmacılara Ortak Soru</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="questions">Konuşmacıya Sormak İstediğiniz Soru</label>
+                                <textarea id="questions" name="questions" rows="3" placeholder="Seçtiğiniz konuşmacıya iletmek istediğiniz soruyu buraya yazabilirsiniz (isteğe bağlı)"></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="hearAbout">Etkinliği Nereden Duydunuz? <span class="required">*</span></label>
@@ -964,6 +956,11 @@
                     </div>
                     <h3>Başvurunuz Alındı!</h3>
                     <p>Etkinlik detayları ve onay bilgileri e-posta adresinize gönderilecektir. Görüşmek üzere!</p>
+                    <div class="success-assigned-seat" id="success-assigned-seat" style="display: none; margin-top: 16px; padding: 14px 20px; background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 12px; text-align: center;">
+                        <span style="font-size: 0.82rem; color: #ef4444; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; display: block;">Adınıza Tahsis Edilen Koltuk</span>
+                        <strong id="success-seat-name" style="font-size: 1.15rem; color: var(--text-primary); display: block; margin-top: 4px;">--</strong>
+                        <small style="color: var(--text-muted); font-size: 0.82rem; display: block; margin-top: 4px;">Salon yerleşim planında koltuğunuz kırmızı ile rezerve edilmiştir.</small>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1069,8 +1066,8 @@
                             <strong class="t-val" id="res-ticket-dept">--</strong>
                         </div>
                         <div class="ticket-info-item">
-                            <span class="t-lbl">Ulaşım / Servis</span>
-                            <strong class="t-val" id="res-ticket-bus">--</strong>
+                            <span class="t-lbl">Etkinlik Tarihi</span>
+                            <strong class="t-val" id="res-ticket-date">9 Ekim 2026 · 13:00</strong>
                         </div>
                     </div>
                 </div>
@@ -1127,6 +1124,6 @@
 
     <!-- Cloudflare Turnstile Script (site key gerekli) -->
     <!-- <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script> -->
-    <script src="app.js?v=20260918_02"></script>
+    <script src="app.js?v=20260921_04"></script>
 </body>
 </html>

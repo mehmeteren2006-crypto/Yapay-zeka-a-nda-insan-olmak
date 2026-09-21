@@ -390,7 +390,6 @@ function validateRegistration(body) {
     }
 
     if (!body.city?.trim()) errors.push('Şehir gereklidir');
-    if (!body.busNeeded) errors.push('Otobüs bilgisi gereklidir');
     if (!body.aiExperience) errors.push('Yapay zekâ deneyimi gereklidir');
     if (!body.expectations?.trim()) errors.push('Beklenti alanı gereklidir');
     if (!body.hearAbout) errors.push('Nereden duyduğunuz gereklidir');
@@ -412,6 +411,182 @@ function validateRegistration(body) {
     }
 
     return errors;
+}
+
+// === Atatürk Konferans Salonu (400 Koltuk) Konfigürasyonu & Otomatik Atama ===
+const HALL_WINGS_CONFIG = {
+    sol: {
+        name: 'Sol Blok',
+        rows: {
+            'O': [26, 25, 24, 23],
+            'N': [31, 30, 29, 28, 27, 26, 25],
+            'M': [34, 33, 32, 31, 30, 29, 28, 27, 26],
+            'L': [35, 34, 33, 32, 31, 30, 29, 28, 27, 26],
+            'K': [37, 36, 35, 34, 33, 32, 31, 30, 29, 28, 27],
+            'J': [38, 37, 36, 35, 34, 33, 32, 31, 30, 29, 28, 27],
+            'H': [38, 37, 36, 35, 34, 33, 32, 31, 30, 29, 28, 27, 26],
+            'G': [37, 36, 35, 34, 33, 32, 31, 30, 29, 28, 27, 26, 25],
+            'F': [36, 35, 34, 33, 32, 31, 30, 29, 28, 27, 26, 25, 24],
+            'E': [35, 34, 33, 32, 31, 30, 29, 28, 27, 26, 25, 24, 23],
+            'D': [34, 33, 32, 31, 30, 29, 28, 27, 26, 25, 24, 23, 22],
+            'C': [31, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20],
+            'B': [28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18],
+            'A': [25, 24, 23, 22, 21, 20, 19, 18, 17, 16]
+        }
+    },
+    orta: {
+        name: 'Orta Blok',
+        rows: {
+            'O': [22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5],
+            'N': [24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8],
+            'M': [25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10],
+            'L': [25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11],
+            'K': [26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13],
+            'J': [26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14],
+            'H': [25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14],
+            'G': [23, 22, 21, 20, 19, 18, 17, 16, 15, 14],
+            'F': [22, 21, 20, 19, 18, 17, 16, 15, 14],
+            'E': null, // Geçiş koridoru
+            'D': [21, 20, 19, 18, 17, 16, 15, 14],
+            'C': [19, 18, 17, 16, 15, 14, 13],
+            'B': [17, 16, 15, 14, 13, 12],
+            'A': [15, 14, 13, 12, 11]
+        }
+    },
+    sag: {
+        name: 'Sağ Blok',
+        rows: {
+            'O': [4, 3, 2, 1],
+            'N': [7, 6, 5, 4, 3, 2, 1],
+            'M': [9, 8, 7, 6, 5, 4, 3, 2, 1],
+            'L': [10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
+            'K': [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
+            'J': [13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
+            'H': [13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
+            'G': [13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
+            'F': [13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
+            'E': [13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
+            'D': [13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
+            'C': [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
+            'B': [11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
+            'A': [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+        }
+    }
+};
+
+function getAllHallSeats() {
+    const list = [];
+    const rows = ['O', 'N', 'M', 'L', 'K', 'J', 'H', 'G', 'F', 'E', 'D', 'C', 'B', 'A'];
+    for (const wingKey of ['sol', 'orta', 'sag']) {
+        const wing = HALL_WINGS_CONFIG[wingKey];
+        for (const row of rows) {
+            const nums = wing.rows[row];
+            if (Array.isArray(nums)) {
+                for (const num of nums) {
+                    list.push(`${wing.name} · Sıra ${row} · Koltuk ${num}`);
+                }
+            }
+        }
+    }
+    return list;
+}
+
+function normalizeSeatString(s) {
+    if (!s) return '';
+    return String(s)
+        .toLowerCase()
+        .replace(/[·\-—,]/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+}
+
+async function getOccupiedSeatsList() {
+    const occupiedRaw = new Set();
+
+    // 1. Google Sheets'ten kontrol et
+    try {
+        const sheetValues = await fetchGoogleSheetRows();
+        if (sheetValues && sheetValues.length > 1) {
+            const headers = sheetValues[0];
+            const seatColIdx = headers.findIndex(h => /koltuk/i.test(String(h)));
+            if (seatColIdx !== -1) {
+                for (let i = 1; i < sheetValues.length; i++) {
+                    const val = String(sheetValues[i][seatColIdx] || '').trim();
+                    if (val && val !== '-' && !/otomatik|protokol|belirtilmedi/i.test(val)) {
+                        occupiedRaw.add(normalizeSeatString(val));
+                    }
+                }
+            }
+        }
+    } catch (e) {
+        console.warn('Google Sheets occupied seats read error:', e.message);
+    }
+
+    // 2. Lokal Excel'den kontrol et
+    try {
+        const excelPath = path.join(__dirname, 'kayitlar.xlsx');
+        if (fs.existsSync(excelPath)) {
+            const workbook = new ExcelJS.Workbook();
+            await workbook.xlsx.readFile(excelPath);
+            const worksheet = workbook.getWorksheet('Kayıtlar') || workbook.worksheets[0];
+            if (worksheet) {
+                let seatColNum = 21;
+                const headerRow = worksheet.getRow(1);
+                headerRow.eachCell((cell, colNumber) => {
+                    if (/koltuk/i.test(String(cell.value || ''))) {
+                        seatColNum = colNumber;
+                    }
+                });
+
+                worksheet.eachRow((row, rowNumber) => {
+                    if (rowNumber > 1) {
+                        const cellVal = String(row.getCell(seatColNum).value || '').trim();
+                        if (cellVal && cellVal !== '-' && !/otomatik|protokol|belirtilmedi/i.test(cellVal) && cellVal !== 'undefined') {
+                            occupiedRaw.add(normalizeSeatString(cellVal));
+                        }
+                    }
+                });
+            }
+        }
+    } catch (e) {
+        console.warn('Local excel occupied seats read error:', e.message);
+    }
+
+    // Haritadaki standart koltuklarla eşleştir
+    const allSeats = getAllHallSeats();
+    const occupiedCanonical = [];
+
+    for (const seat of allSeats) {
+        const norm = normalizeSeatString(seat);
+        let isOccupied = false;
+        for (const occ of occupiedRaw) {
+            if (occ.includes(norm) || norm.includes(occ)) {
+                isOccupied = true;
+                break;
+            }
+        }
+        if (isOccupied) {
+            occupiedCanonical.push(seat);
+        }
+    }
+
+    return occupiedCanonical;
+}
+
+async function assignRandomSeat() {
+    const allSeats = getAllHallSeats();
+    const occupiedList = await getOccupiedSeatsList();
+    const occupiedSet = new Set(occupiedList.map(s => normalizeSeatString(s)));
+
+    const availableSeats = allSeats.filter(s => !occupiedSet.has(normalizeSeatString(s)));
+
+    if (availableSeats.length === 0) {
+        return 'Kontenjan Dolu (Yedek Sıra)';
+    }
+
+    // Boş koltuklar arasından rastgele birini seç
+    const randomIndex = Math.floor(Math.random() * availableSeats.length);
+    return availableSeats[randomIndex];
 }
 
 // === API Routes ===
@@ -494,7 +669,20 @@ app.post('/api/kayit', registrationLimiter, async (req, res) => {
         const gradeVal = isStudent ? (req.body.grade || '') : (profession ? `${profession} (${pType})` : pType);
         const uniVal = isStudent ? (req.body.university?.trim() || 'HMKÜ') : (company || 'Kurumsal');
 
-        const selectedSeat = (req.body.selectedSeat || '').trim();
+        // Otomatik Rastgele Koltuk Atama
+        const assignedSeat = await assignRandomSeat();
+
+        // Konuşmacı Sorusunu Biçimlendirme
+        const targetSpeaker = (req.body.targetSpeaker || '').trim();
+        const rawQuestion = (req.body.questions || req.body.speakerQuestion || '').trim();
+        let formattedQuestion = '-';
+        if (targetSpeaker && targetSpeaker !== 'Genel / Tüm Konuşmacılar' && rawQuestion) {
+            formattedQuestion = `[${targetSpeaker}]: ${rawQuestion}`;
+        } else if (targetSpeaker && targetSpeaker !== 'Genel / Tüm Konuşmacılar') {
+            formattedQuestion = `[${targetSpeaker}]: (Soru belirtilmedi)`;
+        } else if (rawQuestion) {
+            formattedQuestion = rawQuestion;
+        }
 
         const rowData = [
             now,
@@ -506,18 +694,18 @@ app.post('/api/kayit', registrationLimiter, async (req, res) => {
             gradeVal,
             uniVal,
             req.body.city.trim(),
-            req.body.busNeeded,
+            req.body.busNeeded || '-',
             req.body.dietaryNeeds?.trim() || '',
             req.body.aiExperience,
             req.body.previousEvents || '',
             req.body.expectations.trim(),
-            req.body.questions?.trim() || '',
+            formattedQuestion,
             req.body.hearAbout,
             clientIP,
             pType,
             profession,
             company,
-            selectedSeat
+            assignedSeat
         ];
 
         // Google Sheets'e yaz
@@ -534,8 +722,9 @@ app.post('/api/kayit', registrationLimiter, async (req, res) => {
         console.log(`   Telefon: ${req.body.phone}`);
         console.log(`   Alan / Meslek: ${deptVal} - ${gradeVal}`);
         console.log(`   Kurum / Uni: ${uniVal}`);
-        console.log(`   Koltuk: ${selectedSeat || 'Otomatik / Belirtilmedi'}`);
-        console.log(`   Sehir: ${req.body.city} | Otobus: ${req.body.busNeeded}`);
+        console.log(`   Atanan Koltuk: ${assignedSeat}`);
+        console.log(`   Hedef Konusmaci / Soru: ${formattedQuestion}`);
+        console.log(`   Sehir: ${req.body.city}`);
         console.log(`   Tarih: ${now}`);
         if (sheetSuccess) console.log('   [OK] Google Sheets kaydi basarili');
         if (excelSuccess) console.log('   [OK] Lokal Excel kaydi basarili');
@@ -543,7 +732,7 @@ app.post('/api/kayit', registrationLimiter, async (req, res) => {
         res.json({
             success: true,
             message: 'Başvurunuz başarıyla alındı!',
-            selectedSeat
+            selectedSeat: assignedSeat
         });
 
     } catch (error) {
@@ -558,52 +747,10 @@ app.post('/api/kayit', registrationLimiter, async (req, res) => {
 // Alınan / Dolu Koltuklar Listesi Endpoint'i
 app.get('/api/occupied-seats', async (req, res) => {
     try {
-        const occupied = new Set();
-
-        // 1. Google Sheets'ten kontrol et
-        const sheetValues = await fetchGoogleSheetRows();
-        if (sheetValues && sheetValues.length > 1) {
-            const headers = sheetValues[0];
-            const seatColIdx = headers.findIndex(h => /koltuk/i.test(String(h)));
-            if (seatColIdx !== -1) {
-                for (let i = 1; i < sheetValues.length; i++) {
-                    const val = String(sheetValues[i][seatColIdx] || '').trim();
-                    if (val && val !== '-' && !/otomatik/i.test(val)) {
-                        occupied.add(val);
-                    }
-                }
-            }
-        }
-
-        // 2. Lokal Excel'den de kontrol et (yedek / birincil fallback)
-        const excelPath = path.join(__dirname, 'kayitlar.xlsx');
-        if (fs.existsSync(excelPath)) {
-            const workbook = new ExcelJS.Workbook();
-            await workbook.xlsx.readFile(excelPath);
-            const worksheet = workbook.getWorksheet('Kayıtlar');
-            if (worksheet) {
-                let seatColNum = 21;
-                const headerRow = worksheet.getRow(1);
-                headerRow.eachCell((cell, colNumber) => {
-                    if (/koltuk/i.test(String(cell.value || ''))) {
-                        seatColNum = colNumber;
-                    }
-                });
-
-                worksheet.eachRow((row, rowNumber) => {
-                    if (rowNumber > 1) {
-                        const cellVal = String(row.getCell(seatColNum).value || '').trim();
-                        if (cellVal && cellVal !== '-' && !/otomatik/i.test(cellVal) && cellVal !== 'undefined') {
-                            occupied.add(cellVal);
-                        }
-                    }
-                });
-            }
-        }
-
+        const seats = await getOccupiedSeatsList();
         res.json({
             success: true,
-            seats: Array.from(occupied)
+            seats: seats
         });
     } catch (err) {
         console.error('Occupied seats endpoint hatası:', err.message);
@@ -680,9 +827,7 @@ app.get('/api/bilet-sorgula', async (req, res) => {
                 email: match['E-posta'] || '',
                 phone: match['Telefon'] || '',
                 department: match['Bölüm / Alan'] || match['Bölüm'] || '',
-                participantType: match['Katılımcı Türü'] || 'Öğrenci',
-                seat: match['Seçilen Koltuk'] || match['Koltuk'] || 'Orta Blok · Sıra G, Koltuk 18',
-                busNeeded: match['Otobüs İhtiyacı'] || 'Hayır',
+                seat: match['Seçilen Koltuk'] || match['Koltuk'] || 'Otomatik Tahsis Edildi',
                 date: '9 Ekim 2026',
                 hall: 'Atatürk Konferans Salonu (HMKÜ)'
             }

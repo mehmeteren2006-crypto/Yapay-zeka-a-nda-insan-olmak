@@ -361,8 +361,7 @@
             seatPill.dataset.num = num;
             seatPill.dataset.seatKey = seatKey;
 
-            seatPill.title = `${wingName} · Sıra ${rowLetter}, Koltuk ${num} (Müsait - Seçmek İçin Tıklayın)`;
-            seatPill.addEventListener('click', () => this.handleSeatClick(seatPill));
+            seatPill.title = `${wingName} · Sıra ${rowLetter}, Koltuk ${num} (Müsait)`;
             return seatPill;
         },
 
@@ -541,14 +540,16 @@
                             const nameEl = document.getElementById('res-ticket-name');
                             const typeEl = document.getElementById('res-ticket-type');
                             const deptEl = document.getElementById('res-ticket-dept');
+                            const dateEl = document.getElementById('res-ticket-date');
                             const busEl = document.getElementById('res-ticket-bus');
                             const seatEl = document.getElementById('res-ticket-seat');
 
                             if (nameEl) nameEl.textContent = t.name || '-';
                             if (typeEl) typeEl.textContent = t.participantType || 'Katılımcı';
                             if (deptEl) deptEl.textContent = t.department || 'Genel';
-                            if (busEl) busEl.textContent = t.busNeeded || 'Hayır';
-                            if (seatEl) seatEl.textContent = t.seat || 'Orta Blok · Sıra G · Koltuk 18';
+                            if (dateEl) dateEl.textContent = t.date ? `${t.date} · 13:00` : '9 Ekim 2026 · 13:00';
+                            if (busEl) busEl.textContent = t.busNeeded || '-';
+                            if (seatEl) seatEl.textContent = t.seat || 'Otomatik Tahsis Edildi';
 
                             if (resultCard) resultCard.style.display = 'block';
 
@@ -620,33 +621,37 @@
                     badgeEl.style.background = 'rgba(245, 158, 11, 0.12)';
                 } else {
                     badgeEl.textContent = 'Kayıtlar Açık';
+                    badgeEl.style.color = 'var(--accent-primary)';
+                    badgeEl.style.borderColor = 'rgba(99, 102, 241, 0.3)';
+                    badgeEl.style.background = 'rgba(99, 102, 241, 0.1)';
                 }
             }
         },
 
-        animateNumber(element, target) {
-            const duration = 800;
-            const start = parseInt(element.textContent, 10) || 0;
-            const range = target - start;
-            const startTime = performance.now();
+        animateNumber(el, targetVal) {
+            const current = parseInt(el.textContent, 10) || 0;
+            if (current === targetVal) {
+                el.textContent = targetVal;
+                return;
+            }
+            const duration = 600;
+            const start = performance.now();
 
-            const update = (now) => {
-                const elapsed = now - startTime;
-                const progress = Math.min(elapsed / duration, 1);
-                const current = Math.round(start + range * (1 - Math.pow(1 - progress, 2)));
-                element.textContent = current;
+            const step = (timestamp) => {
+                const progress = Math.min((timestamp - start) / duration, 1);
+                const val = Math.round(current + (targetVal - current) * progress);
+                el.textContent = val;
                 if (progress < 1) {
-                    requestAnimationFrame(update);
+                    requestAnimationFrame(step);
                 } else {
-                    element.textContent = target;
+                    el.textContent = targetVal;
                 }
             };
-
-            requestAnimationFrame(update);
+            requestAnimationFrame(step);
         }
     };
 
-    // === Registration Form Management ===
+    // === Form Management ===
     const RegistrationForm = {
         form: null,
         submitBtn: null,
@@ -657,12 +662,76 @@
             this.form = document.getElementById('registration-form');
             this.submitBtn = document.getElementById('submit-btn');
             this.successMsg = document.getElementById('success-message');
+
             if (!this.form) return;
 
-            this.initParticipantType();
+            this.bindEvents();
+            this.initParticipantTypeSwitch();
+        },
+
+        initParticipantTypeSwitch() {
+            const studentRadio = document.getElementById('type-student');
+            const professionalRadio = document.getElementById('type-professional');
+            const studentFields = document.getElementById('student-fields');
+            const professionalFields = document.getElementById('professional-fields');
+
+            if (!studentRadio || !professionalRadio) return;
+
+            const updateFields = () => {
+                const isStudent = studentRadio.checked;
+
+                if (isStudent) {
+                    if (studentFields) studentFields.style.display = 'grid';
+                    if (professionalFields) professionalFields.style.display = 'none';
+
+                    // Re-enable student required attributes
+                    const deptInput = document.getElementById('department');
+                    const gradeSelect = document.getElementById('grade');
+                    const uniInput = document.getElementById('university');
+                    if (deptInput) deptInput.required = true;
+                    if (gradeSelect) gradeSelect.required = true;
+                    if (uniInput) uniInput.required = true;
+
+                    // Disable professional required
+                    const profInput = document.getElementById('profession');
+                    const compInput = document.getElementById('company');
+                    if (profInput) profInput.required = false;
+                    if (compInput) compInput.required = false;
+                } else {
+                    if (studentFields) studentFields.style.display = 'none';
+                    if (professionalFields) professionalFields.style.display = 'grid';
+
+                    // Disable student required
+                    const deptInput = document.getElementById('department');
+                    const gradeSelect = document.getElementById('grade');
+                    const uniInput = document.getElementById('university');
+                    if (deptInput) deptInput.required = false;
+                    if (gradeSelect) gradeSelect.required = false;
+                    if (uniInput) uniInput.required = false;
+
+                    // Enable professional required
+                    const profInput = document.getElementById('profession');
+                    const compInput = document.getElementById('company');
+                    if (profInput) profInput.required = true;
+                    if (compInput) compInput.required = true;
+                }
+            };
+
+            studentRadio.addEventListener('change', updateFields);
+            professionalRadio.addEventListener('change', updateFields);
+
+            // Pill label click support
+            document.querySelectorAll('.participant-type-pills .pill-label').forEach(label => {
+                label.addEventListener('click', () => {
+                    setTimeout(updateFields, 50);
+                });
+            });
+        },
+
+        bindEvents() {
             this.form.addEventListener('submit', (e) => this.handleSubmit(e));
 
-            // Real-time validation on blur
+            // Real-time validation
             this.form.querySelectorAll('input, select, textarea').forEach(field => {
                 field.addEventListener('blur', () => this.validateField(field));
                 field.addEventListener('input', () => {
@@ -671,81 +740,6 @@
                     }
                 });
             });
-        },
-
-        initParticipantType() {
-            const pills = document.querySelectorAll('.participant-type-pill');
-            const studentFields = document.getElementById('student-fields');
-            const professionalFields = document.getElementById('professional-fields');
-            const deptInput = document.getElementById('department');
-            const gradeSelect = document.getElementById('grade');
-            const uniInput = document.getElementById('university');
-            const profInput = document.getElementById('profession');
-            const compInput = document.getElementById('company');
-            const fieldInput = document.getElementById('fieldOfWork');
-
-            const setType = (type) => {
-                const isStudent = (type === 'Öğrenci');
-                if (studentFields && professionalFields) {
-                    if (isStudent) {
-                        studentFields.style.display = 'grid';
-                        professionalFields.style.display = 'none';
-
-                        deptInput?.setAttribute('required', '');
-                        gradeSelect?.setAttribute('required', '');
-                        uniInput?.setAttribute('required', '');
-
-                        profInput?.removeAttribute('required');
-                        compInput?.removeAttribute('required');
-                        fieldInput?.removeAttribute('required');
-
-                        // Clear error states on hidden fields
-                        [profInput, compInput, fieldInput].forEach(f => {
-                            if (f) {
-                                f.classList.remove('error');
-                                const err = document.getElementById(`${f.name}-error`);
-                                if (err) { err.textContent = ''; err.classList.remove('visible'); }
-                            }
-                        });
-                    } else {
-                        studentFields.style.display = 'none';
-                        professionalFields.style.display = 'grid';
-
-                        deptInput?.removeAttribute('required');
-                        gradeSelect?.removeAttribute('required');
-                        uniInput?.removeAttribute('required');
-
-                        profInput?.setAttribute('required', '');
-                        compInput?.setAttribute('required', '');
-                        fieldInput?.setAttribute('required', '');
-
-                        // Clear error states on hidden fields
-                        [deptInput, gradeSelect, uniInput].forEach(f => {
-                            if (f) {
-                                f.classList.remove('error');
-                                const err = document.getElementById(`${f.name}-error`);
-                                if (err) { err.textContent = ''; err.classList.remove('visible'); }
-                            }
-                        });
-                    }
-                }
-            };
-
-            pills.forEach(pill => {
-                pill.addEventListener('click', () => {
-                    pills.forEach(p => p.classList.remove('active'));
-                    pill.classList.add('active');
-                    const radio = pill.querySelector('input[type="radio"]');
-                    if (radio) {
-                        radio.checked = true;
-                        setType(radio.value);
-                    }
-                });
-            });
-
-            // Başlangıç durumu
-            const checkedRadio = document.querySelector('input[name="participantType"]:checked');
-            if (checkedRadio) setType(checkedRadio.value);
         },
 
         validateField(field) {
@@ -861,14 +855,14 @@
                 company: !isStudent ? (this.form.company?.value.trim() || '') : '',
                 fieldOfWork: !isStudent ? (this.form.fieldOfWork?.value.trim() || '') : '',
                 city: this.form.city.value.trim(),
-                busNeeded: this.form.busNeeded.value,
-                dietaryNeeds: this.form.dietaryNeeds.value.trim(),
+                busNeeded: '-',
+                dietaryNeeds: this.form.dietaryNeeds?.value.trim() || '',
                 aiExperience: this.form.aiExperience.value,
                 previousEvents: this.form.previousEvents?.value || '',
                 expectations: this.form.expectations.value.trim(),
-                questions: this.form.questions.value.trim(),
-                hearAbout: this.form.hearAbout.value,
-                selectedSeat: this.form.selectedSeat?.value || '',
+                targetSpeaker: this.form.targetSpeaker?.value || '',
+                questions: this.form.questions?.value.trim() || '',
+                selectedSeat: 'Otomatik',
                 turnstileToken: this.turnstileToken || ''
             };
 
@@ -887,11 +881,19 @@
                     this.successMsg.classList.add('visible');
                     this.successMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
-                    // Canlı salon istatistiklerini ve koltuk doluluklarını güncelle
-                    HallManager.fetchStats();
+                    // Adına tahsis edilen koltuğu göster
                     if (result.selectedSeat) {
+                        const seatBox = document.getElementById('success-assigned-seat');
+                        const seatName = document.getElementById('success-seat-name');
+                        if (seatBox && seatName) {
+                            seatName.textContent = result.selectedSeat;
+                            seatBox.style.display = 'block';
+                        }
                         HallManager.markSeatOccupied(result.selectedSeat);
                     }
+
+                    // Canlı salon istatistiklerini ve koltuk doluluklarını güncelle
+                    HallManager.fetchStats();
                     HallManager.fetchOccupiedSeats();
                 } else {
                     throw new Error(result.message || 'Bir hata oluştu');
