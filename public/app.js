@@ -801,8 +801,13 @@
             const requiredFields = this.form.querySelectorAll('[required]');
 
             requiredFields.forEach(field => {
-                // Görünür olmayan alanları atla
-                if (field.offsetParent === null && field.type !== 'radio' && field.type !== 'checkbox') {
+                // Görünür olmayan alanları atla (gizli parent container içinde olanlar)
+                const isSpecialField = field.type === 'radio' || field.type === 'checkbox' || field.tagName === 'SELECT';
+                if (!isSpecialField && field.offsetParent === null) {
+                    // Ek kontrol: En yakın parent container'ın display:none olup olmadığını kontrol et
+                    const closestHidden = field.closest('[style*="display: none"]') || field.closest('[style*="display:none"]');
+                    if (closestHidden) return;
+                    // offsetParent null olabilir ama CSS'den dolayı değil, atla
                     return;
                 }
 
@@ -876,6 +881,7 @@
                 expectations: this.form.expectations.value.trim(),
                 targetSpeaker: this.form.targetSpeaker?.value || '',
                 questions: this.form.questions?.value.trim() || '',
+                hearAbout: this.form.hearAbout?.value || '',
                 selectedSeat: 'Otomatik',
                 turnstileToken: this.turnstileToken || ''
             };
