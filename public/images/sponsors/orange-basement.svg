@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 70" fill="#ea580c">
+    <!-- Stylized rays/citrus burst -->
+    <path d="M12 18 L22 10 M8 28 L18 24 M18 36 L26 32" stroke="#ea580c" stroke-width="2.5" stroke-linecap="round" />
+    <g fill="#ea580c">
+        <text x="32" y="30" font-family="'Outfit', 'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif" font-size="20" font-weight="800" letter-spacing="-0.4">orange</text>
+        <text x="32" y="52" font-family="'Outfit', 'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif" font-size="20" font-weight="800" letter-spacing="-0.4">basement.</text>
+    </g>
+</svg>

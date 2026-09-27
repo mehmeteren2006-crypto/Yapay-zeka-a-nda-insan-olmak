@@ -1001,6 +1001,11 @@
 
             const open = (e) => {
                 if (e) e.preventDefault();
+                const posterImg = document.getElementById('poster-img');
+                const lightboxImg = modal.querySelector('.lightbox-img');
+                if (posterImg && lightboxImg && posterImg.src) {
+                    lightboxImg.src = posterImg.src;
+                }
                 modal.classList.add('active');
                 document.body.style.overflow = 'hidden';
             };
