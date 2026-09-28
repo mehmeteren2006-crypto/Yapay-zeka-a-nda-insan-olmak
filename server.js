@@ -86,13 +86,19 @@ function requireAdminAuth(req, res, next) {
 app.use(cors());
 app.use(express.json({ limit: '1mb' }));
 app.use(express.static(path.join(__dirname, 'public'), {
-    maxAge: 0,
-    etag: false,
+    maxAge: '1d',
+    etag: true,
     setHeaders: (res, filePath) => {
-        // Tarayıcıların afiş ve logoları eski cache'ten göstermesini önle
-        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
-        res.setHeader('Pragma', 'no-cache');
-        res.setHeader('Expires', '0');
+        if (filePath.endsWith('.html')) {
+            // HTML sayfaları her zaman güncel kalsın
+            res.setHeader('Cache-Control', 'no-cache');
+        } else if (filePath.match(/\.(jpg|jpeg|png|gif|ico|svg|webp)$/i)) {
+            // Görseller 1 gün önbelleğe alınsın, arka planda yenilensin
+            res.setHeader('Cache-Control', 'public, max-age=86400, stale-while-revalidate=604800');
+        } else if (filePath.match(/\.(css|js)$/i)) {
+            // CSS ve JS dosyaları 1 saat cache
+            res.setHeader('Cache-Control', 'public, max-age=3600, stale-while-revalidate=86400');
+        }
     }
 }));
 
@@ -420,7 +426,7 @@ function validateRegistration(body) {
     return errors;
 }
 
-// === Atatürk Konferans Salonu (400 Koltuk) Konfigürasyonu & Otomatik Atama ===
+// === Atatürk Konferans Salonu (500 Koltuk) Konfigürasyonu & Otomatik Atama ===
 const HALL_WINGS_CONFIG = {
     sol: {
         name: 'Sol Blok',
@@ -588,7 +594,7 @@ async function assignRandomSeat() {
     const availableSeats = allSeats.filter(s => !occupiedSet.has(normalizeSeatString(s)));
 
     if (availableSeats.length === 0) {
-        return 'Kontenjan Dolu (Yedek Sıra)';
+        return 'İlave Kontenjan / Yedek Sıra';
     }
 
     // Boş koltuklar arasından rastgele birini seç
@@ -598,7 +604,7 @@ async function assignRandomSeat() {
 
 // === API Routes ===
 
-// Canlı 400 Kişilik Salon İstatistikleri (Atatürk Konferans Salonu)
+// Canlı 500 Kişilik Salon İstatistikleri (Atatürk Konferans Salonu)
 app.get('/api/stats', async (req, res) => {
     try {
         let count = 0;
@@ -620,7 +626,7 @@ app.get('/api/stats', async (req, res) => {
             }
         }
 
-        const capacity = 400; // Atatürk Konferans Salonu Kapasitesi
+        const capacity = 500; // Atatürk Konferans Salonu Kapasitesi (500'e çıkarıldı)
         const registered = count;
         const remaining = Math.max(0, capacity - registered);
         const fillPercentage = Math.min(100, Math.round((registered / capacity) * 100));
@@ -735,6 +741,9 @@ app.post('/api/kayit', registrationLimiter, async (req, res) => {
         console.log(`   Tarih: ${now}`);
         if (sheetSuccess) console.log('   [OK] Google Sheets kaydi basarili');
         if (excelSuccess) console.log('   [OK] Lokal Excel kaydi basarili');
+
+        // Yeni kayıt gelince önbelleği hemen temizle (anlık güncellensin)
+        invalidateSheetCache();
 
         res.json({
             success: true,
@@ -893,8 +902,25 @@ app.get('/api/admin/check', (req, res) => {
     });
 });
 
+// Google Sheets Veri Önbelleği (Aşırı istekleri ve Vercel CPU limitlerini korur)
+let sheetDataCache = {
+    data: null,
+    timestamp: 0,
+    ttl: 20 * 1000 // 20 saniye canlı önbellek
+};
+
+function invalidateSheetCache() {
+    sheetDataCache.data = null;
+    sheetDataCache.timestamp = 0;
+}
+
 // Google Sheets'ten Canlı Kayıt Çekme Fonksiyonu
-async function fetchGoogleSheetRows() {
+async function fetchGoogleSheetRows(forceFresh = false) {
+    const now = Date.now();
+    if (!forceFresh && sheetDataCache.data && (now - sheetDataCache.timestamp < sheetDataCache.ttl)) {
+        return sheetDataCache.data;
+    }
+
     const webhookUrl = process.env.GOOGLE_SHEET_WEBHOOK_URL || GOOGLE_SHEET_WEBHOOK_URL;
     if (!webhookUrl) return null;
 
@@ -906,13 +932,16 @@ async function fetchGoogleSheetRows() {
             redirect: 'follow',
             signal: AbortSignal.timeout(25000)
         });
-        if (!resp.ok) return null;
+        if (!resp.ok) return sheetDataCache.data || null;
         const data = await resp.json();
         if (data && Array.isArray(data.values) && data.values.length > 1) {
+            sheetDataCache.data = data.values;
+            sheetDataCache.timestamp = Date.now();
             return data.values;
         }
     } catch (err) {
-        // Hata durumunda sessizce local Excel fallback'e geç
+        // Hata veya geçici timeout durumunda önbellekteki veriyi koru
+        if (sheetDataCache.data) return sheetDataCache.data;
     }
     return null;
 }
@@ -929,6 +958,9 @@ async function deleteGoogleSheetRow(rowNumber) {
             body: JSON.stringify({ action: 'delete', rowNumber }),
             redirect: 'follow'
         });
+        if (resp.ok) {
+            invalidateSheetCache();
+        }
         return resp.ok;
     } catch (err) {
         console.error('Google Sheet silme hatası:', err.message);

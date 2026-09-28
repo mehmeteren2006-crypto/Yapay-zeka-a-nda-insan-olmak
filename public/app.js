@@ -140,9 +140,9 @@
         }
     };
 
-    // === Atatürk Konferans Salonu 400-Kişilik Koltuk Seçimi & Salon Yönetimi ===
+    // === Atatürk Konferans Salonu 500-Kişilik Koltuk Seçimi & Salon Yönetimi ===
     const HallManager = {
-        totalCapacity: 400,
+        totalCapacity: 500,
         registeredCount: 0,
         currentZoom: 1.0,
         selectedSeat: null,
@@ -597,8 +597,9 @@
             const badgeEl = document.getElementById('hall-progress-badge');
 
             const registered = data.registered || 0;
-            const remaining = data.remaining !== undefined ? data.remaining : Math.max(0, 400 - registered);
-            const percent = data.fillPercentage !== undefined ? data.fillPercentage : Math.round((registered / 400) * 100);
+            const capacity = data.capacity || 500;
+            const remaining = data.remaining !== undefined ? data.remaining : Math.max(0, capacity - registered);
+            const percent = data.fillPercentage !== undefined ? data.fillPercentage : Math.round((registered / capacity) * 100);
 
             if (regEl) this.animateNumber(regEl, registered);
             if (remEl) this.animateNumber(remEl, remaining);
