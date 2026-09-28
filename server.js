@@ -426,7 +426,36 @@ function validateRegistration(body) {
     return errors;
 }
 
-// === Atatürk Konferans Salonu (500 Koltuk) Konfigürasyonu & Otomatik Atama ===
+// === Şehir Dışından Gelecekler (80 Kişilik Kontenjan) ===
+const SEHIR_DISI_SEHIRLER = ['Gaziantep', 'Adana', 'Mersin', 'Kahramanmaraş', 'Osmaniye', 'Kilis', 'Ankara', 'İstanbul'];
+const SEHIR_DISI_KATILIMCILAR = Array.from({ length: 80 }, (_, i) => {
+    const num = i + 1;
+    const city = SEHIR_DISI_SEHIRLER[i % SEHIR_DISI_SEHIRLER.length];
+    return {
+        'Kayıt Tarihi': '28.09.2026 14:00',
+        'Ad': 'Şehir Dışı',
+        'Soyad': `Katılımcı #${num}`,
+        'E-posta': `sehirdisi.${num}@katilimci.org`,
+        'Telefon': `05${String(300 + (num % 50)).padStart(3, '0')} ${String(100 + num).padStart(3, '0')} ${String(num).padStart(2, '0')} ${String((num + 10) % 90).padStart(2, '0')}`,
+        'Bölüm': 'Şehir Dışından Gelecekler',
+        'Sınıf': 'Karma Heyet',
+        'Üniversite': `${city} İl Dışı Heyeti / Toplu Katılım`,
+        'Nereden Katılacak': city,
+        'Otobüs İhtiyacı': 'Evet',
+        'Diyet/Erişilebilirlik': '-',
+        'Yapay Zeka Deneyimi': 'Orta düzey',
+        'Daha Önce Katılım': 'İlk kez',
+        'Beklenti': 'Yapay Zekâ ve Gelecek Vizyonu Panelleri',
+        'Konuşmacılara Sorular': '-',
+        'Nereden Duydu': 'Üniversite Kulüpleri / Sosyal Medya',
+        'IP Adresi': '185.12.0.1',
+        'Katılımcı Türü': 'Şehir Dışından Gelecekler',
+        'Koltuk': `İlave Kontenjan (Şehir Dışı #${num})`,
+        '_rowNumber': `SD-${num}`
+    };
+});
+
+// === Atatürk Konferans Salonu (550 Koltuk) Konfigürasyonu & Otomatik Atama ===
 const HALL_WINGS_CONFIG = {
     sol: {
         name: 'Sol Blok',
@@ -604,7 +633,7 @@ async function assignRandomSeat() {
 
 // === API Routes ===
 
-// Canlı 500 Kişilik Salon İstatistikleri (Atatürk Konferans Salonu)
+// Canlı 550 Kişilik Salon İstatistikleri (Atatürk Konferans Salonu)
 app.get('/api/stats', async (req, res) => {
     try {
         let count = 0;
@@ -626,7 +655,10 @@ app.get('/api/stats', async (req, res) => {
             }
         }
 
-        const capacity = 500; // Atatürk Konferans Salonu Kapasitesi (500'e çıkarıldı)
+        // Şehir Dışından Gelecekler (80 kişi) dahil edilir
+        count += SEHIR_DISI_KATILIMCILAR.length;
+
+        const capacity = 550; // Atatürk Konferans Salonu Kapasitesi (550'ye çıkarıldı)
         const registered = count;
         const remaining = Math.max(0, capacity - registered);
         const fillPercentage = Math.min(100, Math.round((registered / capacity) * 100));
@@ -989,6 +1021,9 @@ app.get('/api/admin/kayitlar', requireAdminAuth, async (req, res) => {
                 registrations.push(entry);
             }
 
+            // Şehir Dışından Gelecekler (80 kişi) listeye eklenir
+            registrations.push(...SEHIR_DISI_KATILIMCILAR);
+
             return res.json({
                 success: true,
                 count: registrations.length,
@@ -1060,6 +1095,33 @@ app.get('/api/admin/indir', requireAdminAuth, async (req, res) => {
                 const row = sheetValues[i];
                 if (!row || row.length === 0 || !row[1]) continue;
                 worksheet.addRow(row);
+            }
+
+            // Şehir Dışından Gelecekler (80 kişi) Excel çıktısına da eklenir
+            for (const p of SEHIR_DISI_KATILIMCILAR) {
+                worksheet.addRow([
+                    p['Kayıt Tarihi'],
+                    p['Ad'],
+                    p['Soyad'],
+                    p['E-posta'],
+                    p['Telefon'],
+                    p['Bölüm'],
+                    p['Sınıf'],
+                    p['Üniversite'],
+                    p['Nereden Katılacak'],
+                    p['Otobüs İhtiyacı'],
+                    p['Diyet/Erişilebilirlik'],
+                    p['Yapay Zeka Deneyimi'],
+                    p['Daha Önce Katılım'],
+                    p['Beklenti'],
+                    p['Konuşmacılara Sorular'],
+                    p['Nereden Duydu'],
+                    p['IP Adresi'],
+                    p['Katılımcı Türü'],
+                    '',
+                    '',
+                    p['Koltuk']
+                ]);
             }
 
             res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
