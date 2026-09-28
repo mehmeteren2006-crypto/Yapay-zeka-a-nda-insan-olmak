@@ -229,7 +229,8 @@ async function appendToSheet(data) {
             const resp = await fetch(webhookUrl, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ action: 'append', row: data })
+                body: JSON.stringify({ action: 'append', row: data }),
+                redirect: 'follow'
             });
             if (resp.ok) {
                 console.log('   ✅ Webhook üzerinden Google Sheets\'e aktarıldı');
@@ -902,7 +903,8 @@ async function fetchGoogleSheetRows() {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ action: 'read' }),
-            signal: AbortSignal.timeout(3000)
+            redirect: 'follow',
+            signal: AbortSignal.timeout(25000)
         });
         if (!resp.ok) return null;
         const data = await resp.json();
@@ -924,7 +926,8 @@ async function deleteGoogleSheetRow(rowNumber) {
         const resp = await fetch(webhookUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ action: 'delete', rowNumber })
+            body: JSON.stringify({ action: 'delete', rowNumber }),
+            redirect: 'follow'
         });
         return resp.ok;
     } catch (err) {
