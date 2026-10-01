@@ -677,9 +677,19 @@ app.get('/api/stats', async (req, res) => {
     }
 });
 
+// Kayıtların Açık / Kapalı Durumu (İstenildiğinde true yapılarak tekrar açılabilir)
+const REGISTRATIONS_OPEN = false;
+
 // Kayıt endpoint'i
 app.post('/api/kayit', registrationLimiter, async (req, res) => {
     try {
+        if (!REGISTRATIONS_OPEN) {
+            return res.status(403).json({
+                success: false,
+                message: 'Etkinlik kayıtlarımız şu an için dolmuş ve geçici olarak kapatılmıştır. Yoğun ilginiz için teşekkür ederiz!'
+            });
+        }
+
         // Turnstile doğrulama
         const clientIP = req.headers['x-forwarded-for'] || req.socket.remoteAddress || '';
         if (TURNSTILE_SECRET && req.body.turnstileToken) {
