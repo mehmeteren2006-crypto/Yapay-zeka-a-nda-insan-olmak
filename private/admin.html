@@ -866,7 +866,7 @@
             <div class="stat-card">
                 <div class="stat-card-title">Toplam Başvuru</div>
                 <div class="stat-card-value" id="stat-total">0</div>
-                <div class="stat-card-sub" id="stat-capacity-sub">Mavi Salon: 450 Koltuk (%0)</div>
+                <div class="stat-card-sub" id="stat-capacity-sub">Kırmızı Salon: 450 Koltuk (%0)</div>
             </div>
             <div class="stat-card">
                 <div class="stat-card-title">Otobüs / Servis Talebi</div>
@@ -1047,7 +1047,7 @@
 
             const capRatio = Math.min(100, Math.round((total / 450) * 100));
             const capSub = document.getElementById('stat-capacity-sub');
-            if (capSub) capSub.textContent = `Mavi Salon: 450 Koltuk (%${capRatio} Dolu)`;
+            if (capSub) capSub.textContent = `Kırmızı Salon: 450 Koltuk (%${capRatio} Dolu)`;
 
             const busCount = allRegistrations.filter(r => {
                 const b = (r['Otobüs İhtiyacı'] || '').toString().toLowerCase();

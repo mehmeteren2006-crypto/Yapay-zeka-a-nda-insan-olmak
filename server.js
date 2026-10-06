@@ -429,7 +429,7 @@ function validateRegistration(body) {
 // === Kayıtlar Sıfırlandı (Kontenjan: 450) ===
 const SEHIR_DISI_KATILIMCILAR = [];
 
-// === Barbaros Hayrettin Paşa Mavi Salon (İSTE Gemi Binası - 450 Koltuk) Konfigürasyonu & Otomatik Atama ===
+// === Merkez Kampüs Kırmızı Salon (İSTE - 450 Koltuk) Konfigürasyonu & Otomatik Atama ===
 const HALL_WINGS_CONFIG = {
     sol: {
         name: 'Sol Blok',
@@ -607,7 +607,7 @@ async function assignRandomSeat() {
 
 // === API Routes ===
 
-// Canlı 450 Kişilik Salon İstatistikleri (Barbaros Hayrettin Paşa Mavi Salon)
+// Canlı 450 Kişilik Salon İstatistikleri (Merkez Kampüs Kırmızı Salon)
 app.get('/api/stats', async (req, res) => {
     try {
         let count = 0;
@@ -631,7 +631,7 @@ app.get('/api/stats', async (req, res) => {
 
         count += SEHIR_DISI_KATILIMCILAR.length;
 
-        const capacity = 450; // Barbaros Hayrettin Paşa Mavi Salon Kapasitesi (450)
+        const capacity = 450; // Merkez Kampüs Kırmızı Salon Kapasitesi (450)
         const registered = count;
         const remaining = Math.max(0, capacity - registered);
         const fillPercentage = Math.min(100, Math.round((registered / capacity) * 100));
@@ -642,7 +642,7 @@ app.get('/api/stats', async (req, res) => {
             registered,
             remaining,
             fillPercentage,
-            hallName: 'Barbaros Hayrettin Paşa Mavi Salon (İSTE Gemi Binası)'
+            hallName: 'Merkez Kampüs Kırmızı Salon (İSTE)'
         });
     } catch (error) {
         console.error('Stats endpoint hatası:', error.message);
@@ -860,7 +860,7 @@ app.get('/api/bilet-sorgula', async (req, res) => {
                 department: match['Bölüm / Alan'] || match['Bölüm'] || '',
                 seat: match['Seçilen Koltuk'] || match['Koltuk'] || 'Otomatik Tahsis Edildi',
                 date: '9 Ekim 2026',
-                hall: 'Barbaros Hayrettin Paşa Mavi Salon (İSTE Gemi Binası)'
+                hall: 'Merkez Kampüs Kırmızı Salon (İSTE)'
             }
         });
     } catch (err) {

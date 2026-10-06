@@ -140,7 +140,7 @@
         }
     };
 
-    // === Barbaros Hayrettin Paşa Mavi Salon 450-Kişilik Koltuk Seçimi & Salon Yönetimi ===
+    // === Merkez Kampüs Kırmızı Salon 450-Kişilik Koltuk Seçimi & Salon Yönetimi ===
     const HallManager = {
         totalCapacity: 450,
         registeredCount: 0,
@@ -1032,6 +1032,46 @@
         }
     };
 
+    // === Poster Tabs Manager ===
+    const PosterTabsManager = {
+        init() {
+            const tabs = document.querySelectorAll('.poster-tab-btn');
+            const posterImg = document.getElementById('poster-img');
+            const posterTitle = document.querySelector('.poster-title');
+            const posterTagline = document.querySelector('.poster-tagline');
+            const downloadBtn = document.querySelector('.btn-poster-action.btn-download');
+
+            if (!tabs.length || !posterImg) return;
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+
+                    const src = tab.getAttribute('data-poster');
+                    const title = tab.getAttribute('data-title');
+                    const tagline = tab.getAttribute('data-tagline');
+                    const downloadName = tab.getAttribute('data-download');
+
+                    if (src) {
+                        posterImg.style.transition = 'opacity 0.2s ease';
+                        posterImg.style.opacity = '0.2';
+                        setTimeout(() => {
+                            posterImg.src = src;
+                            posterImg.style.opacity = '1';
+                        }, 120);
+                    }
+                    if (title && posterTitle) posterTitle.textContent = title;
+                    if (tagline && posterTagline) posterTagline.textContent = tagline;
+                    if (downloadBtn && src) {
+                        downloadBtn.href = src;
+                        if (downloadName) downloadBtn.setAttribute('download', downloadName);
+                    }
+                });
+            });
+        }
+    };
+
     // === Initialize Everything ===
     document.addEventListener('DOMContentLoaded', () => {
         ThemeManager.init();
@@ -1044,6 +1084,7 @@
         RegistrationForm.init();
         KvkkModal.init();
         PosterLightbox.init();
+        PosterTabsManager.init();
     });
 
 })();
