@@ -426,10 +426,10 @@ function validateRegistration(body) {
     return errors;
 }
 
-// === Kayıtlar Sıfırlandı (Kontenjan: 450) ===
+// === Kayıtlar Sıfırlandı (Kontenjan: 350) ===
 const SEHIR_DISI_KATILIMCILAR = [];
 
-// === Merkez Kampüs Kırmızı Salon (İSTE - 450 Koltuk) Konfigürasyonu & Otomatik Atama ===
+// === Merkez Kampüs Kırmızı Salon (İSTE - 350 Koltuk) Konfigürasyonu & Otomatik Atama ===
 const HALL_WINGS_CONFIG = {
     sol: {
         name: 'Sol Blok',
@@ -607,7 +607,7 @@ async function assignRandomSeat() {
 
 // === API Routes ===
 
-// Canlı 450 Kişilik Salon İstatistikleri (Merkez Kampüs Kırmızı Salon)
+// Canlı 350 Kişilik Salon İstatistikleri (Merkez Kampüs Kırmızı Salon)
 app.get('/api/stats', async (req, res) => {
     try {
         let count = 0;
@@ -631,7 +631,7 @@ app.get('/api/stats', async (req, res) => {
 
         count += SEHIR_DISI_KATILIMCILAR.length;
 
-        const capacity = 450; // Merkez Kampüs Kırmızı Salon Kapasitesi (450)
+        const capacity = 350; // Merkez Kampüs Kırmızı Salon Kapasitesi (350)
         const registered = count;
         const remaining = Math.max(0, capacity - registered);
         const fillPercentage = Math.min(100, Math.round((registered / capacity) * 100));

@@ -379,7 +379,7 @@
                                 </svg>
                             </div>
                             <div class="p-text">
-                                <strong>450 Kişilik Kontenjan</strong>
+                                <strong>Sadece 350 Kişilik Yer Var</strong>
                                 <span>Katılım tamamen ücretsiz, online başvuru zorunludur</span>
                             </div>
                         </div>
@@ -912,92 +912,65 @@
             </div>
 
             <!-- Moderatörler ve Sunucular Alt Bölümü -->
-            <div class="team-subgroup animate-on-scroll" style="margin-top: var(--space-3xl);">
+            <div class="team-subgroup animate-on-scroll" style="margin-top: var(--space-3xl);" id="moderators">
                 <div class="section-header" style="margin-bottom: var(--space-xl);">
                     <span class="section-tag">ZİRVE EKİBİ & MODERASYON</span>
                     <h2 class="section-title" style="font-size: clamp(1.6rem, 3vw, 2.2rem);">Moderatörler & Sunucular</h2>
                     <p class="section-desc">Oturumlarımızı yönetecek moderatörlerimiz ve sahne akışını sağlayacak sunucularımız</p>
                 </div>
 
-                <div class="moderators-grid">
-                    <!-- Lara Emeç (Moderatör) -->
-                    <div class="moderator-card animate-on-scroll">
-                        <div class="moderator-image-wrapper">
-                            <img src="images/speaker-lara-emec.png" alt="Lara Emeç" class="moderator-image">
-                            <span class="role-badge role-moderator">Moderatör</span>
-                        </div>
-                        <div class="moderator-info">
-                            <h3 class="moderator-name">Lara Emeç</h3>
-                            <span class="moderator-title">Zamansız Mentörü · Mediatic Kulübü Başkanı</span>
-                            <p class="moderator-bio">
-                                İletişim, dijital medya ve etkinlik koordinasyonu alanlarında çalışmalar yürüten Lara Emeç, Zamansız projelerinde mentörlük ve zirve oturumlarında moderatörlük görevini üstlenmektedir.
-                            </p>
-                            <div class="speaker-tags">
-                                <span class="tag">Moderatör</span>
-                                <span class="tag">Zamansız Mentörü</span>
-                                <span class="tag">Medya & İletişim</span>
+                <div class="moderator-poster-showcase">
+                    <div class="moderator-poster-card">
+                        <div class="moderator-poster-glow"></div>
+                        <div class="moderator-poster-img-wrap">
+                            <img src="images/poster-moderator-sunucu.jpg"
+                                alt="Moderatörler ve Sunucular Resmi Afişi - Lara Emeç, Yener Can Taş, Arda Çiflik, İpeknur Karaçavuş"
+                                class="moderator-poster-img"
+                                id="moderator-poster-img"
+                                loading="lazy">
+                            <div class="moderator-poster-overlay">
+                                <button type="button" class="btn-poster-action btn-zoom"
+                                    id="btn-zoom-moderator-poster" aria-label="Afişi Büyüt">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="11" cy="11" r="8"></circle>
+                                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                        <line x1="11" y1="8" x2="11" y2="14"></line>
+                                        <line x1="8" y1="11" x2="14" y2="11"></line>
+                                    </svg>
+                                    <span>Büyüt</span>
+                                </button>
+                                <a href="images/poster-moderator-sunucu.jpg"
+                                    download="Zamansiz-Zirve-Moderatorler-Sunucular.jpg"
+                                    class="btn-poster-action btn-download" aria-label="Afişi İndir">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                        <polyline points="7 10 12 15 17 10"></polyline>
+                                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                                    </svg>
+                                    <span>İndir</span>
+                                </a>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Yener Can Taş (Moderatör) -->
-                    <div class="moderator-card animate-on-scroll">
-                        <div class="moderator-image-wrapper">
-                            <img src="images/speaker-yener-can-tas.png" alt="Yener Can Taş" class="moderator-image">
-                            <span class="role-badge role-moderator">Moderatör</span>
-                        </div>
-                        <div class="moderator-info">
-                            <h3 class="moderator-name">Yener Can Taş</h3>
-                            <span class="moderator-title">Zamansız Mentörü · Genç Girişimci & Mühendis</span>
-                            <p class="moderator-bio">
-                                Endüstri ve yazılım mühendisliği eğitiminin yanı sıra inovasyon yarışmalarında dereceleri bulunan Yener Can Taş, Zamansız projelerinde gençlik mentörlüğü ve oturum moderatörlüğü yapmaktadır.
-                            </p>
-                            <div class="speaker-tags">
-                                <span class="tag">Moderatör</span>
-                                <span class="tag">Zamansız Mentörü</span>
-                                <span class="tag">İnovasyon & Girişim</span>
+                    <div class="moderator-poster-details">
+                        <div class="moderator-team-chips">
+                            <div class="team-chip-group">
+                                <span class="chip-group-label">🎤 Moderatörler:</span>
+                                <span class="team-chip">Lara Emeç</span>
+                                <span class="team-chip">Yener Can Taş</span>
+                            </div>
+                            <div class="team-chip-group">
+                                <span class="chip-group-label">🎙️ Sunucular:</span>
+                                <span class="team-chip">Arda Çiflik</span>
+                                <span class="team-chip">İpeknur Karaçavuş</span>
                             </div>
                         </div>
-                    </div>
-
-                    <!-- İpeknur Karaçavuş (Sunucu) -->
-                    <div class="moderator-card animate-on-scroll">
-                        <div class="moderator-image-wrapper">
-                            <img src="images/speaker-ipeknur-karacavus.png" alt="İpeknur Karaçavuş" class="moderator-image">
-                            <span class="role-badge role-host">Sunucu</span>
-                        </div>
-                        <div class="moderator-info">
-                            <h3 class="moderator-name">İpeknur Karaçavuş</h3>
-                            <span class="moderator-title">Zirve Sunucusu · Zamansız Mentörü & Ekip Üyesi</span>
-                            <p class="moderator-bio">
-                                Zamansız ekibinde gençlik projelerinde mentörlük ve topluluk koordinasyonu yürüten İpeknur Karaçavuş, zirve programının resmi sunuculuğunu üstlenmektedir.
-                            </p>
-                            <div class="speaker-tags">
-                                <span class="tag">Sunucu</span>
-                                <span class="tag">Zamansız Ekibi</span>
-                                <span class="tag">İletişim & Sahne</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Arda Çiflik (Sunucu) -->
-                    <div class="moderator-card animate-on-scroll">
-                        <div class="moderator-image-wrapper">
-                            <img src="images/speaker-arda-ciflik.png" alt="Arda Çiflik" class="moderator-image">
-                            <span class="role-badge role-host">Sunucu</span>
-                        </div>
-                        <div class="moderator-info">
-                            <h3 class="moderator-name">Arda Çiflik</h3>
-                            <span class="moderator-title">Zirve Sunucusu · Zamansız Moderatörü & Münazır</span>
-                            <p class="moderator-bio">
-                                Zamansız buluşmalarında moderatörlük yapan, münazara ve etkili hitabet alanlarında tecrübeli Arda Çiflik, zirve sahnesinin sunuculuğunu ve akış yönetimini gerçekleştirmektedir.
-                            </p>
-                            <div class="speaker-tags">
-                                <span class="tag">Sunucu</span>
-                                <span class="tag">Zamansız Ekibi</span>
-                                <span class="tag">Hitabet & Sunum</span>
-                            </div>
-                        </div>
+                        <p class="moderator-poster-note">
+                            Zirvemizin tüm panel moderasyonları ve sahne akışı Zamansız ekibi koordinasyonunda yürütülmektedir.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -1031,66 +1004,16 @@
         </div>
     </section>
 
-    <!-- Merkez Kampüs Kırmızı Salon & 450-Kişilik Kapasite Sayacı -->
+    <!-- Merkez Kampüs Kırmızı Salon -->
     <section class="section hall-section" id="hall">
         <div class="container">
             <div class="section-header animate-on-scroll">
                 <span class="section-tag">İSTE MERKEZ KAMPÜSÜ / KIRMIZI SALON</span>
-                <h2 class="section-title">Merkez Kampüs Kırmızı Salon & Kontenjan</h2>
+                <h2 class="section-title">Merkez Kampüs Kırmızı Salon</h2>
                 <p class="section-desc">
-                    Zirvemiz, İskenderun Teknik Üniversitesi (İSTE) Merkez Kampüsü'nde yer alan 450 kişilik prestijli
-                    Kırmızı Salon'da
-                    gerçekleştirilecektir. Salon yerleşim planını aşağıdan inceleyebilirsiniz.
+                    Zirvemiz, İskenderun Teknik Üniversitesi (İSTE) Merkez Kampüsü Kırmızı Salon'da
+                    gerçekleştirilecektir. Sadece 350 kişilik yer var. Salon yerleşim planını aşağıdan inceleyebilirsiniz.
                 </p>
-            </div>
-
-            <!-- Canlı İstatistik Kartları (3 Sayaç: Doluluk Oranı Gizlendi) -->
-            <div class="hall-stats-grid animate-on-scroll">
-                <div class="hall-stat-card">
-                    <div class="stat-icon-wrapper purple">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                        </svg>
-                    </div>
-                    <div class="stat-meta">
-                        <span class="stat-label">Toplam Kapasite</span>
-                        <div class="stat-value">450 <span class="stat-unit">Koltuk</span></div>
-                    </div>
-                </div>
-
-                <div class="hall-stat-card">
-                    <div class="stat-icon-wrapper emerald">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="9" cy="7" r="4"></circle>
-                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                        </svg>
-                    </div>
-                    <div class="stat-meta">
-                        <span class="stat-label">Kayıtlı Katılımcı</span>
-                        <div class="stat-value"><span id="hall-count-registered">--</span> <span
-                                class="stat-unit">Kişi</span></div>
-                    </div>
-                </div>
-
-                <div class="hall-stat-card">
-                    <div class="stat-icon-wrapper amber">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <polyline points="12 6 12 12 16 14"></polyline>
-                        </svg>
-                    </div>
-                    <div class="stat-meta">
-                        <span class="stat-label">Kalan Kontenjan</span>
-                        <div class="stat-value"><span id="hall-count-remaining">--</span> <span
-                                class="stat-unit">Koltuk</span></div>
-                    </div>
-                </div>
             </div>
 
             <!-- Merkez Kampüs Kırmızı Salon Bilet & Koltuk Seçim Kartı -->

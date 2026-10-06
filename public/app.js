@@ -140,9 +140,9 @@
         }
     };
 
-    // === Merkez Kampüs Kırmızı Salon 450-Kişilik Koltuk Seçimi & Salon Yönetimi ===
+    // === Merkez Kampüs Kırmızı Salon 350-Kişilik Koltuk Seçimi & Salon Yönetimi ===
     const HallManager = {
-        totalCapacity: 450,
+        totalCapacity: 350,
         registeredCount: 0,
         currentZoom: 1.0,
         selectedSeat: null,
@@ -597,7 +597,7 @@
             const badgeEl = document.getElementById('hall-progress-badge');
 
             const registered = data.registered || 0;
-            const capacity = data.capacity || 450;
+            const capacity = data.capacity || 350;
             const remaining = data.remaining !== undefined ? data.remaining : Math.max(0, capacity - registered);
             const percent = data.fillPercentage !== undefined ? data.fillPercentage : Math.round((registered / capacity) * 100);
 
@@ -995,18 +995,29 @@
                 document.getElementById('btn-zoom-poster'),
                 document.getElementById('poster-img')
             ];
+            const modBtns = [
+                document.getElementById('btn-zoom-moderator-poster'),
+                document.getElementById('moderator-poster-img')
+            ];
             const closeBtn = document.getElementById('lightbox-close-btn');
             const overlay = document.getElementById('lightbox-overlay');
 
             if (!modal) return;
 
-            const open = (e) => {
-                if (e) e.preventDefault();
-                const posterImg = document.getElementById('poster-img');
+            const openWith = (src, title, sub, downloadName) => {
                 const lightboxImg = modal.querySelector('.lightbox-img');
-                if (posterImg && lightboxImg && posterImg.src) {
-                    lightboxImg.src = posterImg.src;
+                const titleEl = modal.querySelector('.lightbox-caption strong');
+                const subEl = modal.querySelector('.lightbox-caption span');
+                const dlBtn = modal.querySelector('.lightbox-download-btn');
+
+                if (lightboxImg && src) lightboxImg.src = src;
+                if (titleEl && title) titleEl.textContent = title;
+                if (subEl && sub) subEl.textContent = sub;
+                if (dlBtn && src) {
+                    dlBtn.href = src;
+                    if (downloadName) dlBtn.setAttribute('download', downloadName);
                 }
+
                 modal.classList.add('active');
                 document.body.style.overflow = 'hidden';
             };
@@ -1018,7 +1029,34 @@
             };
 
             openBtns.forEach(btn => {
-                if (btn) btn.addEventListener('click', open);
+                if (btn) {
+                    btn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const posterImg = document.getElementById('poster-img');
+                        const pTitle = document.querySelector('.poster-title');
+                        const pTagline = document.querySelector('.poster-tagline');
+                        openWith(
+                            posterImg ? posterImg.src : 'images/afis.jpg',
+                            pTitle ? pTitle.textContent : 'Yapay Zekâ Çağında İnsan Olmak',
+                            pTagline ? pTagline.textContent : '9 Ekim 2026 · İskenderun Teknik Üniversitesi (İSTE)',
+                            'Yapay-Zeka-Caginda-Insan-Olmak-Afis.jpg'
+                        );
+                    });
+                }
+            });
+
+            modBtns.forEach(btn => {
+                if (btn) {
+                    btn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        openWith(
+                            'images/poster-moderator-sunucu.jpg',
+                            'Moderatörler & Sunucular',
+                            'Lara Emeç · Yener Can Taş · Arda Çiflik · İpeknur Karaçavuş · 9 Ekim 2026 İSTE',
+                            'Zamansiz-Zirve-Moderatorler-Sunucular.jpg'
+                        );
+                    });
+                }
             });
 
             if (closeBtn) closeBtn.addEventListener('click', close);
