@@ -426,36 +426,10 @@ function validateRegistration(body) {
     return errors;
 }
 
-// === Şehir Dışından Gelecekler (80 Kişilik Kontenjan) ===
-const SEHIR_DISI_SEHIRLER = ['Gaziantep', 'Adana', 'Mersin', 'Kahramanmaraş', 'Osmaniye', 'Kilis', 'Ankara', 'İstanbul'];
-const SEHIR_DISI_KATILIMCILAR = Array.from({ length: 80 }, (_, i) => {
-    const num = i + 1;
-    const city = SEHIR_DISI_SEHIRLER[i % SEHIR_DISI_SEHIRLER.length];
-    return {
-        'Kayıt Tarihi': '28.09.2026 14:00',
-        'Ad': 'Şehir Dışı',
-        'Soyad': `Katılımcı #${num}`,
-        'E-posta': `sehirdisi.${num}@katilimci.org`,
-        'Telefon': `05${String(300 + (num % 50)).padStart(3, '0')} ${String(100 + num).padStart(3, '0')} ${String(num).padStart(2, '0')} ${String((num + 10) % 90).padStart(2, '0')}`,
-        'Bölüm': 'Şehir Dışından Gelecekler',
-        'Sınıf': 'Karma Heyet',
-        'Üniversite': `${city} İl Dışı Heyeti / Toplu Katılım`,
-        'Nereden Katılacak': city,
-        'Otobüs İhtiyacı': 'Evet',
-        'Diyet/Erişilebilirlik': '-',
-        'Yapay Zeka Deneyimi': 'Orta düzey',
-        'Daha Önce Katılım': 'İlk kez',
-        'Beklenti': 'Yapay Zekâ ve Gelecek Vizyonu Panelleri',
-        'Konuşmacılara Sorular': '-',
-        'Nereden Duydu': 'Üniversite Kulüpleri / Sosyal Medya',
-        'IP Adresi': '185.12.0.1',
-        'Katılımcı Türü': 'Şehir Dışından Gelecekler',
-        'Koltuk': `İlave Kontenjan (Şehir Dışı #${num})`,
-        '_rowNumber': `SD-${num}`
-    };
-});
+// === Kayıtlar Sıfırlandı (Kontenjan: 450) ===
+const SEHIR_DISI_KATILIMCILAR = [];
 
-// === Atatürk Konferans Salonu (550 Koltuk) Konfigürasyonu & Otomatik Atama ===
+// === Barbaros Hayrettin Paşa Mavi Salon (İSTE Gemi Binası - 450 Koltuk) Konfigürasyonu & Otomatik Atama ===
 const HALL_WINGS_CONFIG = {
     sol: {
         name: 'Sol Blok',
@@ -633,7 +607,7 @@ async function assignRandomSeat() {
 
 // === API Routes ===
 
-// Canlı 550 Kişilik Salon İstatistikleri (Atatürk Konferans Salonu)
+// Canlı 450 Kişilik Salon İstatistikleri (Barbaros Hayrettin Paşa Mavi Salon)
 app.get('/api/stats', async (req, res) => {
     try {
         let count = 0;
@@ -655,10 +629,9 @@ app.get('/api/stats', async (req, res) => {
             }
         }
 
-        // Şehir Dışından Gelecekler (80 kişi) dahil edilir
         count += SEHIR_DISI_KATILIMCILAR.length;
 
-        const capacity = 550; // Atatürk Konferans Salonu Kapasitesi (550'ye çıkarıldı)
+        const capacity = 450; // Barbaros Hayrettin Paşa Mavi Salon Kapasitesi (450)
         const registered = count;
         const remaining = Math.max(0, capacity - registered);
         const fillPercentage = Math.min(100, Math.round((registered / capacity) * 100));
@@ -669,7 +642,7 @@ app.get('/api/stats', async (req, res) => {
             registered,
             remaining,
             fillPercentage,
-            hallName: 'Atatürk Konferans Salonu (HMKÜ)'
+            hallName: 'Barbaros Hayrettin Paşa Mavi Salon (İSTE Gemi Binası)'
         });
     } catch (error) {
         console.error('Stats endpoint hatası:', error.message);
@@ -677,8 +650,8 @@ app.get('/api/stats', async (req, res) => {
     }
 });
 
-// Kayıtların Açık / Kapalı Durumu (İstenildiğinde true yapılarak tekrar açılabilir)
-const REGISTRATIONS_OPEN = false;
+// Kayıtların Açık / Kapalı Durumu (Açık: true)
+const REGISTRATIONS_OPEN = true;
 
 // Kayıt endpoint'i
 app.post('/api/kayit', registrationLimiter, async (req, res) => {
@@ -722,7 +695,7 @@ app.post('/api/kayit', registrationLimiter, async (req, res) => {
         // Geriye dönük uyumlu biçimlendirme
         const deptVal = isStudent ? dept : (profession ? `${dept} · ${profession}` : dept);
         const gradeVal = isStudent ? (req.body.grade || '') : (profession ? `${profession} (${pType})` : pType);
-        const uniVal = isStudent ? (req.body.university?.trim() || 'HMKÜ') : (company || 'Kurumsal');
+        const uniVal = isStudent ? (req.body.university?.trim() || 'İSTE') : (company || 'Kurumsal');
 
         // Otomatik Rastgele Koltuk Atama
         const assignedSeat = await assignRandomSeat();
@@ -887,7 +860,7 @@ app.get('/api/bilet-sorgula', async (req, res) => {
                 department: match['Bölüm / Alan'] || match['Bölüm'] || '',
                 seat: match['Seçilen Koltuk'] || match['Koltuk'] || 'Otomatik Tahsis Edildi',
                 date: '9 Ekim 2026',
-                hall: 'Atatürk Konferans Salonu (HMKÜ)'
+                hall: 'Barbaros Hayrettin Paşa Mavi Salon (İSTE Gemi Binası)'
             }
         });
     } catch (err) {

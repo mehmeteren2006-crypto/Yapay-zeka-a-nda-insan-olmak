@@ -140,9 +140,9 @@
         }
     };
 
-    // === Atatürk Konferans Salonu 550-Kişilik Koltuk Seçimi & Salon Yönetimi ===
+    // === Barbaros Hayrettin Paşa Mavi Salon 450-Kişilik Koltuk Seçimi & Salon Yönetimi ===
     const HallManager = {
-        totalCapacity: 550,
+        totalCapacity: 450,
         registeredCount: 0,
         currentZoom: 1.0,
         selectedSeat: null,
@@ -597,7 +597,7 @@
             const badgeEl = document.getElementById('hall-progress-badge');
 
             const registered = data.registered || 0;
-            const capacity = data.capacity || 550;
+            const capacity = data.capacity || 450;
             const remaining = data.remaining !== undefined ? data.remaining : Math.max(0, capacity - registered);
             const percent = data.fillPercentage !== undefined ? data.fillPercentage : Math.round((registered / capacity) * 100);
 
